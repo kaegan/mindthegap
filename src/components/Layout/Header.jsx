@@ -18,7 +18,7 @@ export default function Header() {
           <img
             src="/mindthegap-logo.svg"
             alt="Mind the Gap"
-            className="h-8 sm:h-10"
+            className="h-10 sm:h-14"
           />
         </a>
 
