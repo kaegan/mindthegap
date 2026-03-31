@@ -12,7 +12,7 @@ function App() {
       {/* Top hero — branding + intro */}
       <section className="flex flex-col items-center justify-center px-6 pt-28 pb-12 text-center">
         <img
-          src="/MindTheGap logo.svg"
+          src="/mindthegap-logo.svg"
           alt="Mind the Gap"
           className="h-16 sm:h-20 mb-8"
         />

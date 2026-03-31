@@ -1,0 +1,42 @@
+{
+  "hash": "9e7bc532",
+  "configHash": "e74a499f",
+  "lockfileHash": "738bcef8",
+  "browserHash": "80934ea6",
+  "optimized": {
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "db169ea7",
+      "needsInterop": true
+    },
+    "react-leaflet": {
+      "src": "../../node_modules/react-leaflet/lib/index.js",
+      "file": "react-leaflet.js",
+      "fileHash": "e76b07f5",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "84092813",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "6ea2d87f",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "react-TUYU05Ph": {
+      "file": "react-TUYU05Ph.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-DMGCgcj7": {
+      "file": "react-dom-DMGCgcj7.js",
+      "isDynamicEntry": false
+    }
+  }
+}

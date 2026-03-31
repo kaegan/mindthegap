@@ -16,7 +16,7 @@ export default function Header() {
         {/* Logo */}
         <a href="#" className="flex items-center">
           <img
-            src="/MindTheGap logo.svg"
+            src="/mindthegap-logo.svg"
             alt="Mind the Gap"
             className="h-8 sm:h-10"
           />
