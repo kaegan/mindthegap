@@ -4,7 +4,7 @@ const sections = [
     emoji: '🏛️',
     headline: 'This started at city hall',
     body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to Port Moody City Hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built. I choose to believe these events are related.",
-    accent: 'orange',
+    accent: 'emerald',
     bg: 'bg-gray-950',
   },
   {
@@ -12,7 +12,7 @@ const sections = [
     emoji: '🚍',
     headline: 'Transit + AI is my sweet spot',
     body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took an unexpected turn to tech. I spent the last 7+ years building an AI video creation platform at Lumen5.",
-    accent: 'blue',
+    accent: 'purple',
     bg: 'bg-[#0c1425]',
   },
   {
@@ -24,7 +24,7 @@ const sections = [
       { value: '30%', label: 'reduction in video creation time from AI-powered script generation' },
       { value: '25%', label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
     ],
-    accent: 'emerald',
+    accent: 'pink',
     bg: 'bg-gray-950',
   },
   {
@@ -40,7 +40,7 @@ const sections = [
       { name: 'Accenture', color: '#A100FF' },
       { name: 'SAP', color: '#0FAAFF' },
     ],
-    accent: 'cyan',
+    accent: 'amber',
     bg: 'bg-[#0c1425]',
   },
   {
@@ -49,7 +49,7 @@ const sections = [
     headline: "I'm an advocate for products I love",
     body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
-    accent: 'rose',
+    accent: 'emerald',
     bg: 'bg-gray-950',
   },
   {
@@ -70,18 +70,17 @@ const sections = [
       { label: '✉️  hello@mindthegap.fyi', url: 'mailto:hello@mindthegap.fyi' },
       { label: '💼  LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly' },
     ],
-    accent: 'orange',
+    accent: 'amber',
     bg: 'bg-gray-950',
   },
 ]
 
+// Logo brand palette: purple #8B5CF6, pink #EC4899, amber #F59E0B, emerald #10B981
 const accentColors = {
-  orange: { bar: 'bg-orange-500', glow: 'shadow-orange-500/20', stat: 'text-orange-400', border: 'border-orange-500/20' },
-  blue: { bar: 'bg-blue-500', glow: 'shadow-blue-500/20', stat: 'text-blue-400', border: 'border-blue-500/20' },
+  purple: { bar: 'bg-violet-500', glow: 'shadow-violet-500/20', stat: 'text-violet-400', border: 'border-violet-500/20' },
+  pink: { bar: 'bg-pink-500', glow: 'shadow-pink-500/20', stat: 'text-pink-400', border: 'border-pink-500/20' },
+  amber: { bar: 'bg-amber-500', glow: 'shadow-amber-500/20', stat: 'text-amber-400', border: 'border-amber-500/20' },
   emerald: { bar: 'bg-emerald-500', glow: 'shadow-emerald-500/20', stat: 'text-emerald-400', border: 'border-emerald-500/20' },
-  cyan: { bar: 'bg-cyan-500', glow: 'shadow-cyan-500/20', stat: 'text-cyan-400', border: 'border-cyan-500/20' },
-  rose: { bar: 'bg-rose-500', glow: 'shadow-rose-500/20', stat: 'text-rose-400', border: 'border-rose-500/20' },
-  purple: { bar: 'bg-purple-500', glow: 'shadow-purple-500/20', stat: 'text-purple-400', border: 'border-purple-500/20' },
 }
 
 function StatCard({ value, label, color }) {
