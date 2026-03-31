@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 
 const faqs = [
   {
+    q: 'Why did you build this?',
+    a: "The product manager role is changing from leading through storytelling to leading through showing. Accessible development tools like Claude Code mean a PM can build small prototypes to test and explain ideas. I wanted to demonstrate this by taking a few hours to build a small, fun, Spare-adjacent mini-tool.",
+  },
+  {
     q: 'What does this map actually show?',
     a: 'It highlights dissemination areas (small census zones) in Metro Vancouver where people live but transit service is limited. The darker the color, the bigger the gap between population density and nearby transit frequency.',
   },
@@ -22,8 +26,8 @@ const faqs = [
     a: "Yes. My mom drove me. I wore her friend's son's suit. The Evergreen Line opened 20 years later. Correlation is not causation, but I'm not ruling it out.",
   },
   {
-    q: 'Did you build this yourself?',
-    a: "I built this with Claude Code (Anthropic's AI coding tool). I wrote the prompts, made the design decisions, and shaped the data pipeline — Claude wrote the code. It's a good example of how I work: I don't need to be the one writing every line, but I need to understand what's happening and why.",
+    q: 'How did you build this?',
+    a: "I used Claude, Claude Code, and Figma. I wrote the prompts, made the design decisions, helped craft a design system, and even made my own logo (not a strength of mine, but fun nonetheless!).",
   },
 ]
 

@@ -15,8 +15,10 @@ const sections = [
     body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took an unexpected turn to tech. I spent the last 7+ years building an AI video creation platform at Lumen5.",
     timeline: [
       { label: 'UBC', sub: 'Human Geography' },
-      { label: 'Lumen5', sub: '7+ years, AI video' },
-      { label: 'Spare', sub: 'What\'s next' },
+      { label: 'Hootsuite', sub: 'Social media' },
+      { label: 'Baremetrics', sub: 'Analytics' },
+      { label: 'Lumen5', sub: 'AI video, 7+ yrs' },
+      { label: 'Spare', sub: "What's next", highlight: true },
     ],
     accent: 'purple',
     bg: 'bg-gray-900',
@@ -38,11 +40,16 @@ const sections = [
     body: "I helped lead a transition from self-serve to Enterprise. We saw consistent 20-40% revenue growth in the Enterprise segment over the last five years.",
     logos: [
       { name: 'KPMG' },
-      { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/white' },
+      { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/ffffff' },
       { name: 'PwC' },
       { name: 'Deloitte' },
-      { name: 'Accenture', src: 'https://cdn.simpleicons.org/accenture/white' },
-      { name: 'SAP', src: 'https://cdn.simpleicons.org/sap/white' },
+      { name: 'Accenture', src: 'https://cdn.simpleicons.org/accenture/ffffff' },
+      { name: 'SAP', src: 'https://cdn.simpleicons.org/sap/ffffff' },
+      { name: 'Cisco', src: 'https://cdn.simpleicons.org/cisco/ffffff' },
+      { name: 'Swiss Re' },
+      { name: 'Best Western' },
+      { name: 'Mitsubishi' },
+      { name: 'Baker Hughes' },
     ],
     accent: 'amber',
     bg: 'bg-gray-900',
@@ -68,8 +75,9 @@ const sections = [
     headline: "Let's talk",
     body: "I'm open to both the Staff and Senior PM roles. Domain fit and being a strong contributor matters more to me than title.",
     links: [
-      { label: 'hello@mindthegap.fyi', url: 'mailto:hello@mindthegap.fyi', primary: true },
-      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly' },
+      { label: 'Email me', url: 'mailto:hello@mindthegap.fyi', primary: true, icon: 'email' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly', icon: 'linkedin' },
+      { label: 'Resume & Cover Letter', url: 'https://canva.link/9smwv33yz6e02au', icon: 'resume' },
     ],
     accent: 'amber',
     bg: 'bg-gray-950',
@@ -78,10 +86,10 @@ const sections = [
 
 // Logo brand palette: purple #8B5CF6, pink #EC4899, amber #F59E0B, emerald #10B981
 const accentColors = {
-  purple: { bar: 'bg-violet-500', glow: 'shadow-violet-500/20', stat: 'text-violet-400' },
-  pink: { bar: 'bg-pink-500', glow: 'shadow-pink-500/20', stat: 'text-pink-400' },
-  amber: { bar: 'bg-amber-500', glow: 'shadow-amber-500/20', stat: 'text-amber-400' },
-  emerald: { bar: 'bg-emerald-500', glow: 'shadow-emerald-500/20', stat: 'text-emerald-400' },
+  purple: { bar: 'bg-violet-500', glow: 'shadow-violet-500/20', stat: 'text-violet-400', dot: 'bg-violet-500', ring: 'ring-violet-500/40' },
+  pink: { bar: 'bg-pink-500', glow: 'shadow-pink-500/20', stat: 'text-pink-400', dot: 'bg-pink-500', ring: 'ring-pink-500/40' },
+  amber: { bar: 'bg-amber-500', glow: 'shadow-amber-500/20', stat: 'text-amber-400', dot: 'bg-amber-500', ring: 'ring-amber-500/40' },
+  emerald: { bar: 'bg-emerald-500', glow: 'shadow-emerald-500/20', stat: 'text-emerald-400', dot: 'bg-emerald-500', ring: 'ring-emerald-500/40' },
 }
 
 function useInView() {
@@ -109,67 +117,78 @@ function StatCard({ value, label, color }) {
   )
 }
 
-function LogoCloud({ logos }) {
+function LogoMarquee({ logos }) {
+  const doubled = [...logos, ...logos]
   return (
-    <div className="flex flex-wrap items-center gap-8 mt-8">
-      {logos.map((logo) =>
-        logo.src ? (
-          <img
-            key={logo.name}
-            src={logo.src}
-            alt={logo.name}
-            title={logo.name}
-            className="h-6 sm:h-8 opacity-60 hover:opacity-100 transition-opacity"
-          />
-        ) : (
-          <span
-            key={logo.name}
-            className="text-lg sm:text-xl font-bold text-white/40 hover:text-white/80 transition-colors tracking-tight"
-          >
-            {logo.name}
-          </span>
-        )
-      )}
+    <div
+      className="mt-8 overflow-hidden"
+      style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}
+    >
+      <div className="animate-marquee gap-14">
+        {doubled.map((logo, i) =>
+          logo.src ? (
+            <img
+              key={i}
+              src={logo.src}
+              alt={logo.name}
+              className="h-6 sm:h-7 opacity-40 hover:opacity-80 transition-opacity shrink-0"
+            />
+          ) : (
+            <span
+              key={i}
+              className="text-base font-bold text-white/30 hover:text-white/60 transition-colors shrink-0 tracking-tight"
+            >
+              {logo.name}
+            </span>
+          )
+        )}
+      </div>
     </div>
   )
 }
 
-function Timeline({ steps, accentBar }) {
+function Timeline({ steps, colors }) {
   return (
-    <div className="flex items-center gap-0 mt-8 overflow-x-auto">
-      {steps.map((step, i) => (
-        <div key={step.label} className="flex items-center">
-          <div className="flex flex-col items-center">
-            <div className={`w-3 h-3 rounded-full ${accentBar}`} />
-            <div className="mt-2 text-center">
-              <div className="text-sm font-semibold text-white">{step.label}</div>
-              <div className="text-xs text-gray-500">{step.sub}</div>
+    <div className="mt-10 overflow-x-auto pb-2">
+      <div className="flex items-start min-w-max">
+        {steps.map((step, i) => (
+          <div key={step.label} className="flex items-start">
+            <div className="flex flex-col items-center">
+              <div
+                className={`w-3.5 h-3.5 rounded-full mt-0.5 ring-2 ring-offset-2 ring-offset-gray-900 ${
+                  step.highlight
+                    ? `${colors.dot} ${colors.ring}`
+                    : 'bg-white/20 ring-white/10'
+                }`}
+              />
+              <div className="mt-3 text-center w-24">
+                <div className={`text-sm font-semibold ${step.highlight ? 'text-white' : 'text-gray-300'}`}>
+                  {step.label}
+                </div>
+                <div className="text-xs text-gray-500 mt-0.5 leading-snug">{step.sub}</div>
+              </div>
             </div>
+            {i < steps.length - 1 && (
+              <div className="w-12 sm:w-20 h-px bg-white/10 mx-2 mt-[0.42rem]" />
+            )}
           </div>
-          {i < steps.length - 1 && (
-            <div className="w-16 sm:w-24 h-px bg-white/10 mx-3 mt-[-1rem]" />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
 
 function TechLogos() {
   const tools = [
-    { name: 'Notion', src: 'https://cdn.simpleicons.org/notion/white' },
-    { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/white' },
-    { name: 'Claude Cowork', src: 'https://cdn.simpleicons.org/claude/white' },
-    { name: 'Claude Code', src: 'https://cdn.simpleicons.org/claude/white' },
-    { name: 'Mixpanel', src: 'https://cdn.simpleicons.org/mixpanel/white' },
+    { name: 'Notion', src: 'https://cdn.simpleicons.org/notion/ffffff' },
+    { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/ffffff' },
+    { name: 'Claude', src: 'https://cdn.simpleicons.org/claude/ffffff' },
+    { name: 'Mixpanel', src: 'https://cdn.simpleicons.org/mixpanel/ffffff' },
   ]
   return (
-    <div className="flex flex-wrap items-center gap-6 mt-8">
+    <div className="flex flex-wrap items-center gap-4 mt-8">
       {tools.map((tool) => (
-        <div
-          key={tool.name}
-          className="cs-panel px-5 py-3 flex items-center gap-3"
-        >
+        <div key={tool.name} className="cs-panel px-5 py-3 flex items-center gap-3">
           <img src={tool.src} alt={tool.name} className="h-5 w-5" />
           <span className="text-sm font-medium text-gray-300">{tool.name}</span>
         </div>
@@ -192,6 +211,24 @@ function YouTubeEmbed({ url }) {
       </div>
     </div>
   )
+}
+
+const linkIcons = {
+  email: (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  ),
+  linkedin: (
+    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+    </svg>
+  ),
+  resume: (
+    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  ),
 }
 
 export default function HeroSections() {
@@ -221,12 +258,12 @@ export default function HeroSections() {
               )}
 
               {section.pullQuote && (
-                <blockquote className="mt-6 pl-4 border-l-2 border-emerald-500/40 text-lg text-gray-300 italic">
+                <p className="mt-4 text-gray-500 italic text-base">
                   {section.pullQuote}
-                </blockquote>
+                </p>
               )}
 
-              {section.timeline && <Timeline steps={section.timeline} accentBar={colors.bar} />}
+              {section.timeline && <Timeline steps={section.timeline} colors={colors} />}
 
               {section.stats && (
                 <div className="flex flex-wrap gap-4 mt-2">
@@ -236,7 +273,7 @@ export default function HeroSections() {
                 </div>
               )}
 
-              {section.logos && <LogoCloud logos={section.logos} />}
+              {section.logos && <LogoMarquee logos={section.logos} />}
 
               {section.techLogos && <TechLogos />}
 
@@ -250,11 +287,12 @@ export default function HeroSections() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={link.primary
+                      className={`inline-flex items-center gap-2 ${link.primary
                         ? 'bg-emerald-600 hover:bg-emerald-500 px-8 py-3 rounded-lg text-sm font-semibold text-white transition-colors shadow-lg shadow-emerald-500/20'
                         : 'cs-panel px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-all'
-                      }
+                      }`}
                     >
+                      {link.icon && linkIcons[link.icon]}
                       {link.label}
                     </a>
                   ))}
