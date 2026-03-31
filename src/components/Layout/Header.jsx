@@ -34,8 +34,8 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="mailto:hello@mindthegap.fyi"
-            className="text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg transition-colors"
+            href="#contact"
+            className="text-sm font-medium text-white border border-white/20 hover:border-white/40 hover:bg-white/5 px-4 py-2 rounded-lg transition-colors"
           >
             Get in touch
           </a>
@@ -71,8 +71,8 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="mailto:hello@mindthegap.fyi"
-            className="text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg transition-colors text-center mt-2"
+            href="#contact"
+            className="text-sm font-medium text-white border border-white/20 hover:border-white/40 px-4 py-2 rounded-lg transition-colors text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
             Get in touch

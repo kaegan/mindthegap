@@ -10,7 +10,7 @@ function App() {
       <Header />
 
       {/* Top hero — intro text */}
-      <section className="flex flex-col items-center justify-center px-6 pt-24 pb-12 text-center">
+      <section className="flex flex-col items-center justify-center px-6 pt-24 pb-8 text-center">
         <p className="text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed">
           Where does Metro Vancouver's transit fall short? This tool maps coverage gaps — areas where people live but buses don't reach.
         </p>
@@ -18,6 +18,7 @@ function App() {
 
       {/* Map in a contained box */}
       <div id="map">
+        <p className="text-xs uppercase tracking-widest text-gray-500 text-center mb-3">Explore the map</p>
         <MapSection />
       </div>
 

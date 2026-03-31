@@ -1,23 +1,28 @@
+import { useEffect, useRef, useState } from 'react'
+
 const sections = [
   {
     id: 'origin',
-    emoji: '🏛️',
     headline: 'This started at city hall',
-    body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to Port Moody City Hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built. I choose to believe these events are related.",
+    body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to Port Moody City Hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.",
+    pullQuote: "I choose to believe these events are related.",
     accent: 'emerald',
     bg: 'bg-gray-950',
   },
   {
     id: 'why-spare',
-    emoji: '🚍',
     headline: 'Transit + AI is my sweet spot',
     body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took an unexpected turn to tech. I spent the last 7+ years building an AI video creation platform at Lumen5.",
+    timeline: [
+      { label: 'UBC', sub: 'Human Geography' },
+      { label: 'Lumen5', sub: '7+ years, AI video' },
+      { label: 'Spare', sub: 'What\'s next' },
+    ],
     accent: 'purple',
-    bg: 'bg-[#0c1425]',
+    bg: 'bg-gray-900',
   },
   {
     id: 'track-record',
-    emoji: '📈',
     headline: 'I ship things that move metrics',
     stats: [
       { value: '40%', label: 'increase in paid purchases from AI voiceover-driven videos powered by ElevenLabs' },
@@ -29,23 +34,21 @@ const sections = [
   },
   {
     id: 'enterprise',
-    emoji: '🏢',
     headline: 'Large Enterprises are my focus',
     body: "I helped lead a transition from self-serve to Enterprise. We saw consistent 20-40% revenue growth in the Enterprise segment over the last five years.",
     logos: [
-      { name: 'KPMG', color: '#00338D' },
-      { name: 'Siemens', color: '#009999' },
-      { name: 'PwC', color: '#D04A02' },
-      { name: 'Deloitte', color: '#86BC25' },
-      { name: 'Accenture', color: '#A100FF' },
-      { name: 'SAP', color: '#0FAAFF' },
+      { name: 'KPMG' },
+      { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/white' },
+      { name: 'PwC' },
+      { name: 'Deloitte' },
+      { name: 'Accenture', src: 'https://cdn.simpleicons.org/accenture/white' },
+      { name: 'SAP', src: 'https://cdn.simpleicons.org/sap/white' },
     ],
     accent: 'amber',
-    bg: 'bg-[#0c1425]',
+    bg: 'bg-gray-900',
   },
   {
     id: 'advocate',
-    emoji: '📣',
     headline: "I'm an advocate for products I love",
     body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
@@ -54,21 +57,19 @@ const sections = [
   },
   {
     id: 'approach',
-    emoji: '🔀',
-    headline: 'PM who speaks both languages',
+    headline: 'My daily toolkit',
     body: "I'm not an engineer, but I can translate between AI capabilities and customer problems. At Lumen5, I led roadmap planning across four product teams, managed vendor relationships with Shutterstock and ElevenLabs, and was the face of the product externally.",
     techLogos: true,
     accent: 'purple',
-    bg: 'bg-[#0c1425]',
+    bg: 'bg-gray-900',
   },
   {
     id: 'contact',
-    emoji: '👋',
     headline: "Let's talk",
     body: "I'm open to both the Staff and Senior PM roles. Domain fit and being a strong contributor matters more to me than title.",
     links: [
-      { label: '✉️  hello@mindthegap.fyi', url: 'mailto:hello@mindthegap.fyi' },
-      { label: '💼  LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly' },
+      { label: 'hello@mindthegap.fyi', url: 'mailto:hello@mindthegap.fyi', primary: true },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly' },
     ],
     accent: 'amber',
     bg: 'bg-gray-950',
@@ -77,15 +78,31 @@ const sections = [
 
 // Logo brand palette: purple #8B5CF6, pink #EC4899, amber #F59E0B, emerald #10B981
 const accentColors = {
-  purple: { bar: 'bg-violet-500', glow: 'shadow-violet-500/20', stat: 'text-violet-400', border: 'border-violet-500/20' },
-  pink: { bar: 'bg-pink-500', glow: 'shadow-pink-500/20', stat: 'text-pink-400', border: 'border-pink-500/20' },
-  amber: { bar: 'bg-amber-500', glow: 'shadow-amber-500/20', stat: 'text-amber-400', border: 'border-amber-500/20' },
-  emerald: { bar: 'bg-emerald-500', glow: 'shadow-emerald-500/20', stat: 'text-emerald-400', border: 'border-emerald-500/20' },
+  purple: { bar: 'bg-violet-500', glow: 'shadow-violet-500/20', stat: 'text-violet-400' },
+  pink: { bar: 'bg-pink-500', glow: 'shadow-pink-500/20', stat: 'text-pink-400' },
+  amber: { bar: 'bg-amber-500', glow: 'shadow-amber-500/20', stat: 'text-amber-400' },
+  emerald: { bar: 'bg-emerald-500', glow: 'shadow-emerald-500/20', stat: 'text-emerald-400' },
+}
+
+function useInView() {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  return [ref, visible]
 }
 
 function StatCard({ value, label, color }) {
   return (
-    <div className="cs-panel p-6 flex-1 min-w-[220px]">
+    <div className="cs-panel p-6 flex-1 min-w-[200px]">
       <div className={`text-3xl sm:text-4xl font-extrabold mb-2 ${color}`}>{value}</div>
       <div className="text-sm text-gray-400 leading-relaxed">{label}</div>
     </div>
@@ -94,19 +111,44 @@ function StatCard({ value, label, color }) {
 
 function LogoCloud({ logos }) {
   return (
-    <div className="flex flex-wrap items-center gap-4 mt-8">
-      {logos.map((logo) => (
-        <div
-          key={logo.name}
-          className="cs-panel px-5 py-3 flex items-center gap-3"
-        >
-          <div
-            className="w-2 h-5 rounded-sm shrink-0"
-            style={{ backgroundColor: logo.color }}
+    <div className="flex flex-wrap items-center gap-8 mt-8">
+      {logos.map((logo) =>
+        logo.src ? (
+          <img
+            key={logo.name}
+            src={logo.src}
+            alt={logo.name}
+            title={logo.name}
+            className="h-6 sm:h-8 opacity-60 hover:opacity-100 transition-opacity"
           />
-          <span className="text-sm font-semibold tracking-wide" style={{ color: logo.color }}>
+        ) : (
+          <span
+            key={logo.name}
+            className="text-lg sm:text-xl font-bold text-white/40 hover:text-white/80 transition-colors tracking-tight"
+          >
             {logo.name}
           </span>
+        )
+      )}
+    </div>
+  )
+}
+
+function Timeline({ steps, accentBar }) {
+  return (
+    <div className="flex items-center gap-0 mt-8 overflow-x-auto">
+      {steps.map((step, i) => (
+        <div key={step.label} className="flex items-center">
+          <div className="flex flex-col items-center">
+            <div className={`w-3 h-3 rounded-full ${accentBar}`} />
+            <div className="mt-2 text-center">
+              <div className="text-sm font-semibold text-white">{step.label}</div>
+              <div className="text-xs text-gray-500">{step.sub}</div>
+            </div>
+          </div>
+          {i < steps.length - 1 && (
+            <div className="w-16 sm:w-24 h-px bg-white/10 mx-3 mt-[-1rem]" />
+          )}
         </div>
       ))}
     </div>
@@ -115,22 +157,21 @@ function LogoCloud({ logos }) {
 
 function TechLogos() {
   const tools = [
-    { name: 'Jira', icon: '🎯' },
-    { name: 'Figma', icon: '🎨' },
-    { name: 'SQL', icon: '🗄️' },
-    { name: 'Python', icon: '🐍' },
-    { name: 'Amplitude', icon: '📊' },
-    { name: 'GitHub', icon: '🐙' },
+    { name: 'Notion', src: 'https://cdn.simpleicons.org/notion/white' },
+    { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/white' },
+    { name: 'Claude Cowork', src: 'https://cdn.simpleicons.org/claude/white' },
+    { name: 'Claude Code', src: 'https://cdn.simpleicons.org/claude/white' },
+    { name: 'Mixpanel', src: 'https://cdn.simpleicons.org/mixpanel/white' },
   ]
   return (
-    <div className="flex flex-wrap gap-3 mt-6">
+    <div className="flex flex-wrap items-center gap-6 mt-8">
       {tools.map((tool) => (
         <div
           key={tool.name}
-          className="cs-panel px-4 py-2.5 text-sm text-gray-300 flex items-center gap-2"
+          className="cs-panel px-5 py-3 flex items-center gap-3"
         >
-          <span className="text-lg">{tool.icon}</span>
-          <span className="font-medium">{tool.name}</span>
+          <img src={tool.src} alt={tool.name} className="h-5 w-5" />
+          <span className="text-sm font-medium text-gray-300">{tool.name}</span>
         </div>
       ))}
     </div>
@@ -157,19 +198,17 @@ export default function HeroSections() {
   return (
     <div>
       {sections.map((section) => {
-        const colors = accentColors[section.accent] || accentColors.orange
+        const colors = accentColors[section.accent] || accentColors.emerald
+        const [ref, visible] = useInView()
         return (
           <section
             key={section.id}
             id={section.id}
-            className={`min-h-[60vh] flex items-center justify-center px-6 sm:px-12 py-20 ${section.bg}`}
+            ref={ref}
+            className={`px-6 sm:px-12 py-20 sm:py-28 ${section.bg} transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           >
-            <div className="max-w-3xl w-full">
-              {/* Emoji + accent bar */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-3xl">{section.emoji}</span>
-                <div className={`w-10 h-1 ${colors.bar} rounded-full`} />
-              </div>
+            <div className="max-w-3xl mx-auto">
+              <div className={`w-10 h-1 ${colors.bar} rounded-full mb-6`} />
 
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 tracking-tight">
                 {section.headline}
@@ -180,6 +219,14 @@ export default function HeroSections() {
                   {section.body}
                 </p>
               )}
+
+              {section.pullQuote && (
+                <blockquote className="mt-6 pl-4 border-l-2 border-emerald-500/40 text-lg text-gray-300 italic">
+                  {section.pullQuote}
+                </blockquote>
+              )}
+
+              {section.timeline && <Timeline steps={section.timeline} accentBar={colors.bar} />}
 
               {section.stats && (
                 <div className="flex flex-wrap gap-4 mt-2">
@@ -203,7 +250,10 @@ export default function HeroSections() {
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`cs-panel px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-all hover:shadow-lg ${colors.glow}`}
+                      className={link.primary
+                        ? 'bg-emerald-600 hover:bg-emerald-500 px-8 py-3 rounded-lg text-sm font-semibold text-white transition-colors shadow-lg shadow-emerald-500/20'
+                        : 'cs-panel px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-all'
+                      }
                     >
                       {link.label}
                     </a>

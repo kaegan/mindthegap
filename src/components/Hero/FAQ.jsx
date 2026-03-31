@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const faqs = [
   {
@@ -54,17 +54,33 @@ function FAQItem({ q, a }) {
   )
 }
 
+function useInView() {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
+      { threshold: 0.15 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  return [ref, visible]
+}
+
 export default function FAQ() {
+  const [ref, visible] = useInView()
+
   return (
     <section
       id="faq"
-      className="min-h-[60vh] flex items-center justify-center px-6 sm:px-12 py-20 bg-[#0c1425]"
+      ref={ref}
+      className={`px-6 sm:px-12 py-20 sm:py-28 bg-gray-900 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
     >
-      <div className="max-w-3xl w-full">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-3xl">&#10067;</span>
-          <div className="w-10 h-1 bg-emerald-500 rounded-full" />
-        </div>
+      <div className="max-w-3xl mx-auto">
+        <div className="w-10 h-1 bg-emerald-500 rounded-full mb-6" />
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8 tracking-tight">
           FAQ
         </h2>
