@@ -33,6 +33,14 @@ const faqs = [
 
 function FAQItem({ q, a }) {
   const [open, setOpen] = useState(false)
+  const contentRef = useRef(null)
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setHeight(contentRef.current.scrollHeight)
+    }
+  }, [open])
 
   return (
     <div className="border-b border-white/5">
@@ -43,17 +51,21 @@ function FAQItem({ q, a }) {
         <span className="text-base sm:text-lg font-medium text-white group-hover:text-emerald-400 transition-colors pr-4">
           {q}
         </span>
-        <span className={`text-gray-500 shrink-0 transition-transform duration-200 ${open ? 'rotate-45' : ''}`}>
+        <span className={`text-gray-500 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
         </span>
       </button>
-      {open && (
+      <div
+        ref={contentRef}
+        className="overflow-hidden transition-all duration-300 ease-in-out"
+        style={{ maxHeight: open ? `${height}px` : '0px', opacity: open ? 1 : 0 }}
+      >
         <div className="pb-5 text-gray-400 leading-relaxed text-sm sm:text-base max-w-2xl">
           {a}
         </div>
-      )}
+      </div>
     </div>
   )
 }
@@ -81,11 +93,14 @@ export default function FAQ() {
     <section
       id="faq"
       ref={ref}
-      className={`px-6 sm:px-12 py-20 sm:py-28 bg-gray-900 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+      className={`relative px-6 sm:px-12 py-20 sm:py-28 bg-gray-900 overflow-hidden transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
     >
-      <div className="max-w-3xl mx-auto">
+      {/* Ambient glow */}
+      <div className="absolute -bottom-32 -right-20 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.05] blur-[120px] pointer-events-none" />
+
+      <div className="relative max-w-3xl mx-auto">
         <div className="w-10 h-1 bg-emerald-500 rounded-full mb-6" />
-        <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8 tracking-tight">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-8 tracking-tighter">
           FAQ
         </h2>
         <div>

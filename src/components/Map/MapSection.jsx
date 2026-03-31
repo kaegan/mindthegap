@@ -68,8 +68,8 @@ function MapSection() {
   }, [])
 
   return (
-    <section className="px-4 sm:px-8 pb-12">
-      <div className="relative max-w-7xl mx-auto rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+    <section className="pb-12">
+      <div className="relative">
         {/* Map container — fixed height, not fullscreen */}
         <div className="h-[500px] sm:h-[600px] lg:h-[700px]">
           <MapContainer
