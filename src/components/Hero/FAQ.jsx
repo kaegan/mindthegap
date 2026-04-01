@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "What's the point of vibe coding an app?",
-    a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline hover:text-emerald-500 transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels – Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
+    a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline hover:text-emerald-500 transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels: Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
   },
 ]
 

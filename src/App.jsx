@@ -23,7 +23,7 @@ function App() {
           67,000 residents live in Metro Vancouver's transit blind spots
         </h1>
         <p className="text-lg sm:text-xl text-gray-500 max-w-2xl leading-relaxed mb-10">
-          MindTheGap finds coverage gaps — areas where people live but buses don't reach.
+          MindTheGap finds coverage gaps: areas where people live but buses don't reach.
         </p>
 
         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8">
@@ -64,7 +64,7 @@ function App() {
             A PM who still shows up to <span className="text-violet-600">city hall</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-xl mx-auto">
-            MindTheGap is a side project by a product manager who's spent a decade shipping software — and a lifetime caring about transit.
+            MindTheGap is a side project by a product manager who's spent a decade shipping software, and a lifetime caring about transit.
           </p>
         </div>
       </div>

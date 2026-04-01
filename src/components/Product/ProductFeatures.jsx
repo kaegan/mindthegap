@@ -21,14 +21,14 @@ const features = [
     icon: MousePointerClick,
     tag: 'Interactive Reports',
     headline: 'Click any zone. Get the full picture.',
-    body: 'Select a neighborhood to open a detailed report card — gap score grade, population stats, nearest transit stops, and how the area compares to the metro average.',
+    body: 'Select a neighborhood to open a detailed report card: gap score grade, population stats, nearest transit stops, and how the area compares to the metro average.',
     screenshot: fullPictureImg,
     alt: 'Report card showing gap score, population, and nearby transit stops',
   },
   {
     icon: Layers,
     tag: 'Multi-Modal Layers',
-    headline: 'SkyTrain, bus, SeaBus — all on one map',
+    headline: 'SkyTrain, bus, SeaBus, all on one map',
     body: "Toggle transit layers on and off to see how different modes overlap. Quickly spot where rail coverage ends and bus routes don't pick up the slack.",
     screenshot: multimodalLayerImg,
     alt: 'Map with SkyTrain, bus, and SeaBus transit layers toggled on',
@@ -37,7 +37,7 @@ const features = [
     icon: BarChart3,
     tag: 'Hotspot Detection',
     headline: 'Find the clusters that matter most',
-    body: 'The hotspot layer surfaces areas where multiple coverage gaps converge — helping planners prioritize the neighborhoods where new service would have the greatest impact.',
+    body: 'The hotspot layer surfaces areas where multiple coverage gaps converge, helping planners prioritize the neighborhoods where new service would have the greatest impact.',
     screenshot: hotspotImg,
     alt: 'Hotspot heatmap highlighting clusters of transit coverage gaps',
   },
@@ -61,7 +61,7 @@ function ScreenshotFrame({ feature }) {
         <div className="aspect-video flex items-center justify-center bg-gray-50 text-gray-400">
           <div className="text-center">
             <Icon className="w-10 h-10 mx-auto mb-2" />
-            <span className="text-sm">Screenshot — {feature.tag}</span>
+            <span className="text-sm">Screenshot: {feature.tag}</span>
           </div>
         </div>
       )}
@@ -108,7 +108,7 @@ export default function ProductFeatures() {
             Built to surface what's <span className="text-violet-600">hidden in plain sight</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
-            Transit maps show where service exists. MindTheGap shows where it doesn't — and who's affected.
+            Transit maps show where service exists. MindTheGap shows where it doesn't, and who's affected.
           </p>
         </div>
 
