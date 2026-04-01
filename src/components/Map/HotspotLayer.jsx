@@ -1,7 +1,7 @@
 import { createLayerComponent } from '@react-leaflet/core'
 import L from 'leaflet'
 import 'leaflet.heat'
-import { centroid } from '@turf/turf'
+import centroid from '@turf/centroid'
 
 function geojsonToHeatPoints(geojson) {
   return geojson.features

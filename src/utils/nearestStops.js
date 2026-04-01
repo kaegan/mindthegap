@@ -1,4 +1,6 @@
-import { centroid, distance, point } from '@turf/turf'
+import centroid from '@turf/centroid'
+import distance from '@turf/distance'
+import { point } from '@turf/helpers'
 
 export function findNearestStops(daFeature, stopsGeoJSON, count = 5) {
   const center = centroid(daFeature)
