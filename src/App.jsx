@@ -1,4 +1,6 @@
-import { MapPin, Users, AlertTriangle } from 'lucide-react'
+import { IconMapPinOutlineDuo18 as MapPin } from 'nucleo-ui-outline-duo-18'
+import { IconUsersOutlineDuo18 as Users } from 'nucleo-ui-outline-duo-18'
+import { IconAlertWarningOutlineDuo18 as AlertTriangle } from 'nucleo-ui-outline-duo-18'
 import Header from './components/Layout/Header'
 import MapSection from './components/Map/MapSection'
 import HeroSections from './components/Hero/HeroSections'

@@ -1,4 +1,5 @@
-import { Mail, FileText } from 'lucide-react'
+import { IconEnvelopeOutlineDuo18 as Mail } from 'nucleo-ui-outline-duo-18'
+import { IconFileContentOutlineDuo18 as FileText } from 'nucleo-ui-outline-duo-18'
 
 export const linkIcons = {
   email: (

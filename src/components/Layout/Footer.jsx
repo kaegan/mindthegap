@@ -1,4 +1,4 @@
-import { Mail } from 'lucide-react'
+import { IconEnvelopeOutlineDuo18 as Mail } from 'nucleo-ui-outline-duo-18'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 export default function Footer() {

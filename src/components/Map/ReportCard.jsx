@@ -1,4 +1,5 @@
-import { X, Bus } from 'lucide-react'
+import { IconXmarkOutlineDuo18 as X } from 'nucleo-ui-outline-duo-18'
+import { IconBusOutlineDuo18 as Bus } from 'nucleo-ui-outline-duo-18'
 import { getGrade, getPercentile, getPercentileLabel } from '../../utils/gapStats'
 import { getGapColor } from '../../utils/colors'
 

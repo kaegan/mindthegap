@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Plus } from 'lucide-react'
+import { IconPlusOutlineDuo18 as Plus } from 'nucleo-ui-outline-duo-18'
 
 const faqs = [
   {

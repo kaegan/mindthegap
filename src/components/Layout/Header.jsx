@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { IconMenuOutlineDuo18 as Menu } from 'nucleo-ui-outline-duo-18'
+import { IconXmarkOutlineDuo18 as X } from 'nucleo-ui-outline-duo-18'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [

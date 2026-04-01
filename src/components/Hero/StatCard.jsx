@@ -1,4 +1,6 @@
-import { DollarSign, Clapperboard, Rocket } from 'lucide-react'
+import { IconCurrencyDollarOutlineDuo18 as DollarSign } from 'nucleo-ui-outline-duo-18'
+import { IconClapperboardOutlineDuo18 as Clapperboard } from 'nucleo-ui-outline-duo-18'
+import { IconRocketOutlineDuo18 as Rocket } from 'nucleo-ui-outline-duo-18'
 import AnimatedNumber from './AnimatedNumber'
 
 const icons = { DollarSign, Clapperboard, Rocket }
@@ -9,7 +11,7 @@ export default function StatCard({ numericValue, suffix, iconName, label, visibl
     <div className="cs-panel p-6 flex-1 min-w-[200px] border-t-2 border-violet-500/30">
       {Icon && (
         <div className="mb-3">
-          <Icon size={24} className="text-violet-400/70" strokeWidth={1.5} />
+          <Icon size={24} className="text-violet-400/70" />
         </div>
       )}
       <div className="mb-2">
