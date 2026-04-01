@@ -14,7 +14,7 @@ const sections = [
   },
   {
     id: 'why-spare',
-    headline: 'Transit + AI is my sweet spot',
+    headline: 'Transit + Product is my sweet spot',
     accentWord: 'sweet spot',
     body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took a surprise turn to tech. After stints at Hootsuite and Baremetrics, I spent the last 7+ years building an AI-powered video creator for Enterprises at Lumen5.",
     timeline: [
