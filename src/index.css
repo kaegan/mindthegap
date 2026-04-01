@@ -3,6 +3,7 @@
 
 @theme {
   --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Overpass', sans-serif;
   --color-gap-low: #fef3c7;
   --color-gap-mid: #f97316;
   --color-gap-high: #dc2626;
