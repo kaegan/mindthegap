@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import logoSvg from '/mindthegap-logo.svg'
+import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [
   { label: 'Map', href: '#map' },

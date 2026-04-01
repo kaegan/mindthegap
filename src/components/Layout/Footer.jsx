@@ -1,4 +1,4 @@
-import logoSvg from '/mindthegap-logo.svg'
+import logoSvg from '../../assets/mindthegap-logo.svg'
 
 export default function Footer() {
   return (
