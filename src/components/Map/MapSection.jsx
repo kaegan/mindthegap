@@ -250,7 +250,7 @@ function MapSection() {
   }, [])
 
   return (
-    <section className="pb-12">
+    <section>
       <div className="relative">
         {/* Map container */}
         <div className="h-[500px] sm:h-[600px] lg:h-[700px]">
