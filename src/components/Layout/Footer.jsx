@@ -1,3 +1,5 @@
+import logoSvg from '/mindthegap-logo.svg'
+
 export default function Footer() {
   return (
     <footer className="bg-gray-950">
@@ -7,7 +9,7 @@ export default function Footer() {
       <div className="py-12 px-6">
         <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6">
           <div className="flex flex-col items-center sm:items-start gap-3">
-            <img src="/mindthegap-logo.svg" alt="Mind the Gap" className="h-8 opacity-60" />
+            <img src={logoSvg} alt="Mind the Gap" className="h-8 opacity-60" />
             <p className="text-sm gradient-text font-medium">
               Mapping where Metro Vancouver's transit falls short.
             </p>

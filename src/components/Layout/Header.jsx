@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import logoSvg from '/mindthegap-logo.svg'
 
 const navLinks = [
   { label: 'Map', href: '#map' },
@@ -16,7 +17,7 @@ export default function Header() {
         {/* Logo */}
         <a href="#" className="flex items-center">
           <img
-            src="/mindthegap-logo.svg"
+            src={logoSvg}
             alt="Mind the Gap"
             className="h-10 sm:h-14"
           />
