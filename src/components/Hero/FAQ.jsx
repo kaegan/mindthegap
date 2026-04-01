@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { Plus } from 'lucide-react'
-import useInView from '../../hooks/useInView'
 
 const faqs = [
   {
@@ -63,13 +62,10 @@ function FAQItem({ q, a }) {
 }
 
 export default function FAQ() {
-  const [ref, visible] = useInView()
-
   return (
     <section
       id="faq"
-      ref={ref}
-      className={`relative px-6 sm:px-12 py-20 sm:py-28 bg-gray-50 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+      className="relative px-6 sm:px-12 py-20 sm:py-28 bg-gray-50"
     >
       <div className="max-w-3xl mx-auto">
         <div className="w-10 h-1 bg-violet-500 rounded-full mb-6" />

@@ -1,4 +1,3 @@
-import useInView from '../../hooks/useInView'
 import StatCard from './StatCard'
 import Timeline from './Timeline'
 import LogoMarquee from './LogoMarquee'
@@ -17,8 +16,6 @@ function HighlightedHeadline({ text, accentWord }) {
 }
 
 export default function Section({ section, showDivider }) {
-  const [ref, visible] = useInView()
-
   return (
     <div>
       {showDivider && (
@@ -27,8 +24,7 @@ export default function Section({ section, showDivider }) {
 
       <section
         id={section.id}
-        ref={ref}
-        className={`relative px-6 sm:px-12 py-20 sm:py-28 ${section.bg} transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+        className={`relative px-6 sm:px-12 py-20 sm:py-28 ${section.bg}`}
       >
         <div className="max-w-3xl mx-auto">
           <div className="w-12 h-1 bg-violet-500 rounded-full mb-6" />
@@ -54,7 +50,7 @@ export default function Section({ section, showDivider }) {
           {section.stats && (
             <div className="flex flex-wrap gap-4 mt-2">
               {section.stats.map((stat) => (
-                <StatCard key={stat.label} {...stat} visible={visible} />
+                <StatCard key={stat.label} {...stat} visible={true} />
               ))}
             </div>
           )}
