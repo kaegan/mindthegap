@@ -26,7 +26,7 @@ export const sections = [
     headline: 'I ship things that move metrics',
     accentWord: 'metrics',
     stats: [
-      { value: '40%', numericValue: 40, suffix: '%', iconName: 'DollarSign', label: 'increase in paid purchases from AI voiceover-driven videos powered by ElevenLabs' },
+      { value: '40%', numericValue: 40, suffix: '%', iconName: 'DollarSign', label: 'increase in paid purchases after leading a transition to AI-powered voiceover videos' },
       { value: '30%', numericValue: 30, suffix: '%', iconName: 'Clapperboard', label: 'reduction in video creation time from AI-powered script generation' },
       { value: '25%', numericValue: 25, suffix: '%', iconName: 'Rocket', label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
     ],
@@ -34,9 +34,9 @@ export const sections = [
   },
   {
     id: 'enterprise',
-    headline: 'I understand large Enterprises',
-    accentWord: 'Enterprises',
-    body: "When the self-serve market for video creation got crowded, I helped lead a transition to building for Enterprises. We saw consistent 20-40% revenue growth in the Enterprise segment over the last five years.",
+    headline: 'I led the pivot to Enterprise',
+    accentWord: 'Enterprise',
+    body: "When the self-serve market got crowded, I led the product side of Lumen5's transition to Enterprise. We grew to 100+ enterprise customers and saw consistent 20\u201340% YoY revenue growth over five years.",
     logos: [
       { name: 'KPMG' },
       { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/ffffff' },
@@ -64,7 +64,7 @@ export const sections = [
     id: 'approach',
     headline: 'My daily toolkit',
     accentWord: 'toolkit',
-    body: "I'm not an engineer, but I can translate between AI capabilities and customer problems. At Lumen5, I led roadmap planning across four product teams, managed relationships with vendors like Elevenlabs and Shutterstock, and PM'd my own product team at the same time.",
+    body: "I'm not an engineer, but I speak the language well enough to be useful. At Lumen5, I led roadmap planning across four product teams, managed relationships with vendors like ElevenLabs and Shutterstock, and PM'd my own product team at the same time.",
     techLogos: true,
     bg: 'bg-gray-900',
   },
