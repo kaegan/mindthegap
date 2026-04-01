@@ -11,16 +11,15 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
-    "@turf/turf": "^7.3.4",
+    "@turf/centroid": "^7.3.4",
+    "@turf/distance": "^7.3.4",
+    "@turf/helpers": "^7.3.4",
     "leaflet": "^1.9.4",
     "leaflet.heat": "^0.2.0",
     "lucide-react": "^1.7.0",
-    "papaparse": "^5.5.3",
-    "proj4": "^2.20.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-leaflet": "^5.0.0",
-    "shapefile": "^0.6.6",
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
