@@ -26,6 +26,7 @@ import path from 'path'
 import { createReadStream } from 'fs'
 import { createInterface } from 'readline'
 import proj4 from 'proj4'
+import * as turf from '@turf/turf'
 
 // StatsCan Lambert Conformal Conic projection → WGS84
 const LAMBERT = '+proj=lcc +lat_1=49 +lat_2=77 +lat_0=63.390675 +lon_0=-91.86666666666666 +x_0=6200000 +y_0=3000000 +datum=NAD83 +units=m +no_defs'
@@ -142,34 +143,30 @@ function reprojectCoord(coord) {
   return [Math.round(lon * 100000) / 100000, Math.round(lat * 100000) / 100000]
 }
 
-// Simplify a ring by removing every Nth point, and reproject each point
-function simplifyAndReprojectRing(coords, keep = 0.2) {
-  if (coords.length <= 4) return coords.map(reprojectCoord)
-  const step = Math.max(1, Math.round(1 / keep))
-  const simplified = []
-  for (let i = 0; i < coords.length - 1; i++) {
-    if (i % step === 0) simplified.push(reprojectCoord(coords[i]))
-  }
-  // Always include the closing point
-  simplified.push(reprojectCoord(coords[coords.length - 1]))
-  return simplified.length >= 4 ? simplified : coords.map(reprojectCoord)
-}
-
-function reprojectAndSimplify(geometry) {
+// Reproject all coordinates from Lambert to WGS84, keeping all points
+function reprojectGeometry(geometry) {
   if (geometry.type === 'Polygon') {
     return {
       type: 'Polygon',
-      coordinates: geometry.coordinates.map(ring => simplifyAndReprojectRing(ring)),
+      coordinates: geometry.coordinates.map(ring => ring.map(reprojectCoord)),
     }
   } else if (geometry.type === 'MultiPolygon') {
     return {
       type: 'MultiPolygon',
       coordinates: geometry.coordinates.map(polygon =>
-        polygon.map(ring => simplifyAndReprojectRing(ring))
+        polygon.map(ring => ring.map(reprojectCoord))
       ),
     }
   }
   return geometry
+}
+
+// Reproject then simplify using Douglas-Peucker (preserves shape-defining vertices)
+function reprojectAndSimplify(geometry) {
+  const reprojected = reprojectGeometry(geometry)
+  const feature = turf.feature(reprojected)
+  const simplified = turf.simplify(feature, { tolerance: 0.0001, highQuality: true })
+  return simplified.geometry
 }
 
 async function main() {
