@@ -95,6 +95,7 @@ export default function Section({ section, showDivider }) {
                   src={section.image.src}
                   alt={section.image.alt}
                   className="rounded-lg shadow-md w-full"
+                  loading="lazy"
                 />
                 {section.image.caption && (
                   <figcaption className="mt-2 text-sm text-gray-400 italic">
