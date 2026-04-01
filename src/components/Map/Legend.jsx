@@ -1,4 +1,4 @@
-export default function Legend() {
+export default function Legend({ showHotspots }) {
   return (
     <div className="absolute bottom-20 left-4 z-[1000] cs-panel p-4">
       <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
@@ -18,6 +18,24 @@ export default function Legend() {
       <p className="text-xs text-gray-500 mt-2 max-w-[180px]">
         High population density + low transit access = coverage gap
       </p>
+
+      {showHotspots && (
+        <>
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-4 mb-2">
+            Hotspot Clusters
+          </h3>
+          <div className="flex items-center gap-1">
+            <span className="text-xs text-gray-500">Low</span>
+            <div
+              className="h-3 w-[140px] rounded"
+              style={{
+                background: 'linear-gradient(to right, #1e1b4b, #7c3aed, #f59e0b, #f97316, #ef4444, #fef08a)',
+              }}
+            />
+            <span className="text-xs text-gray-500">High</span>
+          </div>
+        </>
+      )}
     </div>
   )
 }

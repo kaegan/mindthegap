@@ -1,4 +1,4 @@
-export default function LayerToggle({ showGaps, setShowGaps, showRoutes, setShowRoutes }) {
+export default function LayerToggle({ showGaps, setShowGaps, showRoutes, setShowRoutes, showHotspots, setShowHotspots }) {
   return (
     <div className="absolute top-20 right-4 z-[1000] cs-panel p-4">
       <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
@@ -12,6 +12,15 @@ export default function LayerToggle({ showGaps, setShowGaps, showRoutes, setShow
           className="rounded accent-orange-500"
         />
         <span className="text-sm text-gray-200">Coverage Gaps</span>
+      </label>
+      <label className="flex items-center gap-2 cursor-pointer mb-2">
+        <input
+          type="checkbox"
+          checked={showHotspots}
+          onChange={(e) => setShowHotspots(e.target.checked)}
+          className="rounded accent-violet-500"
+        />
+        <span className="text-sm text-gray-200">Hotspots</span>
       </label>
       <label className="flex items-center gap-2 cursor-pointer">
         <input
