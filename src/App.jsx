@@ -1,6 +1,7 @@
 import { MapPin, Users, AlertTriangle } from 'lucide-react'
 import Header from './components/Layout/Header'
 import MapSection from './components/Map/MapSection'
+import ProductFeatures from './components/Product/ProductFeatures'
 import HeroSections from './components/Hero/HeroSections'
 import FAQ from './components/Hero/FAQ'
 import Footer from './components/Layout/Footer'
@@ -48,6 +49,21 @@ function App() {
         </div>
         <div className="mx-4 sm:mx-8 rounded-xl border border-gray-200 max-w-7xl lg:mx-auto overflow-hidden">
           <MapSection />
+        </div>
+      </div>
+
+      <ProductFeatures />
+
+      {/* ── Transition: product → about ── */}
+      <div id="about" className="relative bg-gray-50 py-16 sm:py-20">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-3">About the builder</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tighter font-heading">
+            A PM who still shows up to <span className="text-violet-600">city hall</span>
+          </h2>
+          <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-xl mx-auto">
+            MindTheGap is a side project by a product manager who's spent a decade shipping software — and a lifetime caring about transit.
+          </p>
         </div>
       </div>
 
