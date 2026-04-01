@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { DollarSign, Clapperboard, Rocket } from 'lucide-react'
 
 const sections = [
   {
@@ -32,9 +33,9 @@ const sections = [
     headline: 'I ship things that move metrics',
     accentWord: 'metrics',
     stats: [
-      { value: '40%', numericValue: 40, suffix: '%', label: 'increase in paid purchases from AI voiceover-driven videos powered by ElevenLabs' },
-      { value: '30%', numericValue: 30, suffix: '%', label: 'reduction in video creation time from AI-powered script generation' },
-      { value: '25%', numericValue: 25, suffix: '%', label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
+      { value: '40%', numericValue: 40, suffix: '%', icon: DollarSign, label: 'increase in paid purchases from AI voiceover-driven videos powered by ElevenLabs' },
+      { value: '30%', numericValue: 30, suffix: '%', icon: Clapperboard, label: 'reduction in video creation time from AI-powered script generation' },
+      { value: '25%', numericValue: 25, suffix: '%', icon: Rocket, label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
     ],
     accent: 'pink',
     bg: 'bg-gray-950',
@@ -160,9 +161,14 @@ function AnimatedNumber({ target, suffix, color, visible }) {
   )
 }
 
-function StatCard({ numericValue, suffix, label, color, visible }) {
+function StatCard({ numericValue, suffix, icon: Icon, label, color, visible }) {
   return (
     <div className="cs-panel p-6 flex-1 min-w-[200px] border-t-2 border-pink-500/40 shadow-lg shadow-pink-500/5">
+      {Icon && (
+        <div className="mb-3">
+          <Icon size={28} className="text-pink-400/70" strokeWidth={1.5} />
+        </div>
+      )}
       <div className="mb-2">
         <AnimatedNumber target={numericValue} suffix={suffix} color={color} visible={visible} />
       </div>
