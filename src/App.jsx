@@ -1,3 +1,4 @@
+import { MapPin, Users, AlertTriangle } from 'lucide-react'
 import useInView from './hooks/useInView'
 import Header from './components/Layout/Header'
 import ScrollProgress from './components/Layout/ScrollProgress'
@@ -29,11 +30,12 @@ function App() {
 
         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8">
           {[
-            { value: '3,590', label: 'areas analyzed', color: 'text-violet-400' },
-            { value: '67K', label: 'underserved', color: 'text-amber-400' },
-            { value: '72', label: 'critical gaps', color: 'text-red-400' },
+            { value: '3,590', label: 'areas analyzed', color: 'text-violet-400', icon: MapPin },
+            { value: '67K', label: 'underserved', color: 'text-amber-400', icon: Users },
+            { value: '72', label: 'critical gaps', color: 'text-red-400', icon: AlertTriangle },
           ].map((s) => (
             <div key={s.label} className="cs-panel px-4 py-2 sm:px-5 sm:py-2.5 flex items-center gap-2">
+              <s.icon className={`w-4 h-4 sm:w-[18px] sm:h-[18px] ${s.color} opacity-70`} />
               <span className={`text-sm sm:text-base font-bold ${s.color}`}>{s.value}</span>
               <span className="text-xs sm:text-sm text-gray-500">{s.label}</span>
             </div>
