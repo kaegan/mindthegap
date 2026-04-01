@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, CircleMarker, Tooltip } from 'react-leaflet'
+import { feature } from 'topojson-client'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
 import HotspotLayer from './HotspotLayer'
@@ -9,6 +10,12 @@ import L from 'leaflet'
 import { getGapColor } from '../../utils/colors'
 import { computeMetroStats } from '../../utils/gapStats'
 import { findNearestStops } from '../../utils/nearestStops'
+
+function fetchTopoJSON(url, layerName) {
+  return fetch(url)
+    .then(r => r.ok ? r.json() : null)
+    .then(topo => topo ? feature(topo, topo.objects[layerName]) : null)
+}
 
 const VANCOUVER_CENTER = [49.25, -123.1]
 const DEFAULT_ZOOM = 11
@@ -207,16 +214,14 @@ function MapSection() {
   const needStops = anyRouteOn || selectedDA
 
   useEffect(() => {
-    fetch('/data/gap-analysis.geojson')
-      .then(r => r.ok ? r.json() : null)
+    fetchTopoJSON('/data/gap-analysis.topojson', 'gaps')
       .then(setGapData)
       .catch(() => {})
   }, [])
 
   useEffect(() => {
     if (anyRouteOn && !routeData) {
-      fetch('/data/routes.geojson')
-        .then(r => r.ok ? r.json() : null)
+      fetchTopoJSON('/data/routes.topojson', 'routes')
         .then(setRouteData)
         .catch(() => {})
     }
@@ -224,8 +229,7 @@ function MapSection() {
 
   useEffect(() => {
     if (needStops && !stopsData) {
-      fetch('/data/stops.geojson')
-        .then(r => r.ok ? r.json() : null)
+      fetchTopoJSON('/data/stops.topojson', 'stops')
         .then(setStopsData)
         .catch(() => {})
     }
