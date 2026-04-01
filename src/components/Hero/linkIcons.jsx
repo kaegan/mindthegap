@@ -1,9 +1,8 @@
-import { IconEnvelopeOutline24 } from 'nucleo-core-outline-24'
-import { IconFileDocOutline24 } from 'nucleo-core-outline-24'
+import { Mail, FileText } from 'lucide-react'
 
 export const linkIcons = {
   email: (
-    <IconEnvelopeOutline24 className="w-4 h-4" />
+    <Mail className="w-4 h-4" />
   ),
   linkedin: (
     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -11,6 +10,6 @@ export const linkIcons = {
     </svg>
   ),
   resume: (
-    <IconFileDocOutline24 className="w-4 h-4" />
+    <FileText className="w-4 h-4" />
   ),
 }

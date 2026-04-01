@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { IconMenuBarsOutline24 } from 'nucleo-core-outline-24'
-import { IconXmarkOutline24 } from 'nucleo-core-outline-24'
+import { Menu, X } from 'lucide-react'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [
@@ -51,9 +50,9 @@ export default function Header() {
           aria-label="Toggle menu"
         >
           {menuOpen ? (
-            <IconXmarkOutline24 className="w-6 h-6" />
+            <X className="w-6 h-6" />
           ) : (
-            <IconMenuBarsOutline24 className="w-6 h-6" />
+            <Menu className="w-6 h-6" />
           )}
         </button>
       </div>

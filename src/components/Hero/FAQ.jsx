@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { IconPlusOutline18 } from 'nucleo-ui-outline-18'
+import { Plus } from 'lucide-react'
 import useInView from '../../hooks/useInView'
 
 const faqs = [
@@ -46,7 +46,7 @@ function FAQItem({ q, a }) {
           {q}
         </span>
         <span className={`text-gray-500 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
-          <IconPlusOutline18 className="w-5 h-5" />
+          <Plus className="w-5 h-5" />
         </span>
       </button>
       <div

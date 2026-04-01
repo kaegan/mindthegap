@@ -1,5 +1,4 @@
-import { IconXmarkOutline18 } from 'nucleo-ui-outline-18'
-import { IconBusOutline24 } from 'nucleo-core-outline-24'
+import { X, Bus } from 'lucide-react'
 import { getGrade, getPercentile, getPercentileLabel } from '../../utils/gapStats'
 import { getGapColor } from '../../utils/colors'
 
@@ -66,7 +65,7 @@ function ComparisonBar({ gapScore, avgGapScore }) {
 function StopItem({ stop }) {
   return (
     <div className="flex items-start gap-2.5 py-2 border-b border-gray-100 last:border-0">
-      <IconBusOutline24 size={14} className="text-cyan-400 mt-0.5 shrink-0" />
+      <Bus size={14} className="text-cyan-400 mt-0.5 shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="text-sm text-gray-900 truncate">{stop.name}</div>
         <div className="text-[11px] text-gray-500">{stop.distance_m}m away</div>
@@ -96,7 +95,7 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
           onClick={onClose}
           className="text-gray-400 hover:text-gray-700 transition-colors p-1 -mr-1 -mt-1"
         >
-          <IconXmarkOutline18 size={18} />
+          <X size={18} />
         </button>
       </div>
 
