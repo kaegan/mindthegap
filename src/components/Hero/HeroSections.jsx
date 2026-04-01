@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 const sections = [
   {
     id: 'origin',
-    headline: 'This started at city hall',
-    accentWord: 'city hall',
-    body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to Port Moody City Hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.",
+    headline: 'This started at the Port Moody City Hall',
+    accentWord: 'Port Moody City Hall',
+    body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to city hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.",
     pullQuote: "I choose to believe these events are related.",
     accent: 'emerald',
     bg: 'bg-gray-950',
@@ -15,7 +15,7 @@ const sections = [
     id: 'why-spare',
     headline: 'Transit + AI is my sweet spot',
     accentWord: 'sweet spot',
-    body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took an unexpected turn to tech. I spent the last 7+ years building an AI video creation platform at Lumen5.",
+    body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took a surprise turn to tech. After stints at Hootsuite and Baremetrics, I spent the last 7+ years building an AI-powered video creator for Enterprises at Lumen5.",
     timeline: [
       { label: 'UBC', sub: 'Human Geography' },
       { label: 'Hootsuite', sub: 'Social media' },
@@ -42,9 +42,9 @@ const sections = [
   },
   {
     id: 'enterprise',
-    headline: 'Large Enterprises are my focus',
+    headline: 'I understand large Enterprises',
     accentWord: 'Enterprises',
-    body: "I helped lead a transition from self-serve to Enterprise. We saw consistent 20-40% revenue growth in the Enterprise segment over the last five years.",
+    body: "When the self-serve market for video creation got crowded, I helped lead a transition to building for Enterprises. We saw consistent 20-40% revenue growth in the Enterprise segment over the last five years.",
     logos: [
       { name: 'KPMG' },
       { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/ffffff' },
@@ -64,8 +64,7 @@ const sections = [
   },
   {
     id: 'advocate',
-    headline: "I'm an advocate for products I love",
-    accentWord: 'advocate',
+    headline: "I can't stop talking about products that I love",
     body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
     accent: 'emerald',
@@ -76,7 +75,7 @@ const sections = [
     id: 'approach',
     headline: 'My daily toolkit',
     accentWord: 'toolkit',
-    body: "I'm not an engineer, but I can translate between AI capabilities and customer problems. At Lumen5, I led roadmap planning across four product teams, managed vendor relationships with Shutterstock and ElevenLabs, and was the face of the product externally.",
+    body: "I'm not an engineer, but I can translate between AI capabilities and customer problems. At Lumen5, I led roadmap planning across four product teams, managed relationships with vendors like Elevenlabs and Shutterstock, and PM'd my own product team at the same time.",
     techLogos: true,
     accent: 'purple',
     bg: 'bg-gray-900',
@@ -343,7 +342,7 @@ export default function HeroSections() {
                 )}
 
                 {section.pullQuote && (
-                  <p className="mt-4 text-gray-500 italic text-base">
+                  <p className="mt-4 text-lg text-gray-400 leading-relaxed max-w-2xl">
                     {section.pullQuote}
                   </p>
                 )}
