@@ -1,5 +1,9 @@
-import { IconXmarkOutlineDuo18 as X } from 'nucleo-ui-outline-duo-18'
-import { IconBusOutlineDuo18 as Bus } from 'nucleo-ui-outline-duo-18'
+import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
+import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
+import { IconPeopleFillDuo18 as People } from 'nucleo-ui-fill-duo-18'
+import { IconGrid4x4FillDuo18 as Grid } from 'nucleo-ui-fill-duo-18'
+import { IconRouteFillDuo18 as Route } from 'nucleo-ui-fill-duo-18'
+import { IconCompassFillDuo18 as Compass } from 'nucleo-ui-fill-duo-18'
 import { getGrade, getPercentile, getPercentileLabel } from '../../utils/gapStats'
 import { getGapColor } from '../../utils/colors'
 
@@ -14,10 +18,13 @@ function GradeCircle({ grade }) {
   )
 }
 
-function StatBox({ label, value, sub }) {
+function StatBox({ label, value, sub, icon: Icon }) {
   return (
     <div className="cs-panel p-3">
-      <div className="text-xs text-gray-400 mb-1">{label}</div>
+      <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-1">
+        {Icon && <Icon size={12} className="text-gray-400" />}
+        {label}
+      </div>
       <div className="text-gray-900 font-semibold text-sm">{value}</div>
       {sub && <div className="text-[11px] text-gray-500 mt-0.5">{sub}</div>}
     </div>
@@ -114,21 +121,25 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-2">
           <StatBox
+            icon={People}
             label="Population"
             value={(p.population || 0).toLocaleString()}
             sub="residents"
           />
           <StatBox
+            icon={Grid}
             label="Density"
             value={(p.pop_density || 0).toLocaleString()}
             sub="/km²"
           />
           <StatBox
+            icon={Route}
             label="Transit Access"
             value={`${Math.round((p.transit_score || 0) * 100)}%`}
             sub={getPercentileLabel(transitPercentile)}
           />
           <StatBox
+            icon={Compass}
             label="Land Area"
             value={`${(p.land_area_km2 || 0).toFixed(2)}`}
             sub="km²"

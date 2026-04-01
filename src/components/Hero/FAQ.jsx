@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { IconPlusOutlineDuo18 as Plus } from 'nucleo-ui-outline-duo-18'
+import { IconPlusFillDuo18 as Plus } from 'nucleo-ui-fill-duo-18'
 
 const faqs = [
   {
