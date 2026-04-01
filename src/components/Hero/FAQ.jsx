@@ -3,11 +3,11 @@ import { useState, useEffect, useRef } from 'react'
 const faqs = [
   {
     q: 'Why did you build this?',
-    a: "The product manager role is changing from leading through storytelling to leading through showing. Accessible development tools like Claude Code mean a PM can build small prototypes to test and explain ideas. I wanted to demonstrate this by taking a few hours to build a small, fun, Spare-adjacent mini-tool.",
+    a: "The product manager role is changing from leading by telling to leading by showing. Accessible development tools like Claude Code mean a PM can build small prototypes to test and explain ideas. I wanted to demonstrate this by taking a few hours to build a small, fun, Spare-adjacent mini-tool.",
   },
   {
     q: 'What does this map actually show?',
-    a: 'It highlights dissemination areas (small census zones) in Metro Vancouver where people live but transit service is limited. The darker the color, the bigger the gap between population density and nearby transit frequency.',
+    a: 'It highlights dissemination areas (small census zones) in Metro Vancouver where people live but transit service is limited.',
   },
   {
     q: 'Where does the data come from?',
@@ -18,16 +18,8 @@ const faqs = [
     a: 'For each area, we count the total daily transit trips within a 600-meter walking distance of its center. We then normalize both population pressure and transit access into percentiles. The gap score is: population pressure percentile multiplied by (1 minus transit access percentile). High population + low transit = high gap.',
   },
   {
-    q: 'Why 600 meters?',
-    a: "600 meters is a commonly used walkability threshold for bus stops — roughly a 7-8 minute walk. It's the distance most people are willing to walk to catch a bus. Rail stations use a 1,200-meter buffer.",
-  },
-  {
-    q: 'Did you really speak at city hall when you were 10?',
-    a: "Yes. My mom drove me. I wore her friend's son's suit. The Evergreen Line opened 20 years later. Correlation is not causation, but I'm not ruling it out.",
-  },
-  {
     q: 'How did you build this?',
-    a: "I used Claude, Claude Code, and Figma. I wrote the prompts, made the design decisions, helped craft a design system, and even made my own logo (not a strength of mine, but fun nonetheless!).",
+    a: "I used Claude, Claude Code, and Figma. I wrote the prompts, made the design decisions, paired on a design system, and even made my own logo (not a strength of mine, but fun nonetheless!).",
   },
 ]
 

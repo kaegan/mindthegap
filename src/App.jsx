@@ -69,7 +69,7 @@ function App() {
           67,000 residents live in Metro Vancouver's transit blind spots
         </h1>
         <p className="text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed mb-10">
-          This tool maps coverage gaps — areas where people live but buses don't reach.
+          MindTheGap finds coverage gaps — areas where people live but buses don't reach.
         </p>
 
         {/* Stat pills */}
