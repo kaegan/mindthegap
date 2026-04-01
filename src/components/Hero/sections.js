@@ -27,7 +27,7 @@ export const sections = [
     id: 'advocate',
     headline: "I love talking about great products",
     accentWord: 'great products',
-    body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
+    body: "In earlier years at Lumen5, I owned product marketing end-to-end, coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
     bg: 'bg-white',
   },
@@ -46,10 +46,10 @@ export const sections = [
     id: 'enterprise',
     headline: 'I led the pivot to Enterprise',
     accentWord: 'Enterprise',
-    body: "When the self-serve market got crowded, I led the product side of Lumen5's transition to Enterprise. We grew to 100+ enterprise customers and saw consistent 20\u201340% YoY revenue growth over five years.",
+    body: "When the self-serve market got crowded, I led the product side of Lumen5's transition to Enterprise. We grew to 100+ enterprise customers and saw consistent 20-40% YoY revenue growth over five years.",
     image: {
       src: enterpriseCheque,
-      alt: 'A framed $1,000 check — our first enterprise payment',
+      alt: 'A framed $1,000 check, our first enterprise payment',
       caption: 'We cheekily framed our first ever "Enterprise" check.',
     },
     logos: [
