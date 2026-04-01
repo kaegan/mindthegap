@@ -35,8 +35,15 @@ const HIGHLIGHT_STYLE = (score) => ({
 })
 
 function MapClickHandler({ onMapClick }) {
-  useMapEvents({
+  const map = useMapEvents({
     click: onMapClick,
+    dragstart: () => {
+      map.eachLayer(layer => {
+        if (layer.getTooltip && layer.getTooltip()) {
+          layer.closeTooltip()
+        }
+      })
+    },
   })
   return null
 }
