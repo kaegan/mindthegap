@@ -2,10 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 
 const faqs = [
   {
-    q: "Wait a minute, isn't this vibe coded?",
-    a: "Busted! I built this with a mix of Figma and Claude Code. I'm definitely not a designer or a developer. This is meant to demonstrate that in just a few hours, I can whip something up that's passable. When paired with Spare's own design system, I should be able to prototype new ideas, and even push small changes to the app.",
-  },
-  {
     q: 'What does this map actually show?',
     a: 'It highlights dissemination areas (small census zones) in Metro Vancouver where people live but transit service is limited.',
   },
@@ -16,6 +12,10 @@ const faqs = [
   {
     q: 'How is the gap score calculated?',
     a: 'For each area, we count the total daily transit trips within a 600-meter walking distance of its center. We then normalize both population pressure and transit access into percentiles. The gap score is: population pressure percentile multiplied by (1 minus transit access percentile). High population + low transit = high gap.',
+  },
+  {
+    q: "Wait a minute, isn't this vibe coded?",
+    a: "Busted! I built this with a mix of Figma and Claude Code. I'm definitely not a designer or a developer. This is meant to demonstrate that in just a few hours, I can whip something up that's passable. When paired with Spare's own design system, I should be able to prototype new ideas, and even push small changes to the app.",
   },
   {
     q: "What's the point of vibe coding an app?",
