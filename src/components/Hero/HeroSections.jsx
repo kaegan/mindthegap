@@ -100,23 +100,23 @@ const sections = [
 const accentColors = {
   purple: {
     bar: 'bg-violet-500', stat: 'text-violet-400', dot: 'bg-violet-500', ring: 'ring-violet-500/40',
-    glow: 'bg-violet-500/[0.07]', divider: 'via-violet-500/30', accent: 'text-violet-400',
+    glow: 'bg-violet-500/[0.07]', divider: 'via-violet-500/50', accent: 'text-violet-400',
   },
   pink: {
     bar: 'bg-pink-500', stat: 'text-pink-400', dot: 'bg-pink-500', ring: 'ring-pink-500/40',
-    glow: 'bg-pink-500/[0.07]', divider: 'via-pink-500/30', accent: 'text-pink-400',
+    glow: 'bg-pink-500/[0.07]', divider: 'via-pink-500/50', accent: 'text-pink-400',
   },
   amber: {
     bar: 'bg-amber-500', stat: 'text-amber-400', dot: 'bg-amber-500', ring: 'ring-amber-500/40',
-    glow: 'bg-amber-500/[0.07]', divider: 'via-amber-500/30', accent: 'text-amber-400',
+    glow: 'bg-amber-500/[0.07]', divider: 'via-amber-500/50', accent: 'text-amber-400',
   },
   emerald: {
     bar: 'bg-emerald-500', stat: 'text-emerald-400', dot: 'bg-emerald-500', ring: 'ring-emerald-500/40',
-    glow: 'bg-emerald-500/[0.07]', divider: 'via-emerald-500/30', accent: 'text-emerald-400',
+    glow: 'bg-emerald-500/[0.07]', divider: 'via-emerald-500/50', accent: 'text-emerald-400',
   },
 }
 
-function useInView(threshold = 0.15) {
+function useInView(threshold = 0.05) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
   useEffect(() => {
@@ -124,7 +124,7 @@ function useInView(threshold = 0.15) {
     if (!el) return
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
-      { threshold }
+      { threshold, rootMargin: '0px 0px 150px 0px' }
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -181,9 +181,9 @@ function LogoMarquee({ logos }) {
       <div className="animate-marquee gap-14">
         {doubled.map((logo, i) =>
           logo.src ? (
-            <img key={i} src={logo.src} alt={logo.name} className="h-6 sm:h-7 opacity-40 hover:opacity-80 transition-opacity shrink-0" />
+            <img key={i} src={logo.src} alt={logo.name} className="h-6 sm:h-7 opacity-50 hover:opacity-80 transition-opacity shrink-0" />
           ) : (
-            <span key={i} className="text-base font-bold text-white/30 hover:text-white/60 transition-colors shrink-0 tracking-tight">
+            <span key={i} className="text-base font-bold text-white/40 hover:text-white/70 transition-colors shrink-0 tracking-tight">
               {logo.name}
             </span>
           )
@@ -195,41 +195,53 @@ function LogoMarquee({ logos }) {
 
 function Timeline({ steps, colors }) {
   return (
-    <div className="mt-10 overflow-x-auto pb-2">
-      <div className="flex items-start min-w-max">
-        {steps.map((step, i) => (
-          <div key={step.label} className="flex items-start">
-            <div className="flex flex-col items-center">
-              <div
-                className={`w-4 h-4 rounded-full mt-0.5 ring-2 ring-offset-2 ring-offset-gray-900 ${
-                  step.highlight
-                    ? `${colors.dot} ${colors.ring} animate-pulse-ring`
-                    : 'bg-white/20 ring-white/10'
-                }`}
-              />
-              <div className="mt-3 text-center w-24">
+    <div className="mt-10 pb-2">
+      {/* Route line + stations */}
+      <div className="relative">
+        {/* The transit route line */}
+        <div className="absolute top-[7px] left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-white/10 via-white/20 to-violet-500/50 rounded-full" />
+
+        <div className="flex items-start justify-between w-full">
+          {steps.map((step) => (
+            <div key={step.label} className="flex flex-col items-center flex-1 min-w-0">
+              {/* Station dot */}
+              <div className="relative z-10">
+                {step.highlight && (
+                  <div className="absolute -inset-1 rounded-full bg-violet-500/30 animate-pulse-ring" />
+                )}
+                <div
+                  className={`w-4 h-4 rounded-full border-2 ${
+                    step.highlight
+                      ? 'bg-violet-500 border-violet-400 shadow-lg shadow-violet-500/50'
+                      : 'bg-gray-900 border-white/30'
+                  }`}
+                />
+              </div>
+              {/* Label */}
+              <div className="mt-3 text-center px-1">
                 <div className={`text-sm font-semibold ${step.highlight ? 'text-white' : 'text-gray-300'}`}>
                   {step.label}
                 </div>
                 <div className="text-xs text-gray-500 mt-0.5 leading-snug">{step.sub}</div>
               </div>
             </div>
-            {i < steps.length - 1 && (
-              <div className={`w-12 sm:w-20 h-px mx-2 mt-[0.5rem] ${
-                i >= steps.length - 2 ? 'bg-gradient-to-r from-white/10 to-violet-500/30' : 'bg-white/10'
-              }`} />
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 
+const SlackIcon = () => (
+  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.124 2.521a2.528 2.528 0 0 1 2.52-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.52V8.834zm-1.271 0a2.528 2.528 0 0 1-2.521 2.521 2.528 2.528 0 0 1-2.521-2.521V2.522A2.528 2.528 0 0 1 15.166 0a2.528 2.528 0 0 1 2.521 2.522v6.312zm-2.521 10.124a2.528 2.528 0 0 1 2.521 2.52A2.528 2.528 0 0 1 15.166 24a2.528 2.528 0 0 1-2.521-2.522v-2.52h2.521zm0-1.271a2.528 2.528 0 0 1-2.521-2.521 2.528 2.528 0 0 1 2.521-2.521h6.312A2.528 2.528 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.522h-6.312z"/>
+  </svg>
+)
+
 function TechLogos() {
   const tools = [
     { name: 'Notion', src: 'https://cdn.simpleicons.org/notion/ffffff' },
-    { name: 'Slack', src: 'https://cdn.simpleicons.org/slack/ffffff' },
+    { name: 'Slack', icon: SlackIcon },
     { name: 'Claude', src: 'https://cdn.simpleicons.org/claude/ffffff' },
     { name: 'Mixpanel', src: 'https://cdn.simpleicons.org/mixpanel/ffffff' },
   ]
@@ -237,7 +249,7 @@ function TechLogos() {
     <div className="flex flex-wrap items-center gap-4 mt-8">
       {tools.map((tool) => (
         <div key={tool.name} className="cs-panel px-5 py-3 flex items-center gap-3">
-          <img src={tool.src} alt={tool.name} className="h-5 w-5" />
+          {tool.icon ? <tool.icon /> : <img src={tool.src} alt={tool.name} className="h-5 w-5" />}
           <span className="text-sm font-medium text-gray-300">{tool.name}</span>
         </div>
       ))}
@@ -301,7 +313,7 @@ export default function HeroSections() {
           <div key={section.id}>
             {/* Gradient divider between sections */}
             {sectionIdx > 0 && (
-              <div className={`h-px bg-gradient-to-r from-transparent ${colors.divider} to-transparent`} />
+              <div className={`h-[2px] bg-gradient-to-r from-transparent ${colors.divider} to-transparent`} />
             )}
 
             <section
@@ -318,7 +330,7 @@ export default function HeroSections() {
               )}
 
               <div className="relative max-w-3xl mx-auto">
-                <div className={`w-10 h-1 ${colors.bar} rounded-full mb-6`} />
+                <div className={`w-12 h-1 ${colors.bar} rounded-full mb-6`} />
 
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tighter">
                   <HighlightedHeadline text={section.headline} accentWord={section.accentWord} accentClass={colors.accent} />

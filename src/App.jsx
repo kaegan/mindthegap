@@ -5,7 +5,7 @@ import HeroSections from './components/Hero/HeroSections'
 import FAQ from './components/Hero/FAQ'
 import Footer from './components/Layout/Footer'
 
-function useInView(threshold = 0.15) {
+function useInView(threshold = 0.05) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
   useEffect(() => {
@@ -13,7 +13,7 @@ function useInView(threshold = 0.15) {
     if (!el) return
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
-      { threshold }
+      { threshold, rootMargin: '0px 0px 150px 0px' }
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -61,7 +61,7 @@ function App() {
       <Header />
 
       {/* ── Hero Impact Zone ── */}
-      <section className="relative flex flex-col items-center justify-center px-6 pt-32 sm:pt-40 pb-16 sm:pb-20 text-center overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center px-6 pt-32 sm:pt-40 pb-8 sm:pb-12 text-center overflow-hidden">
         {/* Ambient glow orb */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-500/[0.07] blur-[120px] pointer-events-none" />
 
@@ -73,7 +73,7 @@ function App() {
         </p>
 
         {/* Stat pills */}
-        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-12">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8">
           {[
             { value: '3,590', label: 'areas analyzed' },
             { value: '67K', label: 'underserved' },
