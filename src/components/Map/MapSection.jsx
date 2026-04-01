@@ -156,6 +156,41 @@ function SkyTrainStations({ stopsData }) {
   )
 }
 
+function BusStops({ stopsData }) {
+  const stops = useMemo(() => {
+    if (!stopsData) return []
+    return stopsData.features
+      .filter(f => f.properties.modes && f.properties.modes.includes('bus'))
+      .map(f => ({
+        name: f.properties.name,
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0],
+        trips_per_day: f.properties.trips_per_day,
+      }))
+  }, [stopsData])
+
+  if (stops.length === 0) return null
+  return (
+    <>
+      {stops.map(s => (
+        <CircleMarker
+          key={`${s.lat}-${s.lng}`}
+          center={[s.lat, s.lng]}
+          radius={2.5}
+          pathOptions={{ fillColor: '#60a5fa', fillOpacity: 0.6, color: '#60a5fa', weight: 0.5 }}
+        >
+          <Tooltip className="cs-tooltip" direction="top" offset={[0, -4]}>
+            <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
+              <div style={{ fontWeight: 600, color: '#fff' }}>{s.name}</div>
+              <div style={{ color: '#94a3b8' }}>{s.trips_per_day} trips/day</div>
+            </div>
+          </Tooltip>
+        </CircleMarker>
+      ))}
+    </>
+  )
+}
+
 function MapSection() {
   const [gapData, setGapData] = useState(null)
   const [routeData, setRouteData] = useState(null)
@@ -238,6 +273,7 @@ function MapSection() {
             )}
             {showHotspots && gapData && <HotspotLayer data={gapData} />}
             {showBus && routeData && <TransitRouteLayer data={routeData} mode="bus" />}
+            {showBus && stopsData && <BusStops stopsData={stopsData} />}
             {showWCE && routeData && <TransitRouteLayer data={routeData} mode="commuter_rail" />}
             {showSeaBus && routeData && <TransitRouteLayer data={routeData} mode="seabus" />}
             {showSkyTrain && routeData && <TransitRouteLayer data={routeData} mode="skytrain" />}
