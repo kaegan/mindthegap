@@ -2,14 +2,18 @@
  * process-gtfs.js
  *
  * Reads TransLink GTFS data and produces two GeoJSON files:
- * 1. stops.geojson — every transit stop with its weekday trip count
- * 2. routes.geojson — transit route shapes as lines
+ * 1. stops.geojson — every transit stop with its weekday trip count and transit mode
+ * 2. routes.geojson — transit route shapes as lines, tagged by mode
+ *
+ * Transit modes (from GTFS route_type):
+ *   1 = skytrain, 2 = commuter_rail (WCE), 3 = bus, 4 = seabus, 715 = bus
  *
  * How it works:
  * - Looks at calendar.txt to find which service IDs run on weekdays
  * - Looks at trips.txt to find which trips use those weekday services
+ * - Maps routes → route_type to tag shapes and stops by transit mode
  * - Counts how many times each stop appears in stop_times.txt for those trips
- * - Outputs each stop as a GeoJSON point with a "trips_per_day" property
+ * - Outputs each stop as a GeoJSON point with "trips_per_day" and "mode" properties
  */
 
 import fs from 'fs'
@@ -40,12 +44,24 @@ async function parseCSV(filename) {
   return rows
 }
 
+// Map GTFS route_type to our mode labels
+function routeTypeToMode(routeType) {
+  switch (routeType) {
+    case '1': return 'skytrain'
+    case '2': return 'commuter_rail'
+    case '4': return 'seabus'
+    default: return 'bus'   // 3 and 715
+  }
+}
+
 // Same but returns a Map for large files (stop_times) — streams and counts per stop
-async function countStopTrips(weekdayTripIds) {
+// Also tracks which modes serve each stop via tripModeMap
+async function countStopTrips(weekdayTripIds, tripModeMap) {
   const filepath = path.join(RAW_DIR, 'stop_times.txt')
   const lines = createInterface({ input: createReadStream(filepath) })
   let headers = null
   const stopCounts = new Map()
+  const stopModes = new Map()    // stop_id → Set of modes
   let processed = 0
 
   for await (const line of lines) {
@@ -62,9 +78,14 @@ async function countStopTrips(weekdayTripIds) {
 
     if (weekdayTripIds.has(tripId)) {
       stopCounts.set(stopId, (stopCounts.get(stopId) || 0) + 1)
+      const mode = tripModeMap.get(tripId)
+      if (mode) {
+        if (!stopModes.has(stopId)) stopModes.set(stopId, new Set())
+        stopModes.get(stopId).add(mode)
+      }
     }
   }
-  return stopCounts
+  return { stopCounts, stopModes }
 }
 
 async function main() {
@@ -78,18 +99,40 @@ async function main() {
   )
   console.log(`  Found ${weekdayServiceIds.size} weekday service IDs`)
 
-  console.log('Step 2: Reading trips.txt to find weekday trips...')
+  console.log('Step 2: Reading routes.txt for transit mode mapping...')
+  const routes = await parseCSV('routes.txt')
+  const routeModeMap = new Map()  // route_id → mode
+  for (const r of routes) {
+    routeModeMap.set(r.route_id, routeTypeToMode(r.route_type))
+  }
+  console.log(`  Mapped ${routeModeMap.size} routes to modes`)
+
+  console.log('Step 3: Reading trips.txt to find weekday trips...')
   const trips = await parseCSV('trips.txt')
-  const weekdayTripIds = new Set(
-    trips.filter(t => weekdayServiceIds.has(t.service_id)).map(t => t.trip_id)
-  )
+  const weekdayTripIds = new Set()
+  const tripModeMap = new Map()      // trip_id → mode
+  const shapeToMode = new Map()      // shape_id → mode
+  const shapeToRouteName = new Map() // shape_id → route_short_name
+  for (const t of trips) {
+    if (weekdayServiceIds.has(t.service_id)) {
+      weekdayTripIds.add(t.trip_id)
+      const mode = routeModeMap.get(t.route_id) || 'bus'
+      tripModeMap.set(t.trip_id, mode)
+      if (t.shape_id) {
+        shapeToMode.set(t.shape_id, mode)
+        // Look up route name
+        const route = routes.find(r => r.route_id === t.route_id)
+        if (route) shapeToRouteName.set(t.shape_id, route.route_short_name || route.route_long_name)
+      }
+    }
+  }
   console.log(`  Found ${weekdayTripIds.size} weekday trips`)
 
-  console.log('Step 3: Counting stop visits from stop_times.txt (this is the big one)...')
-  const stopCounts = await countStopTrips(weekdayTripIds)
+  console.log('Step 4: Counting stop visits from stop_times.txt (this is the big one)...')
+  const { stopCounts, stopModes } = await countStopTrips(weekdayTripIds, tripModeMap)
   console.log(`  Counted visits for ${stopCounts.size} stops`)
 
-  console.log('Step 4: Reading stops.txt and building GeoJSON...')
+  console.log('Step 5: Reading stops.txt and building GeoJSON...')
   const stops = await parseCSV('stops.txt')
   const stopFeatures = stops
     .filter(s => s.stop_lat && s.stop_lon && s.location_type === '0')
@@ -103,6 +146,7 @@ async function main() {
         stop_id: s.stop_id,
         name: s.stop_name,
         trips_per_day: stopCounts.get(s.stop_id) || 0,
+        modes: stopModes.has(s.stop_id) ? [...stopModes.get(s.stop_id)] : ['bus'],
       },
     }))
 
@@ -111,7 +155,7 @@ async function main() {
   fs.writeFileSync(path.join(OUT_DIR, 'stops.geojson'), JSON.stringify(stopsGeoJSON))
   console.log(`  Wrote ${stopFeatures.length} stops to stops.geojson`)
 
-  console.log('Step 5: Building route shapes GeoJSON...')
+  console.log('Step 6: Building route shapes GeoJSON...')
   const shapes = await parseCSV('shapes.txt')
   // Group shape points by shape_id
   const shapeGroups = new Map()
@@ -133,7 +177,11 @@ async function main() {
         type: 'LineString',
         coordinates: points.map(p => [p.lon, p.lat]),
       },
-      properties: { shape_id: shapeId },
+      properties: {
+        shape_id: shapeId,
+        mode: shapeToMode.get(shapeId) || 'bus',
+        route_name: shapeToRouteName.get(shapeId) || '',
+      },
     })
   }
 

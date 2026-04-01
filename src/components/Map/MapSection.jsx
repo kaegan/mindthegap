@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
-import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, CircleMarker, Tooltip } from 'react-leaflet'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
 import HotspotLayer from './HotspotLayer'
@@ -94,22 +94,78 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
   return <GeoJSON data={data} style={style} onEachFeature={onEachFeature} />
 }
 
-function TransitRouteLayer({ data }) {
-  const style = {
-    color: '#60a5fa',
-    weight: 1.5,
-    opacity: 0.4,
-  }
-  return <GeoJSON data={data} style={() => style} />
+// Colors and weights per transit mode
+const TRANSIT_MODES = {
+  skytrain:       { color: '#22d3ee', weight: 3,   opacity: 0.85, label: 'SkyTrain',         accent: 'accent-cyan-400' },
+  seabus:         { color: '#a78bfa', weight: 2.5, opacity: 0.8,  label: 'SeaBus',           accent: 'accent-violet-400' },
+  commuter_rail:  { color: '#c084fc', weight: 2.5, opacity: 0.8,  label: 'West Coast Express', accent: 'accent-purple-400' },
+  bus:            { color: '#60a5fa', weight: 1,   opacity: 0.3,  label: 'Bus Routes',       accent: 'accent-blue-400' },
+}
+
+function TransitRouteLayer({ data, mode }) {
+  const filtered = useMemo(() => ({
+    type: 'FeatureCollection',
+    features: data.features.filter(f => f.properties.mode === mode),
+  }), [data, mode])
+
+  const cfg = TRANSIT_MODES[mode]
+  const style = { color: cfg.color, weight: cfg.weight, opacity: cfg.opacity }
+  if (filtered.features.length === 0) return null
+  return <GeoJSON data={filtered} style={() => style} />
+}
+
+function SkyTrainStations({ stopsData }) {
+  const stations = useMemo(() => {
+    if (!stopsData) return []
+    // Get skytrain stops, deduplicate by station name (removing platform suffixes)
+    const byName = new Map()
+    for (const f of stopsData.features) {
+      if (!f.properties.modes || !f.properties.modes.includes('skytrain')) continue
+      const baseName = f.properties.name.replace(/ @ (Platform \d+|Canada Line)/, '')
+      if (!byName.has(baseName) || f.properties.trips_per_day > byName.get(baseName).properties.trips_per_day) {
+        byName.set(baseName, f)
+      }
+    }
+    return [...byName.entries()].map(([name, f]) => ({
+      name,
+      lat: f.geometry.coordinates[1],
+      lng: f.geometry.coordinates[0],
+      trips_per_day: f.properties.trips_per_day,
+    }))
+  }, [stopsData])
+
+  if (stations.length === 0) return null
+  return (
+    <>
+      {stations.map(s => (
+        <CircleMarker
+          key={s.name}
+          center={[s.lat, s.lng]}
+          radius={5}
+          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#ffffff', weight: 2 }}
+        >
+          <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
+            <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
+              <div style={{ fontWeight: 600, color: '#22d3ee' }}>{s.name}</div>
+              <div style={{ color: '#94a3b8' }}>{s.trips_per_day} trips/day</div>
+            </div>
+          </Tooltip>
+        </CircleMarker>
+      ))}
+    </>
+  )
 }
 
 function MapSection() {
   const [gapData, setGapData] = useState(null)
   const [routeData, setRouteData] = useState(null)
   const [stopsData, setStopsData] = useState(null)
-  const [showRoutes, setShowRoutes] = useState(false)
   const [showGaps, setShowGaps] = useState(true)
   const [showHotspots, setShowHotspots] = useState(false)
+  const [showBus, setShowBus] = useState(false)
+  const [showSkyTrain, setShowSkyTrain] = useState(false)
+  const [showSeaBus, setShowSeaBus] = useState(false)
+  const [showWCE, setShowWCE] = useState(false)
   const [selectedDA, setSelectedDA] = useState(null)
 
   useEffect(() => {
@@ -170,7 +226,11 @@ function MapSection() {
               />
             )}
             {showHotspots && gapData && <HotspotLayer data={gapData} />}
-            {showRoutes && routeData && <TransitRouteLayer data={routeData} />}
+            {showBus && routeData && <TransitRouteLayer data={routeData} mode="bus" />}
+            {showWCE && routeData && <TransitRouteLayer data={routeData} mode="commuter_rail" />}
+            {showSeaBus && routeData && <TransitRouteLayer data={routeData} mode="seabus" />}
+            {showSkyTrain && routeData && <TransitRouteLayer data={routeData} mode="skytrain" />}
+            {showSkyTrain && stopsData && <SkyTrainStations stopsData={stopsData} />}
             {selectedDA && <NearbyStopsMarkers stops={nearestStops} />}
           </MapContainer>
         </div>
@@ -180,10 +240,16 @@ function MapSection() {
         <LayerToggle
           showGaps={showGaps}
           setShowGaps={setShowGaps}
-          showRoutes={showRoutes}
-          setShowRoutes={setShowRoutes}
           showHotspots={showHotspots}
           setShowHotspots={setShowHotspots}
+          showBus={showBus}
+          setShowBus={setShowBus}
+          showSkyTrain={showSkyTrain}
+          setShowSkyTrain={setShowSkyTrain}
+          showSeaBus={showSeaBus}
+          setShowSeaBus={setShowSeaBus}
+          showWCE={showWCE}
+          setShowWCE={setShowWCE}
         />
 
         {/* Report card */}
