@@ -1,7 +1,9 @@
-import { DollarSign, Clapperboard, Rocket } from 'lucide-react'
+import { IconCurrencyDollarOutline24 } from 'nucleo-core-outline-24'
+import { IconClapperboardOutline24 } from 'nucleo-core-outline-24'
+import { IconRocketOutline24 } from 'nucleo-core-outline-24'
 import AnimatedNumber from './AnimatedNumber'
 
-const icons = { DollarSign, Clapperboard, Rocket }
+const icons = { DollarSign: IconCurrencyDollarOutline24, Clapperboard: IconClapperboardOutline24, Rocket: IconRocketOutline24 }
 
 export default function StatCard({ numericValue, suffix, iconName, label, visible }) {
   const Icon = iconName ? icons[iconName] : null
