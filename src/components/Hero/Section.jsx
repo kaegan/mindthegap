@@ -33,16 +33,47 @@ export default function Section({ section, showDivider }) {
             <HighlightedHeadline text={section.headline} accentWord={section.accentWord} />
           </h2>
 
-          {section.body && (
-            <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
-              {section.body}
-            </p>
-          )}
+          {section.image ? (
+            <div className="flex flex-col md:flex-row md:items-start gap-8 mt-2">
+              <div className="flex-1">
+                {section.body && (
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    {section.body}
+                  </p>
+                )}
+                {section.pullQuote && (
+                  <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+                    {section.pullQuote}
+                  </p>
+                )}
+              </div>
+              <figure className="shrink-0 md:w-64 lg:w-72">
+                <img
+                  src={section.image.src}
+                  alt={section.image.alt}
+                  className="rounded-lg shadow-md w-full"
+                />
+                {section.image.caption && (
+                  <figcaption className="mt-2 text-sm text-gray-400 italic">
+                    {section.image.caption}
+                  </figcaption>
+                )}
+              </figure>
+            </div>
+          ) : (
+            <>
+              {section.body && (
+                <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+                  {section.body}
+                </p>
+              )}
 
-          {section.pullQuote && (
-            <p className="mt-4 text-lg text-gray-600 leading-relaxed max-w-2xl">
-              {section.pullQuote}
-            </p>
+              {section.pullQuote && (
+                <p className="mt-4 text-lg text-gray-600 leading-relaxed max-w-2xl">
+                  {section.pullQuote}
+                </p>
+              )}
+            </>
           )}
 
           {section.timeline && <Timeline steps={section.timeline} />}

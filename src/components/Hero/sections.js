@@ -1,3 +1,5 @@
+import enterpriseCheque from '../../assets/enterprise_cheque.jpg'
+
 export const sections = [
   {
     id: 'origin',
@@ -45,6 +47,11 @@ export const sections = [
     headline: 'I led the pivot to Enterprise',
     accentWord: 'Enterprise',
     body: "When the self-serve market got crowded, I led the product side of Lumen5's transition to Enterprise. We grew to 100+ enterprise customers and saw consistent 20\u201340% YoY revenue growth over five years.",
+    image: {
+      src: enterpriseCheque,
+      alt: 'A framed $1,000 check — our first enterprise payment',
+      caption: 'We cheekily framed our first ever "Enterprise" check.',
+    },
     logos: [
       { name: 'KPMG' },
       { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/1f2937' },
