@@ -100,7 +100,7 @@ export default function FAQ() {
 
       <div className="relative max-w-3xl mx-auto">
         <div className="w-10 h-1 bg-emerald-500 rounded-full mb-6" />
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-8 tracking-tighter">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-8 tracking-tighter font-heading">
           FAQ
         </h2>
         <div>

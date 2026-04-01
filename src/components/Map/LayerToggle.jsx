@@ -1,7 +1,7 @@
 export default function LayerToggle({ showGaps, setShowGaps, showRoutes, setShowRoutes, showHotspots, setShowHotspots }) {
   return (
     <div className="absolute top-20 right-4 z-[1000] cs-panel p-4">
-      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 font-heading">
         Layers
       </h3>
       <label className="flex items-center gap-2 cursor-pointer mb-2">

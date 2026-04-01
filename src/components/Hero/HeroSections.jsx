@@ -154,7 +154,7 @@ function AnimatedNumber({ target, suffix, color, visible }) {
   }, [visible, target])
 
   return (
-    <span className={`text-3xl sm:text-4xl font-extrabold ${color}`}>
+    <span className={`text-3xl sm:text-4xl font-extrabold font-heading ${color}`}>
       {current}{suffix}
     </span>
   )
@@ -332,7 +332,7 @@ export default function HeroSections() {
               <div className="relative max-w-3xl mx-auto">
                 <div className={`w-12 h-1 ${colors.bar} rounded-full mb-6`} />
 
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tighter">
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tighter font-heading">
                   <HighlightedHeadline text={section.headline} accentWord={section.accentWord} accentClass={colors.accent} />
                 </h2>
 

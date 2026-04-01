@@ -65,7 +65,7 @@ function App() {
         {/* Ambient glow orb */}
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-500/[0.07] blur-[120px] pointer-events-none" />
 
-        <h1 className="gradient-text text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter max-w-4xl leading-[1.1] mb-6">
+        <h1 className="gradient-text text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter max-w-4xl leading-[1.1] mb-6 font-heading">
           67,000 residents live in Metro Vancouver's transit blind spots
         </h1>
         <p className="text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed mb-10">

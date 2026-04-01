@@ -1,7 +1,7 @@
 export default function Legend({ showHotspots }) {
   return (
     <div className="absolute bottom-20 left-4 z-[1000] cs-panel p-4">
-      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 font-heading">
         Coverage Gap
       </h3>
       <div className="flex items-center gap-1">
