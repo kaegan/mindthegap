@@ -1,18 +1,13 @@
 import { MapPin, Users, AlertTriangle } from 'lucide-react'
-import useInView from './hooks/useInView'
 import Header from './components/Layout/Header'
-import ScrollProgress from './components/Layout/ScrollProgress'
 import MapSection from './components/Map/MapSection'
 import HeroSections from './components/Hero/HeroSections'
 import FAQ from './components/Hero/FAQ'
 import Footer from './components/Layout/Footer'
 
 function App() {
-  const [mapRef, mapVisible] = useInView(0.1)
-
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
-      <ScrollProgress />
       <Header />
 
       {/* ── Hero ── */}
@@ -44,7 +39,7 @@ function App() {
       </section>
 
       {/* ── Map ── */}
-      <div id="map" ref={mapRef} className={`transition-opacity duration-700 ${mapVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <div id="map">
         <div className="text-center mb-6 px-6">
           <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Transit Coverage Analysis</p>
           <p className="text-sm text-gray-500 max-w-lg mx-auto">
