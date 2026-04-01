@@ -1,16 +1,15 @@
-<svg width="120" height="122" viewBox="0 0 120 122" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_9_93)">
-<rect width="120" height="122" fill="black"/>
-<path d="M38.9883 57.8339L46.0498 60.5147L57.9817 28.9667H49.9014L38.9883 57.8339Z" fill="#8B5CF6"/>
-<path d="M47.805 86.6066L29.8505 93.4031L32.5312 100.464L52.4871 92.9121C53.7334 92.4401 54.6203 91.364 54.866 90.0611L57.7545 74.2776H50.0705L47.805 86.6066Z" fill="#EC4899"/>
-<path d="M8.53528 104.486H54.6017V112.038H8.53528V104.486Z" fill="#F59E0B"/>
-<path d="M83.5 87C83.9148 87.6231 84 88.2447 84 89V108H111V115H77V90L68.5 78H73H78L83.5 87Z" fill="#10B981"/>
-<path d="M65 78V32H75L82 49L78.2873 58.0755L74 47H73.0909V78H65Z" fill="#10B981"/>
-<ellipse cx="62.5" cy="16.5" rx="5.5" ry="7.5" fill="#8B5CF6"/>
+<svg width="95" height="95" viewBox="0 0 95 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_143_66)">
+<rect width="95" height="95" fill="white"/>
+<path d="M39 40.0489L48 42L60 17.026L50.9013 17L39 40.0489Z" fill="#8B5CF6"/>
+<path d="M48 60.963L31 67.7037L34 76L54 67.7037C55.2464 67.2142 55.7542 65.9437 56 64.5926L58 48H49L48 60.963Z" fill="#EC4899"/>
+<path d="M12 80H58.0664V88.0375H12V80Z" fill="#F59E0B"/>
+<ellipse cx="64" cy="9.5" rx="5" ry="5.5" fill="#00A3E0"/>
+<path d="M78 40L73.8912 49.3554L71.916 45.052C71.762 44.722 71.597 44.337 71.421 43.897C71.245 43.457 71.091 43.017 70.959 42.577C70.981 42.929 70.992 43.347 70.992 43.831C71.014 44.315 71.025 44.744 71.025 45.118V70H62.478V23.8H71.025L78 40Z" fill="#10B981"/>
 </g>
 <defs>
-<clipPath id="clip0_9_93">
-<rect width="120" height="122" fill="white"/>
+<clipPath id="clip0_143_66">
+<rect width="95" height="95" fill="white"/>
 </clipPath>
 </defs>
 </svg>
