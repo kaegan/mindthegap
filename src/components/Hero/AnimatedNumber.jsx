@@ -21,7 +21,7 @@ export default function AnimatedNumber({ target, suffix, visible }) {
   }, [visible, target])
 
   return (
-    <span className="text-3xl sm:text-4xl font-extrabold font-heading text-white" aria-label={`${target}${suffix}`}>
+    <span className="text-3xl sm:text-4xl font-extrabold font-heading text-gray-900" aria-label={`${target}${suffix}`}>
       {current}{suffix}
     </span>
   )

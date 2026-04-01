@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { IconMenuBarsOutline24 } from 'nucleo-core-outline-24'
+import { IconXmarkOutline24 } from 'nucleo-core-outline-24'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [
@@ -12,7 +14,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-white/5">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <a href="#" className="flex items-center">
@@ -29,14 +31,14 @@ export default function Header() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-gray-400 hover:text-white transition-colors"
+              className="text-sm text-black hover:text-black/70 transition-colors"
             >
               {link.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="text-sm font-medium text-white border border-white/20 hover:border-white/40 hover:bg-white/5 px-4 py-2 rounded-lg transition-colors"
+            className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
           >
             Get in touch
           </a>
@@ -44,28 +46,26 @@ export default function Header() {
 
         {/* Mobile hamburger */}
         <button
-          className="sm:hidden text-gray-400 hover:text-white"
+          className="sm:hidden text-black hover:text-black/70"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
+          {menuOpen ? (
+            <IconXmarkOutline24 className="w-6 h-6" />
+          ) : (
+            <IconMenuBarsOutline24 className="w-6 h-6" />
+          )}
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <nav className="sm:hidden bg-gray-950/95 backdrop-blur-md border-t border-white/5 px-6 py-4 flex flex-col gap-3">
+        <nav className="sm:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 px-6 py-4 flex flex-col gap-3">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-gray-400 hover:text-white transition-colors py-1"
+              className="text-sm text-black hover:text-black/70 transition-colors py-1"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -73,7 +73,7 @@ export default function Header() {
           ))}
           <a
             href="#contact"
-            className="text-sm font-medium text-white border border-white/20 hover:border-white/40 px-4 py-2 rounded-lg transition-colors text-center mt-2"
+            className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
             Get in touch

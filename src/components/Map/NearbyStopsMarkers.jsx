@@ -13,14 +13,14 @@ export default function NearbyStopsMarkers({ stops }) {
           pathOptions={{
             fillColor: '#22d3ee',
             fillOpacity: 0.9,
-            color: '#ffffff',
+            color: '#374151',
             weight: 1.5,
           }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
-              <div style={{ fontWeight: 600, color: '#fff' }}>{stop.name}</div>
-              <div style={{ color: '#94a3b8' }}>{stop.trips_per_day} trips/day · {stop.distance_m}m away</div>
+              <div style={{ fontWeight: 600, color: '#111827' }}>{stop.name}</div>
+              <div style={{ color: '#6b7280' }}>{stop.trips_per_day} trips/day · {stop.distance_m}m away</div>
             </div>
           </Tooltip>
         </CircleMarker>

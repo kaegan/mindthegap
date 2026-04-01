@@ -18,7 +18,7 @@ function StatBox({ label, value, sub }) {
   return (
     <div className="cs-panel p-3">
       <div className="text-xs text-gray-400 mb-1">{label}</div>
-      <div className="text-white font-semibold text-sm">{value}</div>
+      <div className="text-gray-900 font-semibold text-sm">{value}</div>
       {sub && <div className="text-[11px] text-gray-500 mt-0.5">{sub}</div>}
     </div>
   )
@@ -36,7 +36,7 @@ function ComparisonBar({ gapScore, avgGapScore }) {
       }}>
         {/* Metro average marker */}
         <div
-          className="absolute top-0 h-full w-0.5 bg-white/80"
+          className="absolute top-0 h-full w-0.5 bg-gray-800/80"
           style={{ left: `${avgPct}%` }}
         />
         {/* This area marker */}
@@ -46,7 +46,7 @@ function ComparisonBar({ gapScore, avgGapScore }) {
             left: `${pct}%`,
             borderLeft: '5px solid transparent',
             borderRight: '5px solid transparent',
-            borderTop: '6px solid white',
+            borderTop: '6px solid #111827',
             transform: 'translateX(-5px)',
           }}
         />
@@ -56,7 +56,7 @@ function ComparisonBar({ gapScore, avgGapScore }) {
         <span>High gap</span>
       </div>
       <div className="flex gap-4 mt-1.5 text-[11px]">
-        <span className="text-gray-400">▲ This area: {gapScore.toFixed(2)}</span>
+        <span className="text-gray-600">▲ This area: {gapScore.toFixed(2)}</span>
         <span className="text-gray-500">│ Avg: {avgGapScore.toFixed(2)}</span>
       </div>
     </div>
@@ -65,10 +65,10 @@ function ComparisonBar({ gapScore, avgGapScore }) {
 
 function StopItem({ stop }) {
   return (
-    <div className="flex items-start gap-2.5 py-2 border-b border-white/5 last:border-0">
+    <div className="flex items-start gap-2.5 py-2 border-b border-gray-100 last:border-0">
       <IconBusOutline24 size={14} className="text-cyan-400 mt-0.5 shrink-0" />
       <div className="flex-1 min-w-0">
-        <div className="text-sm text-white truncate">{stop.name}</div>
+        <div className="text-sm text-gray-900 truncate">{stop.name}</div>
         <div className="text-[11px] text-gray-500">{stop.distance_m}m away</div>
       </div>
       <div className="text-[11px] text-cyan-400/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
@@ -89,12 +89,12 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
         <div>
-          <h3 className="text-white font-semibold text-base">{p.name || 'Area'}</h3>
+          <h3 className="text-gray-900 font-semibold text-base">{p.name || 'Area'}</h3>
           <div className="text-xs text-gray-500">{p.dauid}</div>
         </div>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors p-1 -mr-1 -mt-1"
+          className="text-gray-400 hover:text-gray-700 transition-colors p-1 -mr-1 -mt-1"
         >
           <IconXmarkOutline18 size={18} />
         </button>
@@ -105,7 +105,7 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
         <div className="flex items-center gap-3">
           <GradeCircle grade={grade} />
           <div>
-            <div className="text-white font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
+            <div className="text-gray-900 font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
             <div className="text-xs" style={{ color: grade.color }}>{grade.label}</div>
             <div className="text-[11px] text-gray-500">{getPercentileLabel(gapPercentile)} in Metro Vancouver</div>
           </div>

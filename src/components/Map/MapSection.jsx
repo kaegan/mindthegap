@@ -24,14 +24,14 @@ const DEFAULT_STYLE = (score) => ({
   fillColor: getGapColor(score),
   fillOpacity: 0.65,
   weight: 0.5,
-  color: 'rgba(255,255,255,0.15)',
+  color: 'rgba(0,0,0,0.08)',
 })
 
 const HIGHLIGHT_STYLE = (score) => ({
   fillColor: getGapColor(score),
   fillOpacity: 0.85,
   weight: 3,
-  color: '#ffffff',
+  color: '#111827',
 })
 
 function MapClickHandler({ onMapClick }) {
@@ -56,9 +56,9 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
 
     layer.bindTooltip(
       `<div style="font-size:13px; line-height:1.5">
-        <div style="font-weight:600; color:#fff; margin-bottom:2px">${p.name || 'Area'}</div>
-        <div style="color:#cbd5e1">Population density: ${densityStr}/km²</div>
-        <div style="color:#cbd5e1">Transit access: ${transitPct}%</div>
+        <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
+        <div style="color:#4b5563">Population density: ${densityStr}/km²</div>
+        <div style="color:#4b5563">Transit access: ${transitPct}%</div>
         <div style="font-weight:600; color:${getGapColor(p.gap_score || 0)}; margin-top:2px">
           Gap score: ${gapStr}
         </div>
@@ -149,12 +149,12 @@ function SkyTrainStations({ stopsData }) {
           key={s.name}
           center={[s.lat, s.lng]}
           radius={5}
-          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#ffffff', weight: 2 }}
+          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#374151', weight: 2 }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
               <div style={{ fontWeight: 600, color: '#22d3ee' }}>{s.name}</div>
-              <div style={{ color: '#94a3b8' }}>{s.trips_per_day} trips/day</div>
+              <div style={{ color: '#6b7280' }}>{s.trips_per_day} trips/day</div>
             </div>
           </Tooltip>
         </CircleMarker>
@@ -188,8 +188,8 @@ function BusStops({ stopsData }) {
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -4]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
-              <div style={{ fontWeight: 600, color: '#fff' }}>{s.name}</div>
-              <div style={{ color: '#94a3b8' }}>{s.trips_per_day} trips/day</div>
+              <div style={{ fontWeight: 600, color: '#111827' }}>{s.name}</div>
+              <div style={{ color: '#6b7280' }}>{s.trips_per_day} trips/day</div>
             </div>
           </Tooltip>
         </CircleMarker>
@@ -263,7 +263,7 @@ function MapSection() {
           >
             <TileLayer
               attribution='&copy; <a href="https://carto.com">CARTO</a>'
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+              url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             />
             <ZoomControl position="bottomright" />
             <MapClickHandler onMapClick={handleMapClick} />

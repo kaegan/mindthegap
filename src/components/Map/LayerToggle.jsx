@@ -18,7 +18,7 @@ export default function LayerToggle({
           onChange={(e) => setShowGaps(e.target.checked)}
           className="rounded accent-orange-500"
         />
-        <span className="text-sm text-gray-200">Coverage Gaps</span>
+        <span className="text-sm text-gray-700">Coverage Gaps</span>
       </label>
       <label className="flex items-center gap-2 cursor-pointer mb-3">
         <input
@@ -27,7 +27,7 @@ export default function LayerToggle({
           onChange={(e) => setShowHotspots(e.target.checked)}
           className="rounded accent-violet-500"
         />
-        <span className="text-sm text-gray-200">Hotspots</span>
+        <span className="text-sm text-gray-700">Hotspots</span>
       </label>
 
       <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 font-heading">
@@ -40,7 +40,7 @@ export default function LayerToggle({
           onChange={(e) => setShowSkyTrain(e.target.checked)}
           className="rounded accent-cyan-400"
         />
-        <span className="flex items-center gap-1.5 text-sm text-gray-200">
+        <span className="flex items-center gap-1.5 text-sm text-gray-700">
           <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#22d3ee' }} />
           SkyTrain
         </span>
@@ -52,7 +52,7 @@ export default function LayerToggle({
           onChange={(e) => setShowSeaBus(e.target.checked)}
           className="rounded accent-violet-400"
         />
-        <span className="flex items-center gap-1.5 text-sm text-gray-200">
+        <span className="flex items-center gap-1.5 text-sm text-gray-700">
           <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#a78bfa' }} />
           SeaBus
         </span>
@@ -64,7 +64,7 @@ export default function LayerToggle({
           onChange={(e) => setShowWCE(e.target.checked)}
           className="rounded accent-purple-400"
         />
-        <span className="flex items-center gap-1.5 text-sm text-gray-200">
+        <span className="flex items-center gap-1.5 text-sm text-gray-700">
           <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#c084fc' }} />
           West Coast Express
         </span>
@@ -76,7 +76,7 @@ export default function LayerToggle({
           onChange={(e) => setShowBus(e.target.checked)}
           className="rounded accent-blue-400"
         />
-        <span className="flex items-center gap-1.5 text-sm text-gray-200">
+        <span className="flex items-center gap-1.5 text-sm text-gray-700">
           <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#60a5fa' }} />
           Bus Routes
         </span>
