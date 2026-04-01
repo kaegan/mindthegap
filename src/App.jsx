@@ -15,9 +15,9 @@ function App() {
 
       {/* ── Hero ── */}
       <section className="relative flex flex-col items-center justify-center px-6 pt-32 sm:pt-40 pb-8 sm:pb-12 text-center overflow-hidden">
-        {/* Ambient glow orbs */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-300/[0.08] blur-[120px] pointer-events-none" />
-        <div className="absolute top-32 left-1/3 w-[400px] h-[300px] rounded-full bg-amber-200/[0.06] blur-[100px] pointer-events-none" />
+        {/* Ambient glow orbs – hidden on mobile where large blurs are GPU-expensive (especially Mobile Safari) */}
+        <div className="hidden md:block absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-300/[0.08] blur-[120px] pointer-events-none" />
+        <div className="hidden md:block absolute top-32 left-1/3 w-[400px] h-[300px] rounded-full bg-amber-200/[0.06] blur-[100px] pointer-events-none" />
 
         <h1 className="text-gray-900 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter max-w-4xl leading-[1.1] mb-6 font-heading">
           67,000 residents live in Metro Vancouver's transit blind spots
