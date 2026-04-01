@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 
 const faqs = [
   {
-    q: 'Why did you build this?',
-    a: "The product manager role is changing from leading by telling to leading by showing. Accessible development tools like Claude Code mean a PM can build small prototypes to test and explain ideas. I wanted to demonstrate this by taking a few hours to build a small, fun, Spare-adjacent mini-tool.",
+    q: "Wait a minute, isn't this vibe coded?",
+    a: "Busted! I built this with a mix of Figma and Claude Code. I'm definitely not a designer or a developer. This is meant to demonstrate that in just a few hours, I can whip something up that's passable. When paired with Spare's own design system, I should be able to prototype new ideas, and even push small changes to the app.",
   },
   {
     q: 'What does this map actually show?',
@@ -18,8 +18,8 @@ const faqs = [
     a: 'For each area, we count the total daily transit trips within a 600-meter walking distance of its center. We then normalize both population pressure and transit access into percentiles. The gap score is: population pressure percentile multiplied by (1 minus transit access percentile). High population + low transit = high gap.',
   },
   {
-    q: 'How did you build this?',
-    a: "I used Claude, Claude Code, and Figma. I wrote the prompts, made the design decisions, paired on a design system, and even made my own logo (not a strength of mine, but fun nonetheless!).",
+    q: "What's the point of vibe coding an app?",
+    a: (<>The role of the PM is changing. What you used to do by <em>showing</em> you can now often be done by <em>telling.</em> Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline hover:text-emerald-300 transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels – Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
   },
 ]
 
