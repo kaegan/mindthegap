@@ -81,3 +81,23 @@ body {
   width: max-content;
   align-items: center;
 }
+
+/* ── Report card slide-in ── */
+.report-card {
+  animation: report-card-slide-in 300ms ease-out both;
+}
+
+@keyframes report-card-slide-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 639px) {
+  .report-card {
+    animation-name: report-card-slide-up;
+  }
+  @keyframes report-card-slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
