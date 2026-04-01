@@ -22,6 +22,14 @@ export const sections = [
     bg: 'bg-gray-900',
   },
   {
+    id: 'advocate',
+    headline: "I love talking about great products",
+    accentWord: 'great products',
+    body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
+    youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
+    bg: 'bg-gray-950',
+  },
+  {
     id: 'track-record',
     headline: 'I ship things that move metrics',
     accentWord: 'metrics',
@@ -30,7 +38,7 @@ export const sections = [
       { value: '30%', numericValue: 30, suffix: '%', iconName: 'Clapperboard', label: 'reduction in video creation time from AI-powered script generation' },
       { value: '25%', numericValue: 25, suffix: '%', iconName: 'Rocket', label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
     ],
-    bg: 'bg-gray-950',
+    bg: 'bg-gray-900',
   },
   {
     id: 'enterprise',
@@ -50,14 +58,6 @@ export const sections = [
       { name: 'Mitsubishi' },
       { name: 'Baker Hughes' },
     ],
-    bg: 'bg-gray-900',
-  },
-  {
-    id: 'advocate',
-    headline: "I love talking about great products",
-    accentWord: 'great products',
-    body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
-    youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
     bg: 'bg-gray-950',
   },
   {
