@@ -1,3 +1,9 @@
+import { IconMapPinFillDuo18 as MapPin } from 'nucleo-ui-fill-duo-18'
+import { IconHotspotFillDuo18 as Hotspot } from 'nucleo-ui-fill-duo-18'
+import { IconTrainFillDuo18 as Train } from 'nucleo-ui-fill-duo-18'
+import { IconShipFillDuo18 as Ship } from 'nucleo-ui-fill-duo-18'
+import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
+
 export default function LayerToggle({
   showGaps, setShowGaps,
   showHotspots, setShowHotspots,
@@ -18,7 +24,10 @@ export default function LayerToggle({
           onChange={(e) => setShowGaps(e.target.checked)}
           className="rounded accent-orange-500"
         />
-        <span className="text-sm text-gray-700">Coverage Gaps</span>
+        <span className="flex items-center gap-1.5 text-sm text-gray-700">
+          <MapPin size={14} style={{ color: '#f97316' }} />
+          Coverage Gaps
+        </span>
       </label>
       <label className="flex items-center gap-2 cursor-pointer mb-3">
         <input
@@ -27,7 +36,10 @@ export default function LayerToggle({
           onChange={(e) => setShowHotspots(e.target.checked)}
           className="rounded accent-violet-500"
         />
-        <span className="text-sm text-gray-700">Hotspots</span>
+        <span className="flex items-center gap-1.5 text-sm text-gray-700">
+          <Hotspot size={14} style={{ color: '#8b5cf6' }} />
+          Hotspots
+        </span>
       </label>
 
       <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 font-heading">
@@ -41,7 +53,7 @@ export default function LayerToggle({
           className="rounded accent-cyan-400"
         />
         <span className="flex items-center gap-1.5 text-sm text-gray-700">
-          <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#22d3ee' }} />
+          <Train size={14} style={{ color: '#22d3ee' }} />
           SkyTrain
         </span>
       </label>
@@ -53,7 +65,7 @@ export default function LayerToggle({
           className="rounded accent-violet-400"
         />
         <span className="flex items-center gap-1.5 text-sm text-gray-700">
-          <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#a78bfa' }} />
+          <Ship size={14} style={{ color: '#a78bfa' }} />
           SeaBus
         </span>
       </label>
@@ -65,7 +77,7 @@ export default function LayerToggle({
           className="rounded accent-purple-400"
         />
         <span className="flex items-center gap-1.5 text-sm text-gray-700">
-          <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#c084fc' }} />
+          <Train size={14} style={{ color: '#c084fc' }} />
           West Coast Express
         </span>
       </label>
@@ -77,7 +89,7 @@ export default function LayerToggle({
           className="rounded accent-blue-400"
         />
         <span className="flex items-center gap-1.5 text-sm text-gray-700">
-          <span className="inline-block w-3 h-0.5 rounded" style={{ backgroundColor: '#60a5fa' }} />
+          <Bus size={14} style={{ color: '#60a5fa' }} />
           Bus Routes
         </span>
       </label>

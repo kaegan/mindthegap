@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { IconMenuOutlineDuo18 as Menu } from 'nucleo-ui-outline-duo-18'
-import { IconXmarkOutlineDuo18 as X } from 'nucleo-ui-outline-duo-18'
+import { IconMenuFillDuo18 as Menu } from 'nucleo-ui-fill-duo-18'
+import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [

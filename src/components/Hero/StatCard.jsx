@@ -1,6 +1,6 @@
-import { IconCurrencyDollarOutlineDuo18 as DollarSign } from 'nucleo-ui-outline-duo-18'
-import { IconClapperboardOutlineDuo18 as Clapperboard } from 'nucleo-ui-outline-duo-18'
-import { IconRocketOutlineDuo18 as Rocket } from 'nucleo-ui-outline-duo-18'
+import { IconChartTrendUpFillDuo18 as DollarSign } from 'nucleo-ui-fill-duo-18'
+import { IconClapperboardFillDuo18 as Clapperboard } from 'nucleo-ui-fill-duo-18'
+import { IconRocketFillDuo18 as Rocket } from 'nucleo-ui-fill-duo-18'
 import AnimatedNumber from './AnimatedNumber'
 
 const icons = { DollarSign, Clapperboard, Rocket }

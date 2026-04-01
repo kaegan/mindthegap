@@ -1,4 +1,4 @@
-import { IconEnvelopeOutlineDuo18 as Mail } from 'nucleo-ui-outline-duo-18'
+import { IconEnvelopeFillDuo18 as Mail } from 'nucleo-ui-fill-duo-18'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 export default function Footer() {
