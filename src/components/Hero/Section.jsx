@@ -13,7 +13,7 @@ function HighlightedHeadline({ text, accentWord }) {
   const before = text.slice(0, idx)
   const match = text.slice(idx, idx + accentWord.length)
   const after = text.slice(idx + accentWord.length)
-  return <>{before}<span className="text-violet-400">{match}</span>{after}</>
+  return <>{before}<span className="text-violet-600">{match}</span>{after}</>
 }
 
 export default function Section({ section, showDivider }) {
@@ -22,7 +22,7 @@ export default function Section({ section, showDivider }) {
   return (
     <div>
       {showDivider && (
-        <div className="h-px bg-white/5" />
+        <div className="h-px bg-gray-200" />
       )}
 
       <section
@@ -33,18 +33,18 @@ export default function Section({ section, showDivider }) {
         <div className="max-w-3xl mx-auto">
           <div className="w-12 h-1 bg-violet-500 rounded-full mb-6" />
 
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-6 tracking-tighter font-heading">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 tracking-tighter font-heading">
             <HighlightedHeadline text={section.headline} accentWord={section.accentWord} />
           </h2>
 
           {section.body && (
-            <p className="text-lg text-gray-400 leading-relaxed max-w-2xl">
+            <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
               {section.body}
             </p>
           )}
 
           {section.pullQuote && (
-            <p className="mt-4 text-lg text-gray-400 leading-relaxed max-w-2xl">
+            <p className="mt-4 text-lg text-gray-600 leading-relaxed max-w-2xl">
               {section.pullQuote}
             </p>
           )}
@@ -75,7 +75,7 @@ export default function Section({ section, showDivider }) {
                   rel="noopener noreferrer"
                   className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-medium transition-colors ${link.primary
                     ? 'bg-violet-600 hover:bg-violet-500 text-white'
-                    : 'border border-white/15 text-gray-300 hover:text-white hover:border-white/30'
+                    : 'border border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-400'
                   }`}
                 >
                   {link.icon && linkIcons[link.icon]}

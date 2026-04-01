@@ -5,10 +5,10 @@ const SlackIcon = () => (
 )
 
 const tools = [
-  { name: 'Notion', src: 'https://cdn.simpleicons.org/notion/ffffff' },
+  { name: 'Notion', src: 'https://cdn.simpleicons.org/notion/1f2937' },
   { name: 'Slack', icon: SlackIcon },
-  { name: 'Claude', src: 'https://cdn.simpleicons.org/claude/ffffff' },
-  { name: 'Mixpanel', src: 'https://cdn.simpleicons.org/mixpanel/ffffff' },
+  { name: 'Claude', src: 'https://cdn.simpleicons.org/claude/1f2937' },
+  { name: 'Mixpanel', src: 'https://cdn.simpleicons.org/mixpanel/1f2937' },
 ]
 
 export default function TechLogos() {
@@ -17,7 +17,7 @@ export default function TechLogos() {
       {tools.map((tool) => (
         <div key={tool.name} className="cs-panel px-5 py-3 flex items-center gap-3">
           {tool.icon ? <tool.icon /> : <img src={tool.src} alt={tool.name} className="h-5 w-5" />}
-          <span className="text-sm font-medium text-gray-300">{tool.name}</span>
+          <span className="text-sm font-medium text-gray-700">{tool.name}</span>
         </div>
       ))}
     </div>

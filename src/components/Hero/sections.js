@@ -5,7 +5,7 @@ export const sections = [
     accentWord: 'Port Moody City Hall',
     body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to city hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.",
     pullQuote: "I choose to believe these events are related.",
-    bg: 'bg-gray-950',
+    bg: 'bg-white',
   },
   {
     id: 'why-spare',
@@ -19,7 +19,7 @@ export const sections = [
       { label: 'Lumen5', sub: 'AI video, 7+ yrs' },
       { label: 'Spare', sub: "What's next?", highlight: true },
     ],
-    bg: 'bg-gray-900',
+    bg: 'bg-gray-50',
   },
   {
     id: 'advocate',
@@ -27,7 +27,7 @@ export const sections = [
     accentWord: 'great products',
     body: "In earlier years at Lumen5, I owned product marketing end-to-end — coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
-    bg: 'bg-gray-950',
+    bg: 'bg-white',
   },
   {
     id: 'track-record',
@@ -38,7 +38,7 @@ export const sections = [
       { value: '30%', numericValue: 30, suffix: '%', iconName: 'Clapperboard', label: 'reduction in video creation time from AI-powered script generation' },
       { value: '25%', numericValue: 25, suffix: '%', iconName: 'Rocket', label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
     ],
-    bg: 'bg-gray-900',
+    bg: 'bg-gray-50',
   },
   {
     id: 'enterprise',
@@ -47,18 +47,18 @@ export const sections = [
     body: "When the self-serve market got crowded, I led the product side of Lumen5's transition to Enterprise. We grew to 100+ enterprise customers and saw consistent 20\u201340% YoY revenue growth over five years.",
     logos: [
       { name: 'KPMG' },
-      { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/ffffff' },
+      { name: 'Siemens', src: 'https://cdn.simpleicons.org/siemens/1f2937' },
       { name: 'PwC' },
       { name: 'Deloitte' },
-      { name: 'Accenture', src: 'https://cdn.simpleicons.org/accenture/ffffff' },
-      { name: 'SAP', src: 'https://cdn.simpleicons.org/sap/ffffff' },
-      { name: 'Cisco', src: 'https://cdn.simpleicons.org/cisco/ffffff' },
+      { name: 'Accenture', src: 'https://cdn.simpleicons.org/accenture/1f2937' },
+      { name: 'SAP', src: 'https://cdn.simpleicons.org/sap/1f2937' },
+      { name: 'Cisco', src: 'https://cdn.simpleicons.org/cisco/1f2937' },
       { name: 'Swiss Re' },
       { name: 'Best Western' },
       { name: 'Mitsubishi' },
       { name: 'Baker Hughes' },
     ],
-    bg: 'bg-gray-950',
+    bg: 'bg-white',
   },
   {
     id: 'approach',
@@ -66,7 +66,7 @@ export const sections = [
     accentWord: 'toolkit',
     body: "I'm not an engineer, but I speak the language well enough to be useful. At Lumen5, I led roadmap planning across four product teams, managed relationships with vendors like ElevenLabs and Shutterstock, and PM'd my own product team at the same time.",
     techLogos: true,
-    bg: 'bg-gray-900',
+    bg: 'bg-gray-50',
   },
   {
     id: 'contact',
@@ -77,6 +77,6 @@ export const sections = [
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly', icon: 'linkedin' },
       { label: 'Resume & Cover Letter', url: 'https://canva.link/9smwv33yz6e02au', icon: 'resume' },
     ],
-    bg: 'bg-gray-950',
+    bg: 'bg-white',
   },
 ]

@@ -10,7 +10,7 @@ export default function LogoMarquee({ logos }) {
           logo.src ? (
             <img key={i} src={logo.src} alt={logo.name} className="h-6 sm:h-7 opacity-50 hover:opacity-80 transition-opacity shrink-0" />
           ) : (
-            <span key={i} className="text-base font-bold text-white/40 hover:text-white/70 transition-colors shrink-0 tracking-tight">
+            <span key={i} className="text-base font-bold text-gray-400 hover:text-gray-600 transition-colors shrink-0 tracking-tight">
               {logo.name}
             </span>
           )

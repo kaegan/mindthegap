@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { IconPlusOutline18 } from 'nucleo-ui-outline-18'
 import useInView from '../../hooks/useInView'
 
 const faqs = [
@@ -20,7 +21,7 @@ const faqs = [
   },
   {
     q: "What's the point of vibe coding an app?",
-    a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline hover:text-emerald-300 transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels – Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
+    a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline hover:text-emerald-500 transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels – Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
   },
 ]
 
@@ -36,18 +37,16 @@ function FAQItem({ q, a }) {
   }, [open])
 
   return (
-    <div className="border-b border-white/5">
+    <div className="border-b border-gray-200">
       <button
         className="w-full flex items-center justify-between py-5 text-left group"
         onClick={() => setOpen(!open)}
       >
-        <span className="text-base sm:text-lg font-medium text-white group-hover:text-violet-400 transition-colors pr-4">
+        <span className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-violet-600 transition-colors pr-4">
           {q}
         </span>
         <span className={`text-gray-500 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
+          <IconPlusOutline18 className="w-5 h-5" />
         </span>
       </button>
       <div
@@ -55,7 +54,7 @@ function FAQItem({ q, a }) {
         className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{ maxHeight: open ? `${height}px` : '0px', opacity: open ? 1 : 0 }}
       >
-        <div className="pb-5 text-gray-400 leading-relaxed text-sm sm:text-base max-w-2xl">
+        <div className="pb-5 text-gray-500 leading-relaxed text-sm sm:text-base max-w-2xl">
           {a}
         </div>
       </div>
@@ -70,11 +69,11 @@ export default function FAQ() {
     <section
       id="faq"
       ref={ref}
-      className={`relative px-6 sm:px-12 py-20 sm:py-28 bg-gray-900 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+      className={`relative px-6 sm:px-12 py-20 sm:py-28 bg-gray-50 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
     >
       <div className="max-w-3xl mx-auto">
         <div className="w-10 h-1 bg-violet-500 rounded-full mb-6" />
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-8 tracking-tighter font-heading">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-8 tracking-tighter font-heading">
           FAQ
         </h2>
         <div>
