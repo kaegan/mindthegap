@@ -55,8 +55,8 @@ function routeTypeToMode(routeType) {
 }
 
 // Same but returns a Map for large files (stop_times) — streams and counts per stop
-// Also tracks which modes serve each stop via tripModeMap
-async function countStopTrips(weekdayTripIds, tripModeMap) {
+// Also tracks which modes serve each stop via allTripModeMap (all trips, not just weekday)
+async function countStopTrips(weekdayTripIds, allTripModeMap) {
   const filepath = path.join(RAW_DIR, 'stop_times.txt')
   const lines = createInterface({ input: createReadStream(filepath) })
   let headers = null
@@ -76,13 +76,15 @@ async function countStopTrips(weekdayTripIds, tripModeMap) {
     const tripId = values[headers.indexOf('trip_id')]
     const stopId = values[headers.indexOf('stop_id')]
 
+    // Tag stop modes from ALL trips (so WCE etc. get tagged even if not weekday)
+    const mode = allTripModeMap.get(tripId)
+    if (mode) {
+      if (!stopModes.has(stopId)) stopModes.set(stopId, new Set())
+      stopModes.get(stopId).add(mode)
+    }
+    // Only count weekday trips for frequency stats
     if (weekdayTripIds.has(tripId)) {
       stopCounts.set(stopId, (stopCounts.get(stopId) || 0) + 1)
-      const mode = tripModeMap.get(tripId)
-      if (mode) {
-        if (!stopModes.has(stopId)) stopModes.set(stopId, new Set())
-        stopModes.get(stopId).add(mode)
-      }
     }
   }
   return { stopCounts, stopModes }
@@ -107,29 +109,37 @@ async function main() {
   }
   console.log(`  Mapped ${routeModeMap.size} routes to modes`)
 
-  console.log('Step 3: Reading trips.txt to find weekday trips...')
+  console.log('Step 3: Reading trips.txt to find weekday trips and map shapes...')
   const trips = await parseCSV('trips.txt')
   const weekdayTripIds = new Set()
   const tripModeMap = new Map()      // trip_id → mode
   const shapeToMode = new Map()      // shape_id → mode
   const shapeToRouteName = new Map() // shape_id → route_short_name
   for (const t of trips) {
+    const mode = routeModeMap.get(t.route_id) || 'bus'
+    // Always map shapes and modes (some services like WCE use calendar_dates
+    // instead of calendar.txt weekday flags, so we'd miss their geometry)
+    if (t.shape_id) {
+      shapeToMode.set(t.shape_id, mode)
+      const route = routes.find(r => r.route_id === t.route_id)
+      if (route) shapeToRouteName.set(t.shape_id, route.route_short_name || route.route_long_name)
+    }
+    // Only count weekday trips for stop frequency stats
     if (weekdayServiceIds.has(t.service_id)) {
       weekdayTripIds.add(t.trip_id)
-      const mode = routeModeMap.get(t.route_id) || 'bus'
       tripModeMap.set(t.trip_id, mode)
-      if (t.shape_id) {
-        shapeToMode.set(t.shape_id, mode)
-        // Look up route name
-        const route = routes.find(r => r.route_id === t.route_id)
-        if (route) shapeToRouteName.set(t.shape_id, route.route_short_name || route.route_long_name)
-      }
     }
   }
-  console.log(`  Found ${weekdayTripIds.size} weekday trips`)
+  console.log(`  Found ${weekdayTripIds.size} weekday trips, ${shapeToMode.size} shapes mapped`)
+
+  // Build a mode map for ALL trips (not just weekday) so stops get tagged correctly
+  const allTripModeMap = new Map()
+  for (const t of trips) {
+    allTripModeMap.set(t.trip_id, routeModeMap.get(t.route_id) || 'bus')
+  }
 
   console.log('Step 4: Counting stop visits from stop_times.txt (this is the big one)...')
-  const { stopCounts, stopModes } = await countStopTrips(weekdayTripIds, tripModeMap)
+  const { stopCounts, stopModes } = await countStopTrips(weekdayTripIds, allTripModeMap)
   console.log(`  Counted visits for ${stopCounts.size} stops`)
 
   console.log('Step 5: Reading stops.txt and building GeoJSON...')

@@ -168,22 +168,33 @@ function MapSection() {
   const [showWCE, setShowWCE] = useState(false)
   const [selectedDA, setSelectedDA] = useState(null)
 
+  const anyRouteOn = showBus || showSkyTrain || showSeaBus || showWCE
+  const needStops = anyRouteOn || selectedDA
+
   useEffect(() => {
     fetch('/data/gap-analysis.geojson')
       .then(r => r.ok ? r.json() : null)
       .then(setGapData)
       .catch(() => {})
-
-    fetch('/data/routes.geojson')
-      .then(r => r.ok ? r.json() : null)
-      .then(setRouteData)
-      .catch(() => {})
-
-    fetch('/data/stops.geojson')
-      .then(r => r.ok ? r.json() : null)
-      .then(setStopsData)
-      .catch(() => {})
   }, [])
+
+  useEffect(() => {
+    if (anyRouteOn && !routeData) {
+      fetch('/data/routes.geojson')
+        .then(r => r.ok ? r.json() : null)
+        .then(setRouteData)
+        .catch(() => {})
+    }
+  }, [anyRouteOn, routeData])
+
+  useEffect(() => {
+    if (needStops && !stopsData) {
+      fetch('/data/stops.geojson')
+        .then(r => r.ok ? r.json() : null)
+        .then(setStopsData)
+        .catch(() => {})
+    }
+  }, [needStops, stopsData])
 
   const metroStats = useMemo(
     () => gapData ? computeMetroStats(gapData) : null,
