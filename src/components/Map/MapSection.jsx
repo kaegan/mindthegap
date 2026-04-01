@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, GeoJSON, ZoomControl } from 'react-leaflet'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
+import HotspotLayer from './HotspotLayer'
 import { getGapColor } from '../../utils/colors'
 
 const VANCOUVER_CENTER = [49.25, -123.1]
@@ -54,6 +55,7 @@ function MapSection() {
   const [routeData, setRouteData] = useState(null)
   const [showRoutes, setShowRoutes] = useState(false)
   const [showGaps, setShowGaps] = useState(true)
+  const [showHotspots, setShowHotspots] = useState(false)
 
   useEffect(() => {
     fetch('/data/gap-analysis.geojson')
@@ -86,17 +88,20 @@ function MapSection() {
             <ZoomControl position="bottomright" />
 
             {showGaps && gapData && <GapLayer data={gapData} />}
+            {showHotspots && gapData && <HotspotLayer data={gapData} />}
             {showRoutes && routeData && <TransitRouteLayer data={routeData} />}
           </MapContainer>
         </div>
 
         {/* Floating UI panels — Cities Skylines style */}
-        <Legend />
+        <Legend showHotspots={showHotspots} />
         <LayerToggle
           showGaps={showGaps}
           setShowGaps={setShowGaps}
           showRoutes={showRoutes}
           setShowRoutes={setShowRoutes}
+          showHotspots={showHotspots}
+          setShowHotspots={setShowHotspots}
         />
 
         {/* Scroll-zoom hint overlay */}
