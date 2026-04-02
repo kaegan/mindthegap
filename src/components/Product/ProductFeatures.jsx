@@ -5,8 +5,8 @@ import { IconLayersFillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
 import { IconHotspotFillDuo18 as BarChart3 } from 'nucleo-ui-fill-duo-18'
 import neighborhoodScoredImg from '../../assets/neighborhood-scored.png'
 import fullPictureImg from '../../assets/full-picture.png'
-import multimodalLayerImg from '../../assets/multimodal-layer.png'
-import hotspotImg from '../../assets/hotspot.png'
+import transitLayersImg from '../../assets/transit-layers.png'
+import heatmapImg from '../../assets/heatmap.png'
 
 const features = [
   {
@@ -30,7 +30,7 @@ const features = [
     tag: 'Multi-Modal Layers',
     headline: 'SkyTrain, bus, SeaBus, all on one map',
     body: "Toggle transit layers on and off to see how different modes overlap. Quickly spot where rail coverage ends and bus routes don't pick up the slack.",
-    screenshot: multimodalLayerImg,
+    screenshot: transitLayersImg,
     alt: 'Map with SkyTrain, bus, and SeaBus transit layers toggled on',
   },
   {
@@ -38,7 +38,7 @@ const features = [
     tag: 'Hotspot Detection',
     headline: 'Find the clusters that matter most',
     body: 'The hotspot layer surfaces areas where multiple coverage gaps converge, helping planners prioritize the neighborhoods where new service would have the greatest impact.',
-    screenshot: hotspotImg,
+    screenshot: heatmapImg,
     alt: 'Hotspot heatmap highlighting clusters of transit coverage gaps',
   },
 ]
