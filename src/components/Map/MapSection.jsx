@@ -149,7 +149,13 @@ function TransitRouteLayer({ data, mode }) {
   }), [data, mode])
 
   const cfg = TRANSIT_MODES[mode]
-  const style = { color: cfg.color, weight: cfg.weight, opacity: cfg.opacity }
+  const smooth = mode !== 'bus'
+  const style = {
+    color: cfg.color,
+    weight: cfg.weight,
+    opacity: cfg.opacity,
+    ...(smooth && { smoothFactor: 3, lineCap: 'round', lineJoin: 'round' }),
+  }
   if (filtered.features.length === 0) return null
   return <GeoJSON data={filtered} style={() => style} />
 }
