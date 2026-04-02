@@ -42,6 +42,11 @@ function MapClickHandler({ onMapClick }) {
       if (pane) pane.style.display = 'none'
     },
     dragend: () => {
+      map.eachLayer(layer => {
+        if (layer.getTooltip && layer.getTooltip()) {
+          layer.closeTooltip()
+        }
+      })
       const pane = map.getPane('tooltipPane')
       if (pane) pane.style.display = ''
     },
