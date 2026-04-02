@@ -75,10 +75,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showSkyTrain}
               onChange={(e) => setShowSkyTrain(e.target.checked)}
-              className="rounded accent-cyan-400"
+              className="rounded accent-sky-900"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Train size={14} style={{ color: '#22d3ee' }} />
+              <Train size={14} style={{ color: '#1e3a5f' }} />
               SkyTrain
             </span>
           </label>
@@ -87,10 +87,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showSeaBus}
               onChange={(e) => setShowSeaBus(e.target.checked)}
-              className="rounded accent-violet-400"
+              className="rounded accent-blue-600"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Ship size={14} style={{ color: '#a78bfa' }} />
+              <Ship size={14} style={{ color: '#2563eb' }} />
               SeaBus
             </span>
           </label>
@@ -99,10 +99,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showWCE}
               onChange={(e) => setShowWCE(e.target.checked)}
-              className="rounded accent-purple-400"
+              className="rounded accent-blue-600"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Train size={14} style={{ color: '#c084fc' }} />
+              <Train size={14} style={{ color: '#2563eb' }} />
               West Coast Express
             </span>
           </label>
@@ -111,10 +111,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showBus}
               onChange={(e) => setShowBus(e.target.checked)}
-              className="rounded accent-blue-400"
+              className="rounded accent-blue-300"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Bus size={14} style={{ color: '#60a5fa' }} />
+              <Bus size={14} style={{ color: '#93c5fd' }} />
               Bus Routes
             </span>
           </label>

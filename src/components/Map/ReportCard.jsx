@@ -89,12 +89,12 @@ function ComparisonBar({ gapScore, avgGapScore }) {
 function StopItem({ stop }) {
   return (
     <div className="flex items-start gap-2.5 py-2 border-b border-gray-100 last:border-0">
-      <Bus size={14} className="text-cyan-400 mt-0.5 shrink-0" />
+      <Bus size={14} className="text-blue-600 mt-0.5 shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="text-sm text-gray-900 truncate">{stop.name}</div>
         <div className="text-[11px] text-gray-500">{stop.distance_m}m away</div>
       </div>
-      <div className="text-[11px] text-cyan-400/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
+      <div className="text-[11px] text-blue-600/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
     </div>
   )
 }
@@ -153,7 +153,7 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
   const locationName = useLocationName(feature)
 
   return (
-    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[60vh] z-[901] cs-panel overflow-y-auto flex flex-col">
+    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[45vh] z-[901] cs-panel overflow-y-auto flex flex-col">
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
         <div>
