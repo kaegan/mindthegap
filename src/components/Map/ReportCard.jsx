@@ -153,7 +153,7 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
   const locationName = useLocationName(feature)
 
   return (
-    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[60vh] z-[901] cs-panel overflow-y-auto flex flex-col">
+    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[45vh] z-[901] cs-panel overflow-y-auto flex flex-col">
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
         <div>

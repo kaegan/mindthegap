@@ -293,6 +293,7 @@ function MapSection() {
             className="w-full h-full"
             zoomControl={false}
             scrollWheelZoom={false}
+            touchZoom={true}
           >
             <TileLayer
               attribution='&copy; <a href="https://carto.com">CARTO</a>'
