@@ -17,7 +17,7 @@ export default function LayerToggle({
   const [open, setOpen] = useState(() => window.innerWidth >= 640)
 
   return (
-    <div className="absolute top-4 right-4 z-[1000]">
+    <div className="absolute top-4 right-4 z-[900]">
       {!open && (
         <button
           onClick={() => setOpen(true)}
