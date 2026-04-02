@@ -1,9 +1,16 @@
+import { IconRouteFillDuo18 as Route } from 'nucleo-ui-fill-duo-18'
+import { IconMegaphoneFillDuo18 as Megaphone } from 'nucleo-ui-fill-duo-18'
+import { IconTargetFillDuo18 as Target } from 'nucleo-ui-fill-duo-18'
+import { IconOfficeFillDuo18 as Office } from 'nucleo-ui-fill-duo-18'
+import { IconMagicWandSparkleFillDuo18 as MagicWandSparkle } from 'nucleo-ui-fill-duo-18'
 import StatCard from './StatCard'
 import Timeline from './Timeline'
 import LogoMarquee from './LogoMarquee'
 import TechLogos from './TechLogos'
 import YouTubeEmbed from './YouTubeEmbed'
 import { linkIcons } from './linkIcons'
+
+const tagIcons = { Route, Megaphone, Target, Office, MagicWandSparkle }
 
 function HighlightedHeadline({ text, accentWord }) {
   if (!accentWord) return text
@@ -24,25 +31,61 @@ export default function Section({ section, showDivider }) {
 
       <section
         id={section.id}
-        className={`relative px-6 sm:px-12 py-20 sm:py-28 ${section.bg}`}
+        className={`relative px-6 sm:px-12 py-16 sm:py-24 ${section.bg}`}
       >
         <div className="max-w-3xl mx-auto">
-          <div className="w-12 h-1 bg-violet-500 rounded-full mb-6" />
+          {section.tag && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 mb-4">
+              {section.iconName && tagIcons[section.iconName] && (() => {
+                const Icon = tagIcons[section.iconName]
+                return <Icon className="w-3.5 h-3.5 text-violet-500" />
+              })()}
+              <span className="text-xs font-medium text-violet-600 uppercase tracking-wider">{section.tag}</span>
+            </div>
+          )}
 
-          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 tracking-tighter font-heading">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 tracking-tight font-heading">
             <HighlightedHeadline text={section.headline} accentWord={section.accentWord} />
           </h2>
 
-          {section.image ? (
+          {section.screenshot ? (
+            <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-14 mt-2">
+              <div className="flex-1 min-w-0">
+                {section.body && (
+                  Array.isArray(section.body) ? (
+                    section.body.map((paragraph, i) => (
+                      <p key={i} className={`text-lg text-gray-500 leading-relaxed${i > 0 ? ' mt-4' : ''}`}>
+                        {paragraph}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="text-lg text-gray-500 leading-relaxed">
+                      {section.body}
+                    </p>
+                  )
+                )}
+              </div>
+              <div className="flex-1 min-w-0 w-full">
+                <div className="rounded-xl overflow-hidden border border-gray-200 shadow-lg">
+                  <img
+                    src={section.screenshot.src}
+                    alt={section.screenshot.alt}
+                    className="w-full h-auto block"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : section.image ? (
             <div className="flex flex-col md:flex-row md:items-start gap-8 mt-2">
               <div className="flex-1">
                 {section.body && (
-                  <p className="text-lg text-gray-600 leading-relaxed">
+                  <p className="text-lg text-gray-500 leading-relaxed">
                     {section.body}
                   </p>
                 )}
                 {section.pullQuote && (
-                  <p className="mt-4 text-lg text-gray-600 leading-relaxed">
+                  <p className="mt-4 text-lg text-gray-500 leading-relaxed">
                     {section.pullQuote}
                   </p>
                 )}
@@ -52,6 +95,7 @@ export default function Section({ section, showDivider }) {
                   src={section.image.src}
                   alt={section.image.alt}
                   className="rounded-lg shadow-md w-full"
+                  loading="lazy"
                 />
                 {section.image.caption && (
                   <figcaption className="mt-2 text-sm text-gray-400 italic">
@@ -63,13 +107,21 @@ export default function Section({ section, showDivider }) {
           ) : (
             <>
               {section.body && (
-                <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
-                  {section.body}
-                </p>
+                Array.isArray(section.body) ? (
+                  section.body.map((paragraph, i) => (
+                    <p key={i} className={`text-lg text-gray-500 leading-relaxed max-w-2xl${i > 0 ? ' mt-4' : ''}`}>
+                      {paragraph}
+                    </p>
+                  ))
+                ) : (
+                  <p className="text-lg text-gray-500 leading-relaxed max-w-2xl">
+                    {section.body}
+                  </p>
+                )
               )}
 
               {section.pullQuote && (
-                <p className="mt-4 text-lg text-gray-600 leading-relaxed max-w-2xl">
+                <p className="mt-4 text-lg text-gray-500 leading-relaxed max-w-2xl">
                   {section.pullQuote}
                 </p>
               )}
@@ -90,7 +142,14 @@ export default function Section({ section, showDivider }) {
 
           {section.techLogos && <TechLogos />}
 
-          {section.youtube && <YouTubeEmbed url={section.youtube} />}
+          {section.youtube && (
+            <>
+              <YouTubeEmbed url={section.youtube} />
+              {section.youtubeCaption && (
+                <p className="mt-2 text-sm text-gray-400 italic">{section.youtubeCaption}</p>
+              )}
+            </>
+          )}
 
           {section.links && (
             <div className="flex flex-wrap gap-4 mt-8">
