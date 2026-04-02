@@ -77,7 +77,7 @@ export default function FAQ() {
     >
       <div className="max-w-3xl mx-auto">
         <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-8 tracking-tight font-heading">
-          Faq
+          FAQ
         </h2>
         <div>
           {faqs.map((faq) => (

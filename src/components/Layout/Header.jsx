@@ -7,7 +7,7 @@ const navLinks = [
   { label: 'Map', href: '#map' },
   { label: 'About', href: '#origin' },
   { label: 'Experience', href: '#track-record' },
-  { label: 'Faq', href: '#faq' },
+  { label: 'FAQ', href: '#faq' },
 ]
 
 export default function Header() {
