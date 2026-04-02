@@ -1,6 +1,10 @@
 import { useState } from 'react'
-import { IconMenuFillDuo18 as Menu } from 'nucleo-ui-fill-duo-18'
-import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
+const Menu = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+)
+const X = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+)
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [
