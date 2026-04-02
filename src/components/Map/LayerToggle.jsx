@@ -14,10 +14,10 @@ export default function LayerToggle({
   showSeaBus, setShowSeaBus,
   showWCE, setShowWCE,
 }) {
-  const [open, setOpen] = useState(() => window.innerWidth >= 640)
+  const [open, setOpen] = useState(true)
 
   return (
-    <div className="absolute top-4 right-4 z-[1000]">
+    <div className="absolute top-4 right-4 z-[900]">
       {!open && (
         <button
           onClick={() => setOpen(true)}
