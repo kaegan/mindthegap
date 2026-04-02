@@ -31,7 +31,7 @@ export default function LayerToggle({
       {open && (
         <div className="cs-panel p-4 animate-[layer-panel-in_150ms_ease-out]">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider font-heading">
+            <h3 className="text-xs font-semibold text-gray-400 tracking-wider font-heading">
               Layers
             </h3>
             <button
@@ -67,7 +67,7 @@ export default function LayerToggle({
             </span>
           </label>
 
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 font-heading">
+          <h3 className="text-xs font-semibold text-gray-400 tracking-wider mb-3 font-heading">
             Transit
           </h3>
           <label className="flex items-center gap-2 cursor-pointer mb-2">
