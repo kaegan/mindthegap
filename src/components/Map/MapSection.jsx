@@ -136,10 +136,10 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
 
 // Colors and weights per transit mode
 const TRANSIT_MODES = {
-  skytrain:       { color: '#22d3ee', weight: 5,   opacity: 0.9,  label: 'SkyTrain',         accent: 'accent-cyan-400' },
-  seabus:         { color: '#a78bfa', weight: 4,   opacity: 0.85, label: 'SeaBus',           accent: 'accent-violet-400' },
-  commuter_rail:  { color: '#c084fc', weight: 4,   opacity: 0.85, label: 'West Coast Express', accent: 'accent-purple-400' },
-  bus:            { color: '#60a5fa', weight: 1,   opacity: 0.3,  label: 'Bus Routes',       accent: 'accent-blue-400' },
+  skytrain:       { color: '#1e3a5f', weight: 5,   opacity: 0.9,  label: 'SkyTrain',         accent: 'accent-sky-900' },
+  seabus:         { color: '#2563eb', weight: 4,   opacity: 0.85, label: 'SeaBus',           accent: 'accent-blue-600' },
+  commuter_rail:  { color: '#2563eb', weight: 4,   opacity: 0.85, label: 'West Coast Express', accent: 'accent-blue-600' },
+  bus:            { color: '#93c5fd', weight: 1,   opacity: 0.3,  label: 'Bus Routes',       accent: 'accent-blue-300' },
 }
 
 function TransitRouteLayer({ data, mode }) {
@@ -188,11 +188,11 @@ function SkyTrainStations({ stopsData }) {
           key={s.name}
           center={[s.lat, s.lng]}
           radius={7}
-          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#374151', weight: 2.5 }}
+          pathOptions={{ fillColor: '#dbeafe', fillOpacity: 1, color: '#1e3a5f', weight: 2.5 }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
-              <div style={{ fontWeight: 600, color: '#22d3ee' }}>{s.name}</div>
+              <div style={{ fontWeight: 600, color: '#1e3a5f' }}>{s.name}</div>
               <div style={{ color: '#6b7280' }}>{s.trips_per_day} trips/day</div>
             </div>
           </Tooltip>
@@ -223,7 +223,7 @@ function BusStops({ stopsData }) {
           key={`${s.lat}-${s.lng}`}
           center={[s.lat, s.lng]}
           radius={2.5}
-          pathOptions={{ fillColor: '#60a5fa', fillOpacity: 0.6, color: '#60a5fa', weight: 0.5 }}
+          pathOptions={{ fillColor: '#93c5fd', fillOpacity: 0.6, color: '#93c5fd', weight: 0.5 }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -4]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
