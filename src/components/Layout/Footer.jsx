@@ -19,8 +19,6 @@ export default function Footer() {
             </div>
             <p>
               Data from{' '}
-              <a href="https://www.translink.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">TransLink</a>
-              {' & '}
               <a href="https://www.statcan.gc.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">Statistics Canada</a>
             </p>
           </div>

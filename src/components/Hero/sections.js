@@ -92,7 +92,7 @@ export const sections = [
     links: [
       { label: 'Email me', url: 'mailto:hello@mindthegap.fyi', primary: true, icon: 'email' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly', icon: 'linkedin' },
-      { label: 'Resume & Cover Letter', url: 'https://canva.link/9smwv33yz6e02au', icon: 'resume' },
+      { label: 'Resumé', url: 'https://canva.link/9smwv33yz6e02au', icon: 'resume' },
     ],
     bg: 'bg-white',
   },
