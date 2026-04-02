@@ -40,7 +40,7 @@ export default function Section({ section, showDivider }) {
                 const Icon = tagIcons[section.iconName]
                 return <Icon className="w-3.5 h-3.5 text-violet-500" />
               })()}
-              <span className="text-xs font-medium text-violet-600 uppercase tracking-wider">{section.tag}</span>
+              <span className="text-xs font-medium text-violet-600 tracking-wider">{section.tag}</span>
             </div>
           )}
 

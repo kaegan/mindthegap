@@ -40,7 +40,7 @@ function App() {
       {/* ── Map ── */}
       <div id="map">
         <div className="text-center mb-6 px-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Transit Coverage Analysis</p>
+          <p className="text-xs tracking-[0.2em] text-gray-500 mb-2">Transit Coverage Analysis</p>
           <p className="text-sm text-gray-500 max-w-lg mx-auto">
             Every colored zone is a dissemination area. Transit access is measured within a 600m walking radius. The redder the zone, the more people are underserved.
           </p>
@@ -56,7 +56,7 @@ function App() {
       <div className="h-px bg-gradient-to-r from-transparent via-violet-300/40 to-transparent" />
       <div id="origin" className="relative bg-gray-50 py-16 sm:py-20">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-3">A little about Kaegan</p>
+          <p className="text-xs tracking-[0.2em] text-gray-400 mb-3">A little about Kaegan</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight font-heading">
             A PM who shows up to <span className="text-violet-600">city hall</span>
           </h2>

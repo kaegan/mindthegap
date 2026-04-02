@@ -19,7 +19,7 @@ export default function Legend({ showHotspots }) {
       {open && (
         <div className="cs-panel p-4 animate-[legend-panel-in_150ms_ease-out]">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider font-heading">
+            <h3 className="text-xs font-semibold text-gray-400 tracking-wider font-heading">
               Coverage Gap
             </h3>
             <button
@@ -47,7 +47,7 @@ export default function Legend({ showHotspots }) {
 
           {showHotspots && (
             <>
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-4 mb-2">
+              <h3 className="text-xs font-semibold text-gray-400 tracking-wider mt-4 mb-2">
                 Hotspot Clusters
               </h3>
               <div className="flex items-center gap-1">

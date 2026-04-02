@@ -79,7 +79,7 @@ function FeatureBlock({ feature, index }) {
       <div className="flex-1 min-w-0">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 mb-4">
           <Icon className="w-3.5 h-3.5 text-violet-500" />
-          <span className="text-xs font-medium text-violet-600 uppercase tracking-wider">{feature.tag}</span>
+          <span className="text-xs font-medium text-violet-600 tracking-wider">{feature.tag}</span>
         </div>
         <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 font-heading">
           {feature.headline}
@@ -103,7 +103,7 @@ export default function ProductFeatures() {
       <div className="max-w-6xl mx-auto px-6 sm:px-12">
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">How it works</p>
+          <p className="text-xs tracking-[0.2em] text-gray-500 mb-3">How it works</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight font-heading">
             Built to surface what's <span className="text-violet-600">hidden in plain sight</span>
           </h2>
