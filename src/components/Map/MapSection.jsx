@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
-import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, CircleMarker, Tooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, useMap, CircleMarker, Tooltip } from 'react-leaflet'
 import { feature } from 'topojson-client'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
@@ -33,6 +33,16 @@ const HIGHLIGHT_STYLE = (score) => ({
   weight: 3,
   color: '#111827',
 })
+
+function InvalidateSizeOnMount() {
+  const map = useMap()
+  useEffect(() => {
+    // Leaflet sometimes calculates container size before layout settles
+    const timer = setTimeout(() => map.invalidateSize(), 100)
+    return () => clearTimeout(timer)
+  }, [map])
+  return null
+}
 
 function MapClickHandler({ onMapClick }) {
   const map = useMapEvents({
@@ -273,6 +283,7 @@ function MapSection() {
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             />
             <ZoomControl position="bottomright" />
+            <InvalidateSizeOnMount />
             <MapClickHandler onMapClick={handleMapClick} />
 
             {showGaps && gapData && (
