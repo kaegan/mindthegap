@@ -45,28 +45,30 @@ function InvalidateSizeOnMount() {
 }
 
 function MapClickHandler({ onMapClick }) {
-  const map = useMapEvents({
-    click: onMapClick,
-    dragstart: () => {
-      const pane = map.getPane('tooltipPane')
-      if (pane) pane.style.display = 'none'
-    },
-    dragend: () => {
-      map.eachLayer(layer => {
-        if (layer.getTooltip && layer.getTooltip()) {
-          layer.closeTooltip()
-        }
-      })
-      const pane = map.getPane('tooltipPane')
-      if (pane) pane.style.display = ''
-    },
-  })
+  useMapEvents({ click: onMapClick })
   return null
 }
 
 function GapLayer({ data, selectedDAUID, onSelectDA }) {
+  const map = useMap()
   const layersRef = useRef(new Map())
   const selectedLayerRef = useRef(null)
+  const tooltipRef = useRef(L.tooltip({ className: 'cs-tooltip' }))
+  const draggingRef = useRef(false)
+
+  useEffect(() => {
+    const onDragStart = () => {
+      draggingRef.current = true
+      map.closeTooltip(tooltipRef.current)
+    }
+    const onDragEnd = () => { draggingRef.current = false }
+    map.on('dragstart', onDragStart)
+    map.on('dragend', onDragEnd)
+    return () => {
+      map.off('dragstart', onDragStart)
+      map.off('dragend', onDragEnd)
+    }
+  }, [map])
 
   const onEachFeature = useCallback((feature, layer) => {
     const p = feature.properties
@@ -76,24 +78,32 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
     const densityStr = (p.pop_density || 0).toLocaleString()
     const transitPct = Math.round((p.transit_score || 0) * 100)
     const gapStr = (p.gap_score || 0).toFixed(2)
-
-    layer.bindTooltip(
-      `<div style="font-size:13px; line-height:1.5">
+    const content = `<div style="font-size:13px; line-height:1.5">
         <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
         <div style="color:#4b5563">Population density: ${densityStr}/km²</div>
         <div style="color:#4b5563">Transit access: ${transitPct}%</div>
         <div style="font-weight:600; color:${getGapColor(p.gap_score || 0)}; margin-top:2px">
           Gap score: ${gapStr}
         </div>
-      </div>`,
-      { sticky: true, className: 'cs-tooltip' }
-    )
+      </div>`
+
+    layer.on('mouseover', () => {
+      if (!draggingRef.current) tooltipRef.current.setContent(content)
+    })
+    layer.on('mousemove', (e) => {
+      if (draggingRef.current) return
+      tooltipRef.current.setLatLng(e.latlng)
+      if (!map.hasLayer(tooltipRef.current)) tooltipRef.current.addTo(map)
+    })
+    layer.on('mouseout', () => {
+      map.closeTooltip(tooltipRef.current)
+    })
 
     layer.on('click', (e) => {
       L.DomEvent.stopPropagation(e)
       onSelectDA(feature)
     })
-  }, [onSelectDA])
+  }, [onSelectDA, map])
 
   // Imperatively update highlight when selection changes
   useEffect(() => {
