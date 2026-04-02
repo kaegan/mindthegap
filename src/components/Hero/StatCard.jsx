@@ -17,7 +17,7 @@ export default function StatCard({ numericValue, suffix, iconName, label, visibl
       <div className="mb-2">
         <AnimatedNumber target={numericValue} suffix={suffix} visible={visible} />
       </div>
-      <div className="text-sm text-gray-400 leading-relaxed">{label}</div>
+      <div className="text-sm text-gray-500 leading-relaxed">{label}</div>
     </div>
   )
 }

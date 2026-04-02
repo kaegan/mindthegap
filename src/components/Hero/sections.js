@@ -1,38 +1,37 @@
 import enterpriseCheque from '../../assets/enterprise_cheque.jpg'
+import gethiredImg from '../../assets/gethired.png'
 
 export const sections = [
   {
-    id: 'origin',
-    headline: 'This started at the Port Moody City Hall',
-    accentWord: 'Port Moody City Hall',
-    body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to city hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.",
-    pullQuote: "I choose to believe these events are related.",
-    bg: 'bg-white',
-  },
-  {
     id: 'why-spare',
+    tag: 'Career Path',
+    iconName: 'Route',
     headline: 'Transit + Product is the sweet spot',
     accentWord: 'sweet spot',
     body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took a surprise turn to tech. After stints at Hootsuite and Baremetrics, I spent the last 7+ years building an AI-powered video creator for Enterprises at Lumen5.",
     timeline: [
       { label: 'UBC', sub: 'Human Geography' },
-      { label: 'Hootsuite', sub: 'Social media' },
-      { label: 'Baremetrics', sub: 'SaaS Analytics' },
+      { label: 'Hootsuite', sub: 'Support + Ops' },
+      { label: 'Baremetrics', sub: 'First biz hire' },
       { label: 'Lumen5', sub: 'AI video, 7+ yrs' },
-      { label: 'Spare', sub: "What's next?", highlight: true },
+      { label: "What's next?", sub: 'Maybe Spare?', highlight: true },
     ],
-    bg: 'bg-gray-50',
+    bg: 'bg-white',
   },
   {
     id: 'advocate',
+    tag: 'Product Marketing',
+    iconName: 'Megaphone',
     headline: "I love talking about great products",
-    accentWord: 'great products',
     body: "In earlier years at Lumen5, I owned product marketing end-to-end, coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
+    youtubeCaption: 'That bus scroll behind me is real! I have the whole roll. 🙊',
     bg: 'bg-white',
   },
   {
     id: 'track-record',
+    tag: 'Impact',
+    iconName: 'Target',
     headline: 'I ship things that move metrics',
     accentWord: 'metrics',
     stats: [
@@ -44,13 +43,15 @@ export const sections = [
   },
   {
     id: 'enterprise',
+    tag: 'Enterprise Growth',
+    iconName: 'Office',
     headline: 'I led the pivot to Enterprise',
     accentWord: 'Enterprise',
     body: "When the self-serve market got crowded, I led the product side of Lumen5's transition to Enterprise. We grew to 100+ enterprise customers and saw consistent 20-40% YoY revenue growth over five years.",
     image: {
       src: enterpriseCheque,
       alt: 'A framed $1,000 check, our first enterprise payment',
-      caption: 'We cheekily framed our first ever "Enterprise" check.',
+      caption: 'I cheekily framed our first ever "Enterprise" cheque.',
     },
     logos: [
       { name: 'KPMG' },
@@ -69,16 +70,25 @@ export const sections = [
   },
   {
     id: 'approach',
+    tag: 'Tools & Process',
+    iconName: 'MagicWandSparkle',
     headline: 'My daily toolkit',
     accentWord: 'toolkit',
-    body: "I'm not an engineer, but I speak the language well enough to be useful. At Lumen5, I led roadmap planning across four product teams, managed relationships with vendors like ElevenLabs and Shutterstock, and PM'd my own product team at the same time.",
+    body: [
+      "I'm not an engineer, but I still love to build, and I love trying out technologies and apps. I'm always trying to find new ways to express ideas and thoughts in ways a PRD can't.",
+      'Recently I built an AI-powered pipeline for finding, ingesting and scoring job postings, so that I can hyper-focus on only the jobs I\'m most interested in. This opportunity from Spare got the first "Very High" score.',
+    ],
+    screenshot: {
+      src: gethiredImg,
+      alt: 'GetHired — AI-powered job posting pipeline',
+    },
     techLogos: true,
-    bg: 'bg-gray-50',
+    bg: 'bg-white',
   },
   {
     id: 'contact',
     headline: "Let's talk",
-    body: "I'm open to both the Staff and Senior PM roles. Domain fit and being a strong contributor matters more to me than title.",
+    body: "I would love the opportunity to chat and learn more about the roles. I'm open to both the Senior and Staff PM roles. Domain fit and being a strong contributor at my level matter more to me than salary or title.",
     links: [
       { label: 'Email me', url: 'mailto:hello@mindthegap.fyi', primary: true, icon: 'email' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly', icon: 'linkedin' },

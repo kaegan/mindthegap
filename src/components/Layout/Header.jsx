@@ -31,14 +31,14 @@ export default function Header() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-black hover:text-black/70 transition-colors"
+              className="text-sm text-gray-700 hover:text-gray-900 transition-colors"
             >
               {link.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
+            className="text-sm font-medium text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
           >
             Get in touch
           </a>
@@ -65,7 +65,7 @@ export default function Header() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-black hover:text-black/70 transition-colors py-1"
+              className="text-sm text-gray-700 hover:text-gray-900 transition-colors py-1"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -73,7 +73,7 @@ export default function Header() {
           ))}
           <a
             href="#contact"
-            className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
+            className="text-sm font-medium text-gray-700 border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
             Get in touch
