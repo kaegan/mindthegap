@@ -48,11 +48,12 @@ function MapClickHandler({ onMapClick }) {
   const map = useMapEvents({
     click: onMapClick,
     dragstart: () => {
-      map.eachLayer(layer => {
-        if (layer.getTooltip && layer.getTooltip()) {
-          layer.closeTooltip()
-        }
-      })
+      const pane = map.getPane('tooltipPane')
+      if (pane) pane.style.display = 'none'
+    },
+    dragend: () => {
+      const pane = map.getPane('tooltipPane')
+      if (pane) pane.style.display = ''
     },
   })
   return null
