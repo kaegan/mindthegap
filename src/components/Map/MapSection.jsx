@@ -136,9 +136,9 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
 
 // Colors and weights per transit mode
 const TRANSIT_MODES = {
-  skytrain:       { color: '#22d3ee', weight: 3,   opacity: 0.85, label: 'SkyTrain',         accent: 'accent-cyan-400' },
-  seabus:         { color: '#a78bfa', weight: 2.5, opacity: 0.8,  label: 'SeaBus',           accent: 'accent-violet-400' },
-  commuter_rail:  { color: '#c084fc', weight: 2.5, opacity: 0.8,  label: 'West Coast Express', accent: 'accent-purple-400' },
+  skytrain:       { color: '#22d3ee', weight: 5,   opacity: 0.9,  label: 'SkyTrain',         accent: 'accent-cyan-400' },
+  seabus:         { color: '#a78bfa', weight: 4,   opacity: 0.85, label: 'SeaBus',           accent: 'accent-violet-400' },
+  commuter_rail:  { color: '#c084fc', weight: 4,   opacity: 0.85, label: 'West Coast Express', accent: 'accent-purple-400' },
   bus:            { color: '#60a5fa', weight: 1,   opacity: 0.3,  label: 'Bus Routes',       accent: 'accent-blue-400' },
 }
 
@@ -181,8 +181,8 @@ function SkyTrainStations({ stopsData }) {
         <CircleMarker
           key={s.name}
           center={[s.lat, s.lng]}
-          radius={5}
-          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#374151', weight: 2 }}
+          radius={7}
+          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#374151', weight: 2.5 }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
