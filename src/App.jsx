@@ -61,7 +61,7 @@ function App() {
             A PM who shows up to <span className="text-violet-600">city hall</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-xl mx-auto">
-            Hi Spare! 👋 I'm Kaegan, and I'd love to come work with you.
+            Hi Spare! 👋 I'm Kaegan.
           </p>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-xl mx-auto">
             At 10 years old, I put on my best (only) suit and asked my mom to drive me to city hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.
