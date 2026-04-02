@@ -321,7 +321,7 @@ function MapSection() {
         )}
 
         {/* Scroll-zoom hint */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] cs-panel px-3 py-1.5 text-xs text-gray-400 pointer-events-none">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[900] cs-panel px-3 py-1.5 text-xs text-gray-400 pointer-events-none">
           Use +/- or pinch to zoom
         </div>
       </div>
