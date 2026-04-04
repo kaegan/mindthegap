@@ -4,6 +4,10 @@ What's new in the Mind the Gap interactive transit coverage map.
 
 ---
 
+## Gap Explorer
+
+Browse the 25 most critical transit coverage gaps in Metro Vancouver, ranked by impact. Each entry shows a letter grade, affected population, and gap score. Click any row to fly to that area on the map and open its report card for a closer look.
+
 ## Neighborhood Report Cards
 
 Click any neighborhood on the map to open a detailed report card. Each card shows the area's gap score as a letter grade, population density, and the nearest transit stops with walking distances. An expandable methodology section explains how the score is calculated.
