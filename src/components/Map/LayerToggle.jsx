@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import posthog from 'posthog-js'
 import { IconMapPinFillDuo18 as MapPin } from 'nucleo-ui-fill-duo-18'
 import { IconHotspotFillDuo18 as Hotspot } from 'nucleo-ui-fill-duo-18'
 import { IconTrainFillDuo18 as Train } from 'nucleo-ui-fill-duo-18'
@@ -15,6 +16,10 @@ export default function LayerToggle({
   showWCE, setShowWCE,
 }) {
   const [open, setOpen] = useState(true)
+
+  const trackToggle = (layer, enabled) => {
+    posthog.capture('layer_toggled', { layer, enabled })
+  }
 
   return (
     <div className="absolute top-4 right-4 z-[900]">
@@ -46,7 +51,7 @@ export default function LayerToggle({
             <input
               type="checkbox"
               checked={showGaps}
-              onChange={(e) => setShowGaps(e.target.checked)}
+              onChange={(e) => { setShowGaps(e.target.checked); trackToggle('coverage_gaps', e.target.checked) }}
               className="rounded accent-orange-500"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
@@ -58,7 +63,7 @@ export default function LayerToggle({
             <input
               type="checkbox"
               checked={showHotspots}
-              onChange={(e) => setShowHotspots(e.target.checked)}
+              onChange={(e) => { setShowHotspots(e.target.checked); trackToggle('hotspots', e.target.checked) }}
               className="rounded accent-violet-500"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
@@ -74,7 +79,7 @@ export default function LayerToggle({
             <input
               type="checkbox"
               checked={showSkyTrain}
-              onChange={(e) => setShowSkyTrain(e.target.checked)}
+              onChange={(e) => { setShowSkyTrain(e.target.checked); trackToggle('skytrain', e.target.checked) }}
               className="rounded accent-sky-900"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
@@ -86,7 +91,7 @@ export default function LayerToggle({
             <input
               type="checkbox"
               checked={showSeaBus}
-              onChange={(e) => setShowSeaBus(e.target.checked)}
+              onChange={(e) => { setShowSeaBus(e.target.checked); trackToggle('seabus', e.target.checked) }}
               className="rounded accent-blue-600"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
@@ -98,7 +103,7 @@ export default function LayerToggle({
             <input
               type="checkbox"
               checked={showWCE}
-              onChange={(e) => setShowWCE(e.target.checked)}
+              onChange={(e) => { setShowWCE(e.target.checked); trackToggle('west_coast_express', e.target.checked) }}
               className="rounded accent-blue-600"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
@@ -110,7 +115,7 @@ export default function LayerToggle({
             <input
               type="checkbox"
               checked={showBus}
-              onChange={(e) => setShowBus(e.target.checked)}
+              onChange={(e) => { setShowBus(e.target.checked); trackToggle('bus_routes', e.target.checked) }}
               className="rounded accent-blue-300"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">

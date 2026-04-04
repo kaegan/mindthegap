@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import posthog from 'posthog-js'
 const X = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 )
@@ -107,7 +108,7 @@ function MethodologySection({ popPressure, transitScore, gapScore }) {
   return (
     <div className="mt-1">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { if (!open) posthog.capture('methodology_expanded'); setOpen(!open) }}
         className="text-[11px] text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1"
       >
         <span className="transition-transform inline-block" style={{ transform: open ? 'rotate(90deg)' : 'none' }}>
