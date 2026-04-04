@@ -1,13 +1,14 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { IconMenuFillDuo18 as Menu } from 'nucleo-ui-fill-duo-18'
 import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [
-  { label: 'Map', href: '#map' },
-  { label: 'About', href: '#origin' },
-  { label: 'Experience', href: '#track-record' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Map', href: '/#map' },
+  { label: 'About', href: '/#origin' },
+  { label: 'Experience', href: '/#track-record' },
+  { label: 'FAQ', href: '/#faq' },
 ]
 
 export default function Header() {
@@ -17,13 +18,13 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
-        <a href="#" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img
             src={logoSvg}
             alt="Mind the Gap"
             className="h-10 sm:h-14"
           />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden sm:flex items-center gap-6">
@@ -37,7 +38,7 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="#contact"
+            href="/#contact"
             className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
           >
             Get in touch
@@ -72,7 +73,7 @@ export default function Header() {
             </a>
           ))}
           <a
-            href="#contact"
+            href="/#contact"
             className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
