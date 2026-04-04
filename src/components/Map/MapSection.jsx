@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, useMap, CircleMarker, Tooltip } from 'react-leaflet'
 import { feature } from 'topojson-client'
+import posthog from 'posthog-js'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
 import HotspotLayer from './HotspotLayer'
@@ -103,6 +104,12 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
 
     layer.on('click', (e) => {
       L.DomEvent.stopPropagation(e)
+      posthog.capture('zone_clicked', {
+        dauid: dauid,
+        name: p.name,
+        gap_score: p.gap_score,
+        population: p.population,
+      })
       onSelectDA(feature)
     })
   }, [onSelectDA, map])

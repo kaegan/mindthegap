@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import posthog from 'posthog-js'
 import { IconPlusFillDuo18 as Plus } from 'nucleo-ui-fill-duo-18'
 
 const faqs = [
@@ -47,7 +48,7 @@ function FAQItem({ q, a }) {
     <div className="border-b border-gray-200">
       <button
         className="w-full flex items-center justify-between py-5 text-left group"
-        onClick={() => setOpen(!open)}
+        onClick={() => { if (!open) posthog.capture('faq_opened', { question: q }); setOpen(!open) }}
       >
         <span className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-violet-600 transition-colors pr-4">
           {q}
