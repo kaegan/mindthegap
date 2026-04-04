@@ -4,6 +4,12 @@ import Footer from '../components/Layout/Footer'
 
 const releases = [
   {
+    title: 'Gap Explorer',
+    date: 'April 3, 2026',
+    description:
+      'Browse the 25 most critical transit coverage gaps in Metro Vancouver, ranked by impact. Each entry shows a letter grade, affected population, and gap score. Click any row to fly to that area on the map and open its report card for a closer look.',
+  },
+  {
     title: 'Neighborhood Report Cards',
     date: 'April 1, 2026',
     description:
