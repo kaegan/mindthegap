@@ -14,10 +14,10 @@ export default function LayerToggle({
   showSeaBus, setShowSeaBus,
   showWCE, setShowWCE,
 }) {
-  const [open, setOpen] = useState(() => window.innerWidth >= 640)
+  const [open, setOpen] = useState(true)
 
   return (
-    <div className="absolute top-4 right-4 z-[1000]">
+    <div className="absolute top-4 right-4 z-[900]">
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -31,7 +31,7 @@ export default function LayerToggle({
       {open && (
         <div className="cs-panel p-4 animate-[layer-panel-in_150ms_ease-out]">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider font-heading">
+            <h3 className="text-xs font-semibold text-gray-400 tracking-wider font-heading">
               Layers
             </h3>
             <button
@@ -67,7 +67,7 @@ export default function LayerToggle({
             </span>
           </label>
 
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 font-heading">
+          <h3 className="text-xs font-semibold text-gray-400 tracking-wider mb-3 font-heading">
             Transit
           </h3>
           <label className="flex items-center gap-2 cursor-pointer mb-2">
@@ -75,10 +75,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showSkyTrain}
               onChange={(e) => setShowSkyTrain(e.target.checked)}
-              className="rounded accent-cyan-400"
+              className="rounded accent-sky-900"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Train size={14} style={{ color: '#22d3ee' }} />
+              <Train size={14} style={{ color: '#1e3a5f' }} />
               SkyTrain
             </span>
           </label>
@@ -87,10 +87,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showSeaBus}
               onChange={(e) => setShowSeaBus(e.target.checked)}
-              className="rounded accent-violet-400"
+              className="rounded accent-blue-600"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Ship size={14} style={{ color: '#a78bfa' }} />
+              <Ship size={14} style={{ color: '#2563eb' }} />
               SeaBus
             </span>
           </label>
@@ -99,10 +99,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showWCE}
               onChange={(e) => setShowWCE(e.target.checked)}
-              className="rounded accent-purple-400"
+              className="rounded accent-blue-600"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Train size={14} style={{ color: '#c084fc' }} />
+              <Train size={14} style={{ color: '#2563eb' }} />
               West Coast Express
             </span>
           </label>
@@ -111,10 +111,10 @@ export default function LayerToggle({
               type="checkbox"
               checked={showBus}
               onChange={(e) => setShowBus(e.target.checked)}
-              className="rounded accent-blue-400"
+              className="rounded accent-blue-300"
             />
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Bus size={14} style={{ color: '#60a5fa' }} />
+              <Bus size={14} style={{ color: '#93c5fd' }} />
               Bus Routes
             </span>
           </label>

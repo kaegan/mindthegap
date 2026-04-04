@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="py-12 px-6">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex flex-col items-center sm:items-start gap-3">
-            <img src={logoSvg} alt="Mind the Gap" className="h-8 opacity-60" />
+            <img src={logoSvg} alt="Mind the Gap" className="h-8 opacity-70" />
             <p className="text-sm text-gray-500 font-medium">
               Mapping where Metro Vancouver's transit falls short.
             </p>
@@ -23,8 +23,6 @@ export default function Footer() {
             </div>
             <p>
               Data from{' '}
-              <a href="https://www.translink.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">TransLink</a>
-              {' & '}
               <a href="https://www.statcan.gc.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">Statistics Canada</a>
             </p>
           </div>

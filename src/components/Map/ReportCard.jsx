@@ -1,11 +1,14 @@
-import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
+import { useState } from 'react'
+const X = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+)
 import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
 import { IconPeopleFillDuo18 as People } from 'nucleo-ui-fill-duo-18'
 import { IconGrid4x4FillDuo18 as Grid } from 'nucleo-ui-fill-duo-18'
 import { IconRouteFillDuo18 as Route } from 'nucleo-ui-fill-duo-18'
 import { IconCompassFillDuo18 as Compass } from 'nucleo-ui-fill-duo-18'
 import { getGrade, getPercentile, getPercentileLabel } from '../../utils/gapStats'
-import { getGapColor } from '../../utils/colors'
+import { useLocationName } from '../../hooks/useLocationName'
 
 function GradeCircle({ grade }) {
   return (
@@ -36,35 +39,50 @@ function ComparisonBar({ gapScore, avgGapScore }) {
   const avgPct = Math.min(avgGapScore, 1) * 100
 
   return (
-    <div className="mt-4">
-      <div className="text-xs text-gray-400 mb-2">Gap Score vs Metro Average</div>
-      <div className="relative h-3 rounded-full overflow-hidden" style={{
-        background: `linear-gradient(to right, #fef3c7, #f59e0b, #dc2626)`
-      }}>
-        {/* Metro average marker */}
+    <div className="mt-5">
+      <div className="text-xs text-gray-400 mb-3">Gap Score vs Metro Average</div>
+
+      {/* Score marker above bar */}
+      <div className="relative h-5 mb-0.5">
         <div
-          className="absolute top-0 h-full w-0.5 bg-gray-800/80"
-          style={{ left: `${avgPct}%` }}
-        />
-        {/* This area marker */}
-        <div
-          className="absolute -top-1 w-0 h-0"
-          style={{
-            left: `${pct}%`,
-            borderLeft: '5px solid transparent',
-            borderRight: '5px solid transparent',
-            borderTop: '6px solid #111827',
-            transform: 'translateX(-5px)',
-          }}
-        />
+          className="absolute flex flex-col items-center"
+          style={{ left: `${pct}%`, bottom: 0, transform: 'translateX(-50%)' }}
+        >
+          <span className="text-[11px] font-semibold text-gray-900 leading-none whitespace-nowrap">
+            {gapScore.toFixed(2)}
+          </span>
+          <div className="mt-0.5" style={{
+            width: 0, height: 0,
+            borderLeft: '4px solid transparent',
+            borderRight: '4px solid transparent',
+            borderTop: '5px solid #374151',
+          }} />
+        </div>
       </div>
-      <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+
+      {/* Gradient bar */}
+      <div className="relative">
+        <div className="h-2 rounded-full" style={{
+          background: 'linear-gradient(to right, #fef3c7, #fbbf24, #f59e0b, #ef4444, #dc2626)'
+        }} />
+      </div>
+
+      {/* Average marker below bar */}
+      <div className="relative h-5 mt-0.5">
+        <div
+          className="absolute top-0 flex flex-col items-center"
+          style={{ left: `${avgPct}%`, transform: 'translateX(-50%)' }}
+        >
+          <div className="w-px h-2 bg-gray-500" />
+          <span className="text-[10px] text-gray-500 leading-none mt-1 whitespace-nowrap">
+            avg {avgGapScore.toFixed(2)}
+          </span>
+        </div>
+      </div>
+      {/* End labels */}
+      <div className="flex justify-between text-[10px] text-gray-400">
         <span>Low gap</span>
         <span>High gap</span>
-      </div>
-      <div className="flex gap-4 mt-1.5 text-[11px]">
-        <span className="text-gray-600">▲ This area: {gapScore.toFixed(2)}</span>
-        <span className="text-gray-500">│ Avg: {avgGapScore.toFixed(2)}</span>
       </div>
     </div>
   )
@@ -73,12 +91,57 @@ function ComparisonBar({ gapScore, avgGapScore }) {
 function StopItem({ stop }) {
   return (
     <div className="flex items-start gap-2.5 py-2 border-b border-gray-100 last:border-0">
-      <Bus size={14} className="text-cyan-400 mt-0.5 shrink-0" />
+      <Bus size={14} className="text-blue-600 mt-0.5 shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="text-sm text-gray-900 truncate">{stop.name}</div>
         <div className="text-[11px] text-gray-500">{stop.distance_m}m away</div>
       </div>
-      <div className="text-[11px] text-cyan-400/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
+      <div className="text-[11px] text-blue-600/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
+    </div>
+  )
+}
+
+function MethodologySection({ popPressure, transitScore, gapScore }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="mt-1">
+      <button
+        onClick={() => setOpen(!open)}
+        className="text-[11px] text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1"
+      >
+        <span className="transition-transform inline-block" style={{ transform: open ? 'rotate(90deg)' : 'none' }}>
+          &#9656;
+        </span>
+        How is this calculated?
+      </button>
+      {open && (
+        <div className="mt-2 cs-panel p-3 text-[11px] text-gray-600 space-y-2">
+          <div>
+            The gap score measures how underserved an area is by transit relative to its population density.
+          </div>
+          <div className="font-mono text-[10px] bg-gray-50 rounded p-2 text-gray-700">
+            gap = pop_pressure &times; (1 &minus; transit_access)
+          </div>
+          <div className="space-y-1">
+            <div className="flex justify-between">
+              <span className="text-gray-500">Population pressure</span>
+              <span className="font-medium">{(popPressure || 0).toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Transit access</span>
+              <span className="font-medium">{(transitScore || 0).toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between border-t border-gray-100 pt-1 mt-1">
+              <span className="text-gray-500">Gap score</span>
+              <span className="font-semibold text-gray-900">{(gapScore || 0).toFixed(2)}</span>
+            </div>
+          </div>
+          <div className="text-gray-400 text-[10px]">
+            Values are percentile-ranked across all areas in Metro Vancouver. A high gap score means many people live here but transit service is limited.
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -88,16 +151,18 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
 
   const p = feature.properties
   const grade = getGrade(p.gap_score || 0)
-  const gapPercentile = getPercentile(p.gap_score || 0, metroStats.gapScores)
   const transitPercentile = getPercentile(p.transit_score || 0, metroStats.transitScores)
+  const locationName = useLocationName(feature)
 
   return (
-    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[60vh] z-[1001] cs-panel overflow-y-auto flex flex-col">
+    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[45vh] z-[901] cs-panel overflow-y-auto flex flex-col">
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
         <div>
-          <h3 className="text-gray-900 font-semibold text-base">{p.name || 'Area'}</h3>
-          <div className="text-xs text-gray-500">{p.dauid}</div>
+          <h3 className="text-gray-900 font-semibold text-base">
+            {locationName || p.name || 'Area'}
+          </h3>
+          <div className="text-[11px] text-gray-400">DA {p.dauid}</div>
         </div>
         <button
           onClick={onClose}
@@ -113,10 +178,15 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
           <GradeCircle grade={grade} />
           <div>
             <div className="text-gray-900 font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
-            <div className="text-xs" style={{ color: grade.color }}>{grade.label}</div>
-            <div className="text-[11px] text-gray-500">{getPercentileLabel(gapPercentile)} in Metro Vancouver</div>
+            <div className="text-xs font-medium" style={{ color: grade.textColor }}>{grade.label}</div>
           </div>
         </div>
+
+        <MethodologySection
+          popPressure={p.pop_pressure}
+          transitScore={p.transit_score}
+          gapScore={p.gap_score}
+        />
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-2">

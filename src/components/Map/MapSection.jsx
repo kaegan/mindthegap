@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
-import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, CircleMarker, Tooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMapEvents, useMap, CircleMarker, Tooltip } from 'react-leaflet'
 import { feature } from 'topojson-client'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
@@ -34,23 +34,41 @@ const HIGHLIGHT_STYLE = (score) => ({
   color: '#111827',
 })
 
+function InvalidateSizeOnMount() {
+  const map = useMap()
+  useEffect(() => {
+    // Leaflet sometimes calculates container size before layout settles
+    const timer = setTimeout(() => map.invalidateSize(), 100)
+    return () => clearTimeout(timer)
+  }, [map])
+  return null
+}
+
 function MapClickHandler({ onMapClick }) {
-  const map = useMapEvents({
-    click: onMapClick,
-    dragstart: () => {
-      map.eachLayer(layer => {
-        if (layer.getTooltip && layer.getTooltip()) {
-          layer.closeTooltip()
-        }
-      })
-    },
-  })
+  useMapEvents({ click: onMapClick })
   return null
 }
 
 function GapLayer({ data, selectedDAUID, onSelectDA }) {
+  const map = useMap()
   const layersRef = useRef(new Map())
   const selectedLayerRef = useRef(null)
+  const tooltipRef = useRef(L.tooltip({ className: 'cs-tooltip' }))
+  const draggingRef = useRef(false)
+
+  useEffect(() => {
+    const onDragStart = () => {
+      draggingRef.current = true
+      map.closeTooltip(tooltipRef.current)
+    }
+    const onDragEnd = () => { draggingRef.current = false }
+    map.on('dragstart', onDragStart)
+    map.on('dragend', onDragEnd)
+    return () => {
+      map.off('dragstart', onDragStart)
+      map.off('dragend', onDragEnd)
+    }
+  }, [map])
 
   const onEachFeature = useCallback((feature, layer) => {
     const p = feature.properties
@@ -60,24 +78,32 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
     const densityStr = (p.pop_density || 0).toLocaleString()
     const transitPct = Math.round((p.transit_score || 0) * 100)
     const gapStr = (p.gap_score || 0).toFixed(2)
-
-    layer.bindTooltip(
-      `<div style="font-size:13px; line-height:1.5">
+    const content = `<div style="font-size:13px; line-height:1.5">
         <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
         <div style="color:#4b5563">Population density: ${densityStr}/km²</div>
         <div style="color:#4b5563">Transit access: ${transitPct}%</div>
         <div style="font-weight:600; color:${getGapColor(p.gap_score || 0)}; margin-top:2px">
           Gap score: ${gapStr}
         </div>
-      </div>`,
-      { sticky: true, className: 'cs-tooltip' }
-    )
+      </div>`
+
+    layer.on('mouseover', () => {
+      if (!draggingRef.current) tooltipRef.current.setContent(content)
+    })
+    layer.on('mousemove', (e) => {
+      if (draggingRef.current) return
+      tooltipRef.current.setLatLng(e.latlng)
+      if (!map.hasLayer(tooltipRef.current)) tooltipRef.current.addTo(map)
+    })
+    layer.on('mouseout', () => {
+      map.closeTooltip(tooltipRef.current)
+    })
 
     layer.on('click', (e) => {
       L.DomEvent.stopPropagation(e)
       onSelectDA(feature)
     })
-  }, [onSelectDA])
+  }, [onSelectDA, map])
 
   // Imperatively update highlight when selection changes
   useEffect(() => {
@@ -110,10 +136,10 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
 
 // Colors and weights per transit mode
 const TRANSIT_MODES = {
-  skytrain:       { color: '#22d3ee', weight: 3,   opacity: 0.85, label: 'SkyTrain',         accent: 'accent-cyan-400' },
-  seabus:         { color: '#a78bfa', weight: 2.5, opacity: 0.8,  label: 'SeaBus',           accent: 'accent-violet-400' },
-  commuter_rail:  { color: '#c084fc', weight: 2.5, opacity: 0.8,  label: 'West Coast Express', accent: 'accent-purple-400' },
-  bus:            { color: '#60a5fa', weight: 1,   opacity: 0.3,  label: 'Bus Routes',       accent: 'accent-blue-400' },
+  skytrain:       { color: '#1e3a5f', weight: 5,   opacity: 0.9,  label: 'SkyTrain',         accent: 'accent-sky-900' },
+  seabus:         { color: '#2563eb', weight: 4,   opacity: 0.85, label: 'SeaBus',           accent: 'accent-blue-600' },
+  commuter_rail:  { color: '#2563eb', weight: 4,   opacity: 0.85, label: 'West Coast Express', accent: 'accent-blue-600' },
+  bus:            { color: '#93c5fd', weight: 1,   opacity: 0.3,  label: 'Bus Routes',       accent: 'accent-blue-300' },
 }
 
 function TransitRouteLayer({ data, mode }) {
@@ -123,7 +149,13 @@ function TransitRouteLayer({ data, mode }) {
   }), [data, mode])
 
   const cfg = TRANSIT_MODES[mode]
-  const style = { color: cfg.color, weight: cfg.weight, opacity: cfg.opacity }
+  const smooth = mode !== 'bus'
+  const style = {
+    color: cfg.color,
+    weight: cfg.weight,
+    opacity: cfg.opacity,
+    ...(smooth && { smoothFactor: 3, lineCap: 'round', lineJoin: 'round' }),
+  }
   if (filtered.features.length === 0) return null
   return <GeoJSON data={filtered} style={() => style} />
 }
@@ -155,12 +187,12 @@ function SkyTrainStations({ stopsData }) {
         <CircleMarker
           key={s.name}
           center={[s.lat, s.lng]}
-          radius={5}
-          pathOptions={{ fillColor: '#22d3ee', fillOpacity: 1, color: '#374151', weight: 2 }}
+          radius={7}
+          pathOptions={{ fillColor: '#dbeafe', fillOpacity: 1, color: '#1e3a5f', weight: 2.5 }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
-              <div style={{ fontWeight: 600, color: '#22d3ee' }}>{s.name}</div>
+              <div style={{ fontWeight: 600, color: '#1e3a5f' }}>{s.name}</div>
               <div style={{ color: '#6b7280' }}>{s.trips_per_day} trips/day</div>
             </div>
           </Tooltip>
@@ -191,7 +223,7 @@ function BusStops({ stopsData }) {
           key={`${s.lat}-${s.lng}`}
           center={[s.lat, s.lng]}
           radius={2.5}
-          pathOptions={{ fillColor: '#60a5fa', fillOpacity: 0.6, color: '#60a5fa', weight: 0.5 }}
+          pathOptions={{ fillColor: '#93c5fd', fillOpacity: 0.6, color: '#93c5fd', weight: 0.5 }}
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -4]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
@@ -267,12 +299,14 @@ function MapSection() {
             className="w-full h-full"
             zoomControl={false}
             scrollWheelZoom={false}
+            touchZoom={true}
           >
             <TileLayer
               attribution='&copy; <a href="https://carto.com">CARTO</a>'
               url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             />
             <ZoomControl position="bottomright" />
+            <InvalidateSizeOnMount />
             <MapClickHandler onMapClick={handleMapClick} />
 
             {showGaps && gapData && (
@@ -321,7 +355,7 @@ function MapSection() {
         )}
 
         {/* Scroll-zoom hint */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] cs-panel px-3 py-1.5 text-xs text-gray-400 pointer-events-none">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[900] cs-panel px-3 py-1.5 text-xs text-gray-400 pointer-events-none">
           Use +/- or pinch to zoom
         </div>
       </div>
