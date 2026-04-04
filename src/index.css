@@ -133,3 +133,24 @@ body {
   from { opacity: 0; transform: scale(0.95) translateY(-4px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
+
+/* ── Gap explorer slide-in ── */
+.gap-explorer {
+  animation: gap-explorer-slide-in 300ms ease-out both;
+}
+
+@keyframes gap-explorer-slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 639px) {
+  .gap-explorer {
+    animation-name: gap-explorer-slide-up;
+  }
+  @keyframes gap-explorer-slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+

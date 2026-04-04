@@ -5,6 +5,7 @@ import { IconTrainFillDuo18 as Train } from 'nucleo-ui-fill-duo-18'
 import { IconShipFillDuo18 as Ship } from 'nucleo-ui-fill-duo-18'
 import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
 import { IconLayers3FillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
+import { IconFireFlameFillDuo18 as Flame } from 'nucleo-ui-fill-duo-18'
 
 export default function LayerToggle({
   showGaps, setShowGaps,
@@ -13,6 +14,7 @@ export default function LayerToggle({
   showSkyTrain, setShowSkyTrain,
   showSeaBus, setShowSeaBus,
   showWCE, setShowWCE,
+  showExplorer, setShowExplorer,
 }) {
   const [open, setOpen] = useState(true)
 
@@ -66,6 +68,18 @@ export default function LayerToggle({
               Hotspots
             </span>
           </label>
+
+          <button
+            onClick={() => setShowExplorer(v => !v)}
+            className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-md text-sm font-medium transition-all cursor-pointer mb-3 ${
+              showExplorer
+                ? 'bg-orange-50 text-orange-700 border border-orange-200'
+                : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100'
+            }`}
+          >
+            <Flame size={14} style={{ color: showExplorer ? '#ea580c' : '#9ca3af' }} />
+            Explore Worst Gaps
+          </button>
 
           <h3 className="text-xs font-semibold text-gray-400 tracking-wider mb-3 font-heading">
             Transit

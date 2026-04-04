@@ -6,6 +6,8 @@ import LayerToggle from './LayerToggle'
 import HotspotLayer from './HotspotLayer'
 import ReportCard from './ReportCard'
 import NearbyStopsMarkers from './NearbyStopsMarkers'
+import GapExplorer from './GapExplorer'
+import FlyToFeature from './FlyToFeature'
 import L from 'leaflet'
 import { getGapColor } from '../../utils/colors'
 import { computeMetroStats } from '../../utils/gapStats'
@@ -248,9 +250,11 @@ function MapSection() {
   const [showSeaBus, setShowSeaBus] = useState(false)
   const [showWCE, setShowWCE] = useState(false)
   const [selectedDA, setSelectedDA] = useState(null)
+  const [showExplorer, setShowExplorer] = useState(false)
+  const [flyTarget, setFlyTarget] = useState(null)
 
   const anyRouteOn = showBus || showSkyTrain || showSeaBus || showWCE
-  const needStops = anyRouteOn || selectedDA
+  const needStops = anyRouteOn || selectedDA || showExplorer
 
   useEffect(() => {
     fetchTopoJSON('/data/gap-analysis.topojson', 'gaps')
@@ -286,6 +290,11 @@ function MapSection() {
 
   const handleMapClick = useCallback(() => {
     setSelectedDA(null)
+  }, [])
+
+  const handleExplorerSelect = useCallback((feature) => {
+    setSelectedDA(feature)
+    setFlyTarget(feature)
   }, [])
 
   return (
@@ -324,6 +333,7 @@ function MapSection() {
             {showSkyTrain && routeData && <TransitRouteLayer data={routeData} mode="skytrain" />}
             {showSkyTrain && stopsData && <SkyTrainStations stopsData={stopsData} />}
             {selectedDA && <NearbyStopsMarkers stops={nearestStops} />}
+            <FlyToFeature feature={flyTarget} />
           </MapContainer>
         </div>
 
@@ -342,7 +352,20 @@ function MapSection() {
           setShowSeaBus={setShowSeaBus}
           showWCE={showWCE}
           setShowWCE={setShowWCE}
+          showExplorer={showExplorer}
+          setShowExplorer={setShowExplorer}
         />
+
+        {/* Gap Explorer */}
+        {showExplorer && gapData && (
+          <GapExplorer
+            gapData={gapData}
+            stopsData={stopsData}
+            onSelectDA={handleExplorerSelect}
+            selectedDAUID={selectedDA?.properties.dauid}
+            onClose={() => setShowExplorer(false)}
+          />
+        )}
 
         {/* Report card */}
         {selectedDA && metroStats && (
