@@ -4,18 +4,23 @@ import 'leaflet.heat'
 import centroid from '@turf/centroid'
 
 function geojsonToHeatPoints(geojson) {
-  // Find max density to normalize intensities
   const densities = geojson.features
     .filter(f => !f.properties.low_density && f.properties.pop_density > 0)
     .map(f => f.properties.pop_density)
-  const maxDensity = Math.max(...densities)
+    .sort((a, b) => a - b)
+
+  // Use 90th percentile as ceiling so the top decile saturates and
+  // lower-density areas fade out instead of forming a uniform blob
+  const p90 = densities[Math.floor(densities.length * 0.9)]
 
   return geojson.features
     .filter(f => !f.properties.low_density && f.properties.pop_density > 0)
     .map(f => {
       const c = centroid(f)
       const [lng, lat] = c.geometry.coordinates
-      const intensity = f.properties.pop_density / maxDensity
+      // Clamp to p90, then apply a power curve to push low values toward zero
+      const normalized = Math.min(f.properties.pop_density / p90, 1)
+      const intensity = Math.pow(normalized, 3)
       return [lat, lng, intensity]
     })
 }
@@ -23,11 +28,11 @@ function geojsonToHeatPoints(geojson) {
 function createHeatLayer(props, context) {
   const points = geojsonToHeatPoints(props.data)
   const instance = L.heatLayer(points, {
-    radius: 25,
-    blur: 20,
+    radius: 18,
+    blur: 15,
     maxZoom: 14,
-    max: 0.85,
-    minOpacity: 0.25,
+    max: 0.6,
+    minOpacity: 0.15,
     gradient: {
       0.0: '#eff6ff',
       0.2: '#93c5fd',
