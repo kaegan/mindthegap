@@ -4,6 +4,12 @@ import Footer from '../components/Layout/Footer'
 
 const releases = [
   {
+    title: 'Population Density Heatmap',
+    date: 'April 5, 2026',
+    description:
+      'A new heatmap layer visualizes population density across Metro Vancouver\u2019s dissemination areas. Toggle it on from the layers panel to see where residents are concentrated, independent of transit coverage. The layer uses percentile-based scaling with a power curve so only genuine density hotspots light up. Overlay it with the coverage gap layer to spot high-density neighborhoods that lack adequate service.',
+  },
+  {
     title: 'Per-Capita Coverage Scoring',
     date: 'April 4, 2026',
     description:
