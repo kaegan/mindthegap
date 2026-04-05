@@ -2,6 +2,7 @@ import { IconMapPinFillDuo18 as MapPin } from 'nucleo-ui-fill-duo-18'
 import { IconUsersFillDuo18 as Users } from 'nucleo-ui-fill-duo-18'
 import { IconSirenFillDuo18 as AlertTriangle } from 'nucleo-ui-fill-duo-18'
 import Header from './components/Layout/Header'
+import WhatsNewToast from './components/WhatsNewToast'
 import MapSection from './components/Map/MapSection'
 import ProductFeatures from './components/Product/ProductFeatures'
 import HeroSections from './components/Hero/HeroSections'
@@ -12,6 +13,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans">
       <Header />
+      <WhatsNewToast />
 
       {/* ── Hero ── */}
       <section className="relative flex flex-col items-center justify-center px-6 pt-32 sm:pt-40 pb-8 sm:pb-12 text-center overflow-hidden">
