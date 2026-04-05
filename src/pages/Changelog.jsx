@@ -4,6 +4,12 @@ import Footer from '../components/Layout/Footer'
 
 const releases = [
   {
+    title: 'Per-Capita Coverage Scoring',
+    date: 'April 4, 2026',
+    description:
+      'Redesigned the gap score formula to measure transit trips per resident instead of weighting raw population against transit access. Areas below 400 people/km\u00B2 are now shown in gray and left ungraded, so rural zones no longer get misleading "excellent coverage" labels. A squared power curve focuses visual intensity on the truly underserved areas.',
+  },
+  {
     title: 'Gap Explorer',
     date: 'April 3, 2026',
     description:
