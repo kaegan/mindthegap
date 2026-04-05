@@ -4,6 +4,10 @@ What's new in the Mind the Gap interactive transit coverage map.
 
 ---
 
+## Population Density Heatmap
+
+A new heatmap layer visualizes population density across Metro Vancouver's dissemination areas. Toggle it on from the layers panel to see where residents are concentrated, independent of transit coverage. Overlaying this with the coverage gap layer makes it easy to spot high-density neighborhoods that lack adequate service -- exactly the areas where new routes would have the biggest impact.
+
 ## Gap Explorer
 
 Browse the 25 most critical transit coverage gaps in Metro Vancouver, ranked by impact. Each entry shows a letter grade, affected population, and gap score. Click any row to fly to that area on the map and open its report card for a closer look.

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { IconMapPinFillDuo18 as MapPin } from 'nucleo-ui-fill-duo-18'
 
-export default function Legend({ showHotspots }) {
+export default function Legend({ showHotspots, showPopDensity }) {
   const [open, setOpen] = useState(() => window.innerWidth >= 640)
 
   return (
@@ -64,6 +64,27 @@ export default function Legend({ showHotspots }) {
                 />
                 <span className="text-xs text-gray-500">High</span>
               </div>
+            </>
+          )}
+
+          {showPopDensity && (
+            <>
+              <h3 className="text-xs font-semibold text-gray-400 tracking-wider mt-4 mb-2">
+                Population Density
+              </h3>
+              <div className="flex items-center gap-1">
+                <span className="text-xs text-gray-500">Low</span>
+                <div
+                  className="h-3 w-[140px] rounded"
+                  style={{
+                    background: 'linear-gradient(to right, #eff6ff, #93c5fd, #3b82f6, #1d4ed8, #1e3a8a, #312e81)',
+                  }}
+                />
+                <span className="text-xs text-gray-500">High</span>
+              </div>
+              <p className="text-xs text-gray-500 mt-1 max-w-[180px]">
+                Residents per km²
+              </p>
             </>
           )}
         </div>
