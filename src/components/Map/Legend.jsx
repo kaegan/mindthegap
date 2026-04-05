@@ -42,8 +42,12 @@ export default function Legend({ showHotspots }) {
             <span className="text-xs text-gray-500">High</span>
           </div>
           <p className="text-xs text-gray-500 mt-2 max-w-[180px]">
-            High population density + low transit access = coverage gap
+            Fewer transit trips per resident = larger coverage gap
           </p>
+          <div className="flex items-center gap-1.5 mt-2">
+            <div className="w-4 h-3 rounded" style={{ backgroundColor: '#d1d5db' }} />
+            <span className="text-xs text-gray-500">Low density (ungraded)</span>
+          </div>
 
           {showHotspots && (
             <>

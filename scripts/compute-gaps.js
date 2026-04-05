@@ -95,14 +95,16 @@ function main() {
   console.log(`  Max transit trips near any DA: ${maxTrips}`)
   console.log(`  Max population density: ${maxPopDensity}/km²`)
 
-  // Second pass: percentile-based normalization for better visual contrast
-  // Instead of dividing by max (which makes everything cluster near 0 or 1),
-  // we rank each DA against all others — so scores spread evenly across 0-1
-  console.log('Step 4: Computing percentile-based scores...')
+  // Density floor: DAs below this are classified as "low density" and
+  // rendered differently on the map (gray, ungraded)
+  const DENSITY_FLOOR = 400 // people/km²
 
-  // Collect raw values and sort to compute percentiles
-  const transitValues = das.features.map(da => da.properties.transit_trips).sort((a, b) => a - b)
-  const popValues = das.features.map(da => da.properties.pop_density).sort((a, b) => a - b)
+  // Second pass: per-capita coverage scoring
+  // Instead of population × (1 - transit), we use trips_per_capita to measure
+  // how well-served residents actually are. This prevents high-density areas
+  // with decent transit from being penalized, and avoids misleading "great
+  // coverage" labels on empty rural areas.
+  console.log('Step 4: Computing per-capita coverage scores...')
 
   function percentileRank(sortedArr, value) {
     let count = 0
@@ -113,26 +115,66 @@ function main() {
     return sortedArr.length > 1 ? count / (sortedArr.length - 1) : 0
   }
 
+  // Separate above/below density floor
+  const aboveFloor = das.features.filter(da =>
+    da.properties.pop_density >= DENSITY_FLOOR && da.properties.population > 0
+  )
+  const belowFloor = das.features.filter(da =>
+    da.properties.pop_density < DENSITY_FLOOR || da.properties.population === 0
+  )
+
+  console.log(`  ${aboveFloor.length} DAs above density floor (${DENSITY_FLOOR}/km²)`)
+  console.log(`  ${belowFloor.length} DAs below density floor`)
+
+  // Compute trips-per-capita for above-floor DAs
+  for (const da of aboveFloor) {
+    da.properties._tpc = da.properties.transit_trips / da.properties.population
+  }
+
+  // Percentile rank trips-per-capita among above-floor DAs only
+  const tpcValues = aboveFloor.map(da => da.properties._tpc).sort((a, b) => a - b)
+
+  // Also compute transit and population percentiles across ALL DAs (for display context)
+  const transitValues = das.features.map(da => da.properties.transit_trips).sort((a, b) => a - b)
+  const popValues = das.features.map(da => da.properties.pop_density).sort((a, b) => a - b)
+
   let gapCount = 0
 
-  for (const da of das.features) {
-    // Transit score: percentile rank (0 = worst transit, 1 = best transit)
+  for (const da of aboveFloor) {
+    const tpcPercentile = percentileRank(tpcValues, da.properties._tpc)
     const transitScore = percentileRank(transitValues, da.properties.transit_trips)
-
-    // Population pressure: percentile rank (0 = least dense, 1 = densest)
     const popPressure = percentileRank(popValues, da.properties.pop_density)
 
-    // Gap score: high population × low transit access
-    // Areas with zero population get score 0 regardless of transit
-    const gapScore = da.properties.population === 0 ? 0 : popPressure * (1 - transitScore)
+    // Coverage gap = inverse of per-capita transit access, squared to
+    // compress the middle and make red areas genuinely stand out
+    const gapScore = (1 - tpcPercentile) ** 2
 
     da.properties.transit_score = Math.round(transitScore * 1000) / 1000
     da.properties.pop_pressure = Math.round(popPressure * 1000) / 1000
     da.properties.gap_score = Math.round(gapScore * 1000) / 1000
+    da.properties.trips_per_capita = Math.round(da.properties._tpc * 100) / 100
+    da.properties.low_density = false
 
     if (gapScore > 0.5) gapCount++
 
-    // Clean up intermediate properties to reduce file size
+    delete da.properties.transit_trips
+    delete da.properties.centroid_lon
+    delete da.properties.centroid_lat
+    delete da.properties._tpc
+  }
+
+  for (const da of belowFloor) {
+    const transitScore = percentileRank(transitValues, da.properties.transit_trips)
+    const popPressure = percentileRank(popValues, da.properties.pop_density)
+
+    da.properties.transit_score = Math.round(transitScore * 1000) / 1000
+    da.properties.pop_pressure = Math.round(popPressure * 1000) / 1000
+    da.properties.gap_score = 0
+    da.properties.trips_per_capita = da.properties.population > 0
+      ? Math.round((da.properties.transit_trips / da.properties.population) * 100) / 100
+      : 0
+    da.properties.low_density = true
+
     delete da.properties.transit_trips
     delete da.properties.centroid_lon
     delete da.properties.centroid_lat

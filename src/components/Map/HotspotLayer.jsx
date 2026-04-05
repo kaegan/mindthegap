@@ -5,7 +5,7 @@ import centroid from '@turf/centroid'
 
 function geojsonToHeatPoints(geojson) {
   return geojson.features
-    .filter(f => f.properties.gap_score > 0.45)
+    .filter(f => f.properties.gap_score > 0.45 && !f.properties.low_density)
     .map(f => {
       const c = centroid(f)
       const [lng, lat] = c.geometry.coordinates
