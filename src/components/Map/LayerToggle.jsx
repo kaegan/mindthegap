@@ -7,10 +7,12 @@ import { IconShipFillDuo18 as Ship } from 'nucleo-ui-fill-duo-18'
 import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
 import { IconLayers3FillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
 import { IconFireFlameFillDuo18 as Flame } from 'nucleo-ui-fill-duo-18'
+import { IconPeopleFillDuo18 as People } from 'nucleo-ui-fill-duo-18'
 
 export default function LayerToggle({
   showGaps, setShowGaps,
   showHotspots, setShowHotspots,
+  showPopDensity, setShowPopDensity,
   showBus, setShowBus,
   showSkyTrain, setShowSkyTrain,
   showSeaBus, setShowSeaBus,
@@ -61,7 +63,7 @@ export default function LayerToggle({
               Coverage Gaps
             </span>
           </label>
-          <label className="flex items-center gap-2 cursor-pointer mb-3">
+          <label className="flex items-center gap-2 cursor-pointer mb-2">
             <input
               type="checkbox"
               checked={showHotspots}
@@ -71,6 +73,18 @@ export default function LayerToggle({
             <span className="flex items-center gap-1.5 text-sm text-gray-700">
               <Hotspot size={14} style={{ color: '#8b5cf6' }} />
               Hotspots
+            </span>
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer mb-3">
+            <input
+              type="checkbox"
+              checked={showPopDensity}
+              onChange={(e) => { setShowPopDensity(e.target.checked); trackToggle('pop_density', e.target.checked) }}
+              className="rounded accent-blue-700"
+            />
+            <span className="flex items-center gap-1.5 text-sm text-gray-700">
+              <People size={14} style={{ color: '#1d4ed8' }} />
+              Population Density
             </span>
           </label>
 

@@ -5,6 +5,7 @@ import posthog from 'posthog-js'
 import Legend from './Legend'
 import LayerToggle from './LayerToggle'
 import HotspotLayer from './HotspotLayer'
+import PopDensityLayer from './PopDensityLayer'
 import ReportCard from './ReportCard'
 import NearbyStopsMarkers from './NearbyStopsMarkers'
 import GapExplorer from './GapExplorer'
@@ -258,6 +259,7 @@ function MapSection() {
   const [stopsData, setStopsData] = useState(null)
   const [showGaps, setShowGaps] = useState(true)
   const [showHotspots, setShowHotspots] = useState(false)
+  const [showPopDensity, setShowPopDensity] = useState(false)
   const [showBus, setShowBus] = useState(false)
   const [showSkyTrain, setShowSkyTrain] = useState(false)
   const [showSeaBus, setShowSeaBus] = useState(false)
@@ -339,6 +341,7 @@ function MapSection() {
               />
             )}
             {showHotspots && gapData && <HotspotLayer data={gapData} />}
+            {showPopDensity && gapData && <PopDensityLayer data={gapData} />}
             {showBus && routeData && <TransitRouteLayer data={routeData} mode="bus" />}
             {showBus && stopsData && <BusStops stopsData={stopsData} />}
             {showWCE && routeData && <TransitRouteLayer data={routeData} mode="commuter_rail" />}
@@ -351,12 +354,14 @@ function MapSection() {
         </div>
 
         {/* Floating UI panels */}
-        <Legend showHotspots={showHotspots} />
+        <Legend showHotspots={showHotspots} showPopDensity={showPopDensity} />
         <LayerToggle
           showGaps={showGaps}
           setShowGaps={setShowGaps}
           showHotspots={showHotspots}
           setShowHotspots={setShowHotspots}
+          showPopDensity={showPopDensity}
+          setShowPopDensity={setShowPopDensity}
           showBus={showBus}
           setShowBus={setShowBus}
           showSkyTrain={showSkyTrain}
