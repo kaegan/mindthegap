@@ -48,18 +48,25 @@ export function getPercentileLabel(percentile) {
 }
 
 const GRADES = [
-  { max: 0.2, letter: 'A', label: 'Excellent coverage', textColor: '#15803d' },
-  { max: 0.4, letter: 'B', label: 'Good coverage', textColor: '#a16207' },
-  { max: 0.6, letter: 'C', label: 'Moderate gap', textColor: '#c2410c' },
-  { max: 0.8, letter: 'D', label: 'High coverage gap', textColor: '#dc2626' },
-  { max: 1.0, letter: 'F', label: 'Critical gap', textColor: '#991b1b' },
+  { max: 0.2, letter: 'A', label: 'Well covered', textColor: '#15803d' },
+  { max: 0.4, letter: 'B', label: 'Adequate coverage', textColor: '#a16207' },
+  { max: 0.6, letter: 'C', label: 'Below average', textColor: '#c2410c' },
+  { max: 0.8, letter: 'D', label: 'Poorly covered', textColor: '#dc2626' },
+  { max: 1.0, letter: 'F', label: 'Severely underserved', textColor: '#991b1b' },
 ]
 
-export function getGrade(gapScore) {
+export const LOW_DENSITY_GRADE = {
+  letter: '\u2013',
+  label: 'Low density',
+  color: '#9ca3af',
+}
+
+export function getGrade(gapScore, lowDensity) {
+  if (lowDensity) return LOW_DENSITY_GRADE
   for (const g of GRADES) {
     if (gapScore <= g.max) {
       return { letter: g.letter, label: g.label, color: getGapColor(gapScore), textColor: g.textColor }
     }
   }
-  return { letter: 'F', label: 'Critical gap', color: getGapColor(1), textColor: '#991b1b' }
+  return { letter: 'F', label: 'Severely underserved', color: getGapColor(1), textColor: '#991b1b' }
 }

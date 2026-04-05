@@ -102,7 +102,7 @@ function StopItem({ stop }) {
   )
 }
 
-function MethodologySection({ popPressure, transitScore, gapScore }) {
+function MethodologySection({ tripsPerCapita, gapScore }) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -119,19 +119,15 @@ function MethodologySection({ popPressure, transitScore, gapScore }) {
       {open && (
         <div className="mt-2 cs-panel p-3 text-[11px] text-gray-600 space-y-2">
           <div>
-            The gap score measures how underserved an area is by transit relative to its population density.
+            The coverage gap measures how many transit trips are available per resident within walking distance (600m).
           </div>
           <div className="font-mono text-[10px] bg-gray-50 rounded p-2 text-gray-700">
-            gap = pop_pressure &times; (1 &minus; transit_access)
+            gap = (1 &minus; trips_per_capita_percentile)&sup2;
           </div>
           <div className="space-y-1">
             <div className="flex justify-between">
-              <span className="text-gray-500">Population pressure</span>
-              <span className="font-medium">{(popPressure || 0).toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-500">Transit access</span>
-              <span className="font-medium">{(transitScore || 0).toFixed(2)}</span>
+              <span className="text-gray-500">Trips / resident</span>
+              <span className="font-medium">{(tripsPerCapita || 0).toFixed(1)}</span>
             </div>
             <div className="flex justify-between border-t border-gray-100 pt-1 mt-1">
               <span className="text-gray-500">Gap score</span>
@@ -139,7 +135,7 @@ function MethodologySection({ popPressure, transitScore, gapScore }) {
             </div>
           </div>
           <div className="text-gray-400 text-[10px]">
-            Values are percentile-ranked across all areas in Metro Vancouver. A high gap score means many people live here but transit service is limited.
+            Trips per capita is percentile-ranked against all areas above 400 residents/km² in Metro Vancouver. Areas below that density are shown in gray and not graded.
           </div>
         </div>
       )}
@@ -151,7 +147,9 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
   if (!feature) return null
 
   const p = feature.properties
-  const grade = getGrade(p.gap_score || 0)
+  const isLowDensity = p.low_density
+  const grade = getGrade(p.gap_score || 0, isLowDensity)
+  const gapPercentile = getPercentile(p.gap_score || 0, metroStats.gapScores)
   const transitPercentile = getPercentile(p.transit_score || 0, metroStats.transitScores)
   const locationName = useLocationName(feature)
 
@@ -178,16 +176,27 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
         <div className="flex items-center gap-3">
           <GradeCircle grade={grade} />
           <div>
-            <div className="text-gray-900 font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
-            <div className="text-xs font-medium" style={{ color: grade.textColor }}>{grade.label}</div>
+            {isLowDensity ? (
+              <>
+                <div className="text-gray-500 font-semibold">Low density</div>
+                <div className="text-xs text-gray-400">Under 400 residents/km² — not graded</div>
+              </>
+            ) : (
+              <>
+                <div className="text-gray-900 font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
+                <div className="text-xs font-medium" style={{ color: grade.textColor }}>{grade.label}</div>
+                <div className="text-[11px] text-gray-500">{getPercentileLabel(gapPercentile)} in Metro Vancouver</div>
+              </>
+            )}
           </div>
         </div>
 
-        <MethodologySection
-          popPressure={p.pop_pressure}
-          transitScore={p.transit_score}
-          gapScore={p.gap_score}
-        />
+        {!isLowDensity && (
+          <MethodologySection
+            tripsPerCapita={p.trips_per_capita}
+            gapScore={p.gap_score}
+          />
+        )}
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-2">
@@ -204,10 +213,10 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
             sub="/km²"
           />
           <StatBox
-            icon={Route}
-            label="Transit Access"
-            value={`${Math.round((p.transit_score || 0) * 100)}%`}
-            sub={getPercentileLabel(transitPercentile)}
+            icon={Bus}
+            label="Trips / Resident"
+            value={(p.trips_per_capita || 0).toFixed(1)}
+            sub={isLowDensity ? '' : getPercentileLabel(transitPercentile)}
           />
           <StatBox
             icon={Compass}
@@ -217,8 +226,10 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
           />
         </div>
 
-        {/* Comparison bar */}
-        <ComparisonBar gapScore={p.gap_score || 0} avgGapScore={metroStats.avgGapScore} />
+        {/* Comparison bar — only for graded areas */}
+        {!isLowDensity && (
+          <ComparisonBar gapScore={p.gap_score || 0} avgGapScore={metroStats.avgGapScore} />
+        )}
 
         {/* Nearest stops */}
         {nearestStops.length > 0 && (

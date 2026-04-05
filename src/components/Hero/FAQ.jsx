@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     q: 'How is the gap score calculated?',
-    a: "For each area, I count the total daily transit trips within a 600-meter walking distance of its centre. I then normalize both population pressure and transit access into percentiles. The gap score is: population pressure percentile multiplied by (1 minus transit access percentile). High population + low transit = high gap.",
+    a: "For each area, I count the total daily transit trips within a 600-meter walking distance of its centre and divide by the resident population to get trips per capita. That per-capita figure is percentile-ranked against all areas above a density floor (400 people/km\u00B2), and the gap score is the squared inverse of that percentile. Fewer trips per resident = higher gap. Areas below the density floor are shown in gray and left ungraded.",
   },
   {
     q: 'Is the data accurate?',

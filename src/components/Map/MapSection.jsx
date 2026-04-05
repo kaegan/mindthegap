@@ -10,7 +10,7 @@ import NearbyStopsMarkers from './NearbyStopsMarkers'
 import GapExplorer from './GapExplorer'
 import FlyToFeature from './FlyToFeature'
 import L from 'leaflet'
-import { getGapColor } from '../../utils/colors'
+import { getGapColor, LOW_DENSITY_COLOR } from '../../utils/colors'
 import { computeMetroStats } from '../../utils/gapStats'
 import { findNearestStops } from '../../utils/nearestStops'
 
@@ -23,16 +23,16 @@ function fetchTopoJSON(url, layerName) {
 const VANCOUVER_CENTER = [49.25, -123.1]
 const DEFAULT_ZOOM = 11
 
-const DEFAULT_STYLE = (score) => ({
-  fillColor: getGapColor(score),
-  fillOpacity: 0.65,
+const DEFAULT_STYLE = (score, lowDensity) => ({
+  fillColor: lowDensity ? LOW_DENSITY_COLOR : getGapColor(score),
+  fillOpacity: lowDensity ? 0.35 : 0.65,
   weight: 0.5,
   color: 'rgba(0,0,0,0.08)',
 })
 
-const HIGHLIGHT_STYLE = (score) => ({
-  fillColor: getGapColor(score),
-  fillOpacity: 0.85,
+const HIGHLIGHT_STYLE = (score, lowDensity) => ({
+  fillColor: lowDensity ? LOW_DENSITY_COLOR : getGapColor(score),
+  fillOpacity: lowDensity ? 0.55 : 0.85,
   weight: 3,
   color: '#111827',
 })
@@ -79,16 +79,21 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
     layersRef.current.set(dauid, layer)
 
     const densityStr = (p.pop_density || 0).toLocaleString()
-    const transitPct = Math.round((p.transit_score || 0) * 100)
-    const gapStr = (p.gap_score || 0).toFixed(2)
-    const content = `<div style="font-size:13px; line-height:1.5">
-        <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
-        <div style="color:#4b5563">Population density: ${densityStr}/km²</div>
-        <div style="color:#4b5563">Transit access: ${transitPct}%</div>
-        <div style="font-weight:600; color:${getGapColor(p.gap_score || 0)}; margin-top:2px">
-          Gap score: ${gapStr}
-        </div>
-      </div>`
+
+    const content = p.low_density
+      ? `<div style="font-size:13px; line-height:1.5">
+          <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
+          <div style="color:#6b7280">Low density (${densityStr}/km²)</div>
+          <div style="color:#9ca3af; margin-top:2px">Not graded</div>
+        </div>`
+      : `<div style="font-size:13px; line-height:1.5">
+          <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
+          <div style="color:#4b5563">Density: ${densityStr}/km²</div>
+          <div style="color:#4b5563">Trips/resident: ${(p.trips_per_capita || 0).toFixed(1)}</div>
+          <div style="font-weight:600; color:${getGapColor(p.gap_score || 0)}; margin-top:2px">
+            Coverage gap: ${(p.gap_score || 0).toFixed(2)}
+          </div>
+        </div>`
 
     layer.on('mouseover', () => {
       if (!draggingRef.current) tooltipRef.current.setContent(content)
@@ -118,14 +123,15 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
   useEffect(() => {
     // Reset previous
     if (selectedLayerRef.current) {
-      const prevScore = selectedLayerRef.current.feature.properties.gap_score || 0
-      selectedLayerRef.current.setStyle(DEFAULT_STYLE(prevScore))
+      const prev = selectedLayerRef.current.feature.properties
+      selectedLayerRef.current.setStyle(DEFAULT_STYLE(prev.gap_score || 0, prev.low_density))
     }
     // Highlight new
     if (selectedDAUID) {
       const layer = layersRef.current.get(selectedDAUID)
       if (layer) {
-        layer.setStyle(HIGHLIGHT_STYLE(layer.feature.properties.gap_score || 0))
+        const props = layer.feature.properties
+        layer.setStyle(HIGHLIGHT_STYLE(props.gap_score || 0, props.low_density))
         layer.bringToFront()
         selectedLayerRef.current = layer
       }
@@ -135,9 +141,9 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
   }, [selectedDAUID])
 
   const style = (feature) => {
-    const score = feature.properties.gap_score || 0
-    if (feature.properties.dauid === selectedDAUID) return HIGHLIGHT_STYLE(score)
-    return DEFAULT_STYLE(score)
+    const { gap_score, low_density, dauid } = feature.properties
+    if (dauid === selectedDAUID) return HIGHLIGHT_STYLE(gap_score || 0, low_density)
+    return DEFAULT_STYLE(gap_score || 0, low_density)
   }
 
   return <GeoJSON data={data} style={style} onEachFeature={onEachFeature} />
