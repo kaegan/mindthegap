@@ -4,7 +4,7 @@ import { IconPlusFillDuo18 as Plus } from 'nucleo-ui-fill-duo-18'
 const faqs = [
   {
     q: 'What does this map actually show?',
-    a: 'Every dot is one of the 966 signalized intersections in the City of Vancouver, scored and colored by how many crashes (and how many injuries) it has seen over five years. Bigger, redder dots are the riskiest.',
+    a: 'By default the map shows the 25 most dangerous signalized intersections in Vancouver, ranked by five years of crash data — click any numbered badge to see the full breakdown. Enable "All intersections" in the layer panel to reveal all 966 signals as a heat map: bigger, redder dots are riskier.',
   },
   {
     q: 'Where does the data come from?',

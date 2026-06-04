@@ -10,7 +10,7 @@ function radiusFor(totalCrashes) {
   return Math.max(4, Math.min(14, 3 + Math.sqrt(totalCrashes) * 0.7))
 }
 
-export default function IntersectionLayer({ data, predicate, selectedKey, onSelect }) {
+export default function IntersectionLayer({ data, predicate, dim, selectedKey, onSelect }) {
   const visible = useMemo(
     () => data.features.filter(f => (predicate ? predicate(f.properties) : true)),
     [data, predicate]
@@ -30,7 +30,7 @@ export default function IntersectionLayer({ data, predicate, selectedKey, onSele
             radius={isSelected ? radiusFor(p.total_crashes) + 4 : radiusFor(p.total_crashes)}
             pathOptions={{
               fillColor: getRiskColor(p.risk_score),
-              fillOpacity: 0.8,
+              fillOpacity: dim ? 0.35 : 0.8,
               color: isSelected ? '#111827' : 'rgba(0,0,0,0.25)',
               weight: isSelected ? 3 : 0.75,
             }}
