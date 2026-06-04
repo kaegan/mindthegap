@@ -1,11 +1,9 @@
 import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
-import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
-import { IconPeopleFillDuo18 as People } from 'nucleo-ui-fill-duo-18'
-import { IconGrid4x4FillDuo18 as Grid } from 'nucleo-ui-fill-duo-18'
-import { IconRouteFillDuo18 as Route } from 'nucleo-ui-fill-duo-18'
-import { IconCompassFillDuo18 as Compass } from 'nucleo-ui-fill-duo-18'
+import { IconCollisionFillDuo18 as Crash } from 'nucleo-ui-fill-duo-18'
+import { IconHeartPulseFillDuo18 as Pulse } from 'nucleo-ui-fill-duo-18'
+import { IconShieldFillDuo18 as Shield } from 'nucleo-ui-fill-duo-18'
+import { IconCircleSignalFillDuo18 as Signal } from 'nucleo-ui-fill-duo-18'
 import { getGrade, getPercentile, getPercentileLabel } from '../../utils/gapStats'
-import { getGapColor } from '../../utils/colors'
 
 function GradeCircle({ grade }) {
   return (
@@ -31,22 +29,20 @@ function StatBox({ label, value, sub, icon: Icon }) {
   )
 }
 
-function ComparisonBar({ gapScore, avgGapScore }) {
-  const pct = Math.min(gapScore, 1) * 100
-  const avgPct = Math.min(avgGapScore, 1) * 100
+function ComparisonBar({ riskScore, avgRiskScore }) {
+  const pct = Math.min(riskScore, 1) * 100
+  const avgPct = Math.min(avgRiskScore, 1) * 100
 
   return (
     <div className="mt-4">
-      <div className="text-xs text-gray-400 mb-2">Gap Score vs Metro Average</div>
+      <div className="text-xs text-gray-400 mb-2">Risk vs City Average</div>
       <div className="relative h-3 rounded-full overflow-hidden" style={{
         background: `linear-gradient(to right, #fef3c7, #f59e0b, #dc2626)`
       }}>
-        {/* Metro average marker */}
         <div
           className="absolute top-0 h-full w-0.5 bg-gray-800/80"
           style={{ left: `${avgPct}%` }}
         />
-        {/* This area marker */}
         <div
           className="absolute -top-1 w-0 h-0"
           style={{
@@ -59,49 +55,61 @@ function ComparisonBar({ gapScore, avgGapScore }) {
         />
       </div>
       <div className="flex justify-between text-[10px] text-gray-500 mt-1">
-        <span>Low gap</span>
-        <span>High gap</span>
+        <span>Low risk</span>
+        <span>High risk</span>
       </div>
       <div className="flex gap-4 mt-1.5 text-[11px]">
-        <span className="text-gray-600">▲ This area: {gapScore.toFixed(2)}</span>
-        <span className="text-gray-500">│ Avg: {avgGapScore.toFixed(2)}</span>
+        <span className="text-gray-600">▲ This intersection: {riskScore.toFixed(2)}</span>
+        <span className="text-gray-500">│ Avg: {avgRiskScore.toFixed(2)}</span>
       </div>
     </div>
   )
 }
 
-function StopItem({ stop }) {
+function CrashesByYear({ byYear }) {
+  const years = Object.keys(byYear).sort()
+  if (years.length === 0) return null
+  const max = Math.max(...years.map(y => byYear[y]))
   return (
-    <div className="flex items-start gap-2.5 py-2 border-b border-gray-100 last:border-0">
-      <Bus size={14} className="text-cyan-400 mt-0.5 shrink-0" />
-      <div className="flex-1 min-w-0">
-        <div className="text-sm text-gray-900 truncate">{stop.name}</div>
-        <div className="text-[11px] text-gray-500">{stop.distance_m}m away</div>
+    <div className="mt-1">
+      <div className="text-xs text-gray-400 mb-2 font-medium">Crashes by Year</div>
+      <div className="cs-panel p-3 flex items-end justify-between gap-2 h-24">
+        {years.map(y => (
+          <div key={y} className="flex flex-col items-center gap-1 flex-1">
+            <div className="text-[10px] text-gray-500">{byYear[y]}</div>
+            <div
+              className="w-full rounded-t"
+              style={{ height: `${Math.max(4, (byYear[y] / max) * 56)}px`, backgroundColor: '#f97316' }}
+            />
+            <div className="text-[10px] text-gray-400">{y.slice(2)}</div>
+          </div>
+        ))}
       </div>
-      <div className="text-[11px] text-cyan-400/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
     </div>
   )
 }
 
-export default function ReportCard({ feature, nearestStops, metroStats, onClose }) {
+export default function ReportCard({ feature, cityStats, onClose }) {
   if (!feature) return null
 
   const p = feature.properties
-  const grade = getGrade(p.gap_score || 0)
-  const gapPercentile = getPercentile(p.gap_score || 0, metroStats.gapScores)
-  const transitPercentile = getPercentile(p.transit_score || 0, metroStats.transitScores)
+  const grade = getGrade(p.risk_score || 0)
+  const riskPercentile = getPercentile(p.risk_score || 0, cityStats.riskScores)
 
   return (
     <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[60vh] z-[1001] cs-panel overflow-y-auto flex flex-col">
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
-        <div>
-          <h3 className="text-gray-900 font-semibold text-base">{p.name || 'Area'}</h3>
-          <div className="text-xs text-gray-500">{p.dauid}</div>
+        <div className="min-w-0 pr-2">
+          <h3 className="text-gray-900 font-semibold text-base leading-tight">{p.name}</h3>
+          <div className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+            <Signal size={11} className="text-gray-400 shrink-0" />
+            {p.signal_type}{p.neighbourhood ? ` · ${p.neighbourhood}` : ''}
+          </div>
         </div>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-700 transition-colors p-1 -mr-1 -mt-1"
+          className="text-gray-400 hover:text-gray-700 transition-colors p-1 -mr-1 -mt-1 shrink-0"
         >
           <X size={18} />
         </button>
@@ -112,54 +120,45 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
         <div className="flex items-center gap-3">
           <GradeCircle grade={grade} />
           <div>
-            <div className="text-gray-900 font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
+            <div className="text-gray-900 font-semibold">{(p.risk_score || 0).toFixed(2)}</div>
             <div className="text-xs" style={{ color: grade.color }}>{grade.label}</div>
-            <div className="text-[11px] text-gray-500">{getPercentileLabel(gapPercentile)} in Metro Vancouver</div>
+            <div className="text-[11px] text-gray-500">{getPercentileLabel(riskPercentile)} in Vancouver</div>
           </div>
         </div>
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-2">
           <StatBox
-            icon={People}
-            label="Population"
-            value={(p.population || 0).toLocaleString()}
-            sub="residents"
+            icon={Crash}
+            label="Total crashes"
+            value={(p.total_crashes || 0).toLocaleString()}
+            sub="2016–2020"
           />
           <StatBox
-            icon={Grid}
-            label="Density"
-            value={(p.pop_density || 0).toLocaleString()}
-            sub="/km²"
+            icon={Pulse}
+            label="With injuries"
+            value={(p.casualty_crashes || 0).toLocaleString()}
+            sub="casualty crashes"
           />
           <StatBox
-            icon={Route}
-            label="Transit Access"
-            value={`${Math.round((p.transit_score || 0) * 100)}%`}
-            sub={getPercentileLabel(transitPercentile)}
+            icon={Shield}
+            label="Property only"
+            value={(p.pdo_crashes || 0).toLocaleString()}
+            sub="no injuries"
           />
           <StatBox
-            icon={Compass}
-            label="Land Area"
-            value={`${(p.land_area_km2 || 0).toFixed(2)}`}
-            sub="km²"
+            icon={Pulse}
+            label="Injury rate"
+            value={`${p.casualty_rate || 0}%`}
+            sub="of all crashes"
           />
         </div>
 
         {/* Comparison bar */}
-        <ComparisonBar gapScore={p.gap_score || 0} avgGapScore={metroStats.avgGapScore} />
+        <ComparisonBar riskScore={p.risk_score || 0} avgRiskScore={cityStats.avgRiskScore} />
 
-        {/* Nearest stops */}
-        {nearestStops.length > 0 && (
-          <div className="mt-1">
-            <div className="text-xs text-gray-400 mb-2 font-medium">Nearest Transit Stops</div>
-            <div className="cs-panel p-2">
-              {nearestStops.map(stop => (
-                <StopItem key={stop.stop_id} stop={stop} />
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Crashes by year */}
+        <CrashesByYear byYear={p.crashes_by_year || {}} />
       </div>
     </div>
   )

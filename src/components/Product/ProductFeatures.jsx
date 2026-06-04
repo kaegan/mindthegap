@@ -3,43 +3,46 @@ import { IconMapFillDuo18 as Map } from 'nucleo-ui-fill-duo-18'
 import { IconCursorRippleFillDuo18 as MousePointerClick } from 'nucleo-ui-fill-duo-18'
 import { IconLayersFillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
 import { IconHotspotFillDuo18 as BarChart3 } from 'nucleo-ui-fill-duo-18'
-import neighborhoodScoredImg from '../../assets/neighborhood-scored.png'
-import fullPictureImg from '../../assets/full-picture.png'
-import multimodalLayerImg from '../../assets/multimodal-layer.png'
-import hotspotImg from '../../assets/hotspot.png'
+// Screenshots live in /public/screenshots and are referenced by URL so a
+// missing capture degrades to the ScreenshotFrame placeholder instead of
+// breaking the build.
+const neighborhoodScoredImg = '/screenshots/risk-scored.png'
+const fullPictureImg = '/screenshots/report-card.png'
+const multimodalLayerImg = '/screenshots/highlight-injury.png'
+const hotspotImg = '/screenshots/hotspots.png'
 
 const features = [
   {
     icon: Map,
-    tag: 'Coverage Analysis',
-    headline: 'Every neighborhood, scored',
-    body: 'MindTheGap analyzes 3,590 dissemination areas across Metro Vancouver, combining population density with transit accessibility to produce a single gap score for each zone.',
+    tag: 'Risk Analysis',
+    headline: 'Every intersection, scored',
+    body: 'MindTheGap scores all 966 signalized intersections in Vancouver, joining five years of ICBC crash records to each signal and weighting injury crashes more heavily to produce a single 0–1 risk score.',
     screenshot: neighborhoodScoredImg,
-    alt: 'Heatmap showing transit coverage gaps across Metro Vancouver',
+    alt: 'Map of Vancouver intersections colored by crash risk',
   },
   {
     icon: MousePointerClick,
     tag: 'Interactive Reports',
-    headline: 'Click any zone. Get the full picture.',
-    body: 'Select a neighborhood to open a detailed report card: gap score grade, population stats, nearest transit stops, and how the area compares to the metro average.',
+    headline: 'Click any intersection. Get the full crash profile.',
+    body: 'Select a signal to open a detailed report card: risk grade, total crashes, injury crashes, injury rate, a crashes-by-year trend, and how it compares to the city average.',
     screenshot: fullPictureImg,
-    alt: 'Report card showing gap score, population, and nearby transit stops',
+    alt: 'Report card showing crash counts, injury rate, and yearly trend',
   },
   {
     icon: Layers,
-    tag: 'Multi-Modal Layers',
-    headline: 'SkyTrain, bus, SeaBus, all on one map',
-    body: "Toggle transit layers on and off to see how different modes overlap. Quickly spot where rail coverage ends and bus routes don't pick up the slack.",
+    tag: 'Targeted Highlights',
+    headline: 'Filter to what matters',
+    body: "Highlight the intersections with the highest injury rates, or isolate pedestrian-actuated signals, to see where vulnerable road users are most exposed, not just where metal hits metal.",
     screenshot: multimodalLayerImg,
-    alt: 'Map with SkyTrain, bus, and SeaBus transit layers toggled on',
+    alt: 'Map filtered to high-injury-rate intersections',
   },
   {
     icon: BarChart3,
     tag: 'Hotspot Detection',
-    headline: 'Find the clusters that matter most',
-    body: 'The hotspot layer surfaces areas where multiple coverage gaps converge, helping planners prioritize the neighborhoods where new service would have the greatest impact.',
+    headline: 'Find the risk corridors that matter most',
+    body: 'The hotspot layer surfaces stretches where multiple high-risk intersections cluster, helping prioritize the corridors where a signal-timing or detection upgrade would prevent the most harm.',
     screenshot: hotspotImg,
-    alt: 'Hotspot heatmap highlighting clusters of transit coverage gaps',
+    alt: 'Heatmap highlighting clusters of high-risk intersections',
   },
 ]
 
@@ -108,7 +111,7 @@ export default function ProductFeatures() {
             Built to surface what's <span className="text-violet-600">hidden in plain sight</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
-            Transit maps show where service exists. MindTheGap shows where it doesn't, and who's affected.
+            A map of signals shows where the lights are. MindTheGap shows where they're failing people, and by how much.
           </p>
         </div>
 

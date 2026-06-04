@@ -20,17 +20,17 @@ function App() {
         <div className="absolute top-32 left-1/3 w-[400px] h-[300px] rounded-full bg-amber-200/[0.06] blur-[100px] pointer-events-none" />
 
         <h1 className="text-gray-900 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter max-w-4xl leading-[1.1] mb-6 font-heading">
-          67,000 residents live in Metro Vancouver's transit blind spots
+          Vancouver's most dangerous intersections, scored from 92,000 real crashes
         </h1>
         <p className="text-lg sm:text-xl text-gray-500 max-w-2xl leading-relaxed mb-10">
-          MindTheGap finds coverage gaps: areas where people live but buses don't reach.
+          MindTheGap scores every signalized intersection in Vancouver on five years of ICBC crash data, then surfaces the risk corridors that need attention first.
         </p>
 
         <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-8">
           {[
-            { value: '3,590', label: 'areas analyzed', color: 'text-violet-400', icon: MapPin },
-            { value: '67K', label: 'underserved', color: 'text-amber-400', icon: Users },
-            { value: '72', label: 'critical gaps', color: 'text-red-400', icon: AlertTriangle },
+            { value: '966', label: 'signals analyzed', color: 'text-violet-400', icon: MapPin },
+            { value: '34K', label: 'injury crashes', color: 'text-amber-400', icon: Users },
+            { value: '383', label: 'high-risk', color: 'text-red-400', icon: AlertTriangle },
           ].map((s) => (
             <div key={s.label} className="cs-panel px-4 py-2 sm:px-5 sm:py-2.5 flex items-center gap-2">
               <s.icon className={`w-4 h-4 sm:w-[18px] sm:h-[18px] ${s.color} opacity-70`} />
@@ -44,9 +44,9 @@ function App() {
       {/* ── Map ── */}
       <div id="map">
         <div className="text-center mb-6 px-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Transit Coverage Analysis</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Intersection Safety Analysis</p>
           <p className="text-sm text-gray-500 max-w-lg mx-auto">
-            Every colored zone is a neighborhood. The redder the zone, the more people are underserved by transit.
+            Every dot is a signalized intersection. The redder and bigger the dot, the more crashes and injuries it has seen.
           </p>
         </div>
         <div className="mx-4 sm:mx-8 rounded-xl border border-gray-200 max-w-7xl lg:mx-auto overflow-hidden">
@@ -64,7 +64,7 @@ function App() {
             A PM who still shows up to <span className="text-violet-600">city hall</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-xl mx-auto">
-            MindTheGap is a side project by a product manager who's spent a decade shipping software, and a lifetime caring about transit.
+            MindTheGap is a side project by a product manager who's spent a decade shipping software, and a lifetime caring about how cities move.
           </p>
         </div>
       </div>

@@ -9,7 +9,7 @@ export default function Footer() {
           <div className="flex flex-col items-center sm:items-start gap-3">
             <img src={logoSvg} alt="Mind the Gap" className="h-8 opacity-60" />
             <p className="text-sm text-gray-500 font-medium">
-              Mapping where Metro Vancouver's transit falls short.
+              Scoring where Vancouver's intersections fail people.
             </p>
           </div>
           <div className="flex flex-col items-center sm:items-end gap-2 text-sm text-gray-500">
@@ -19,9 +19,9 @@ export default function Footer() {
             </div>
             <p>
               Data from{' '}
-              <a href="https://www.translink.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">TransLink</a>
+              <a href="https://opendata.vancouver.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">City of Vancouver</a>
               {' & '}
-              <a href="https://www.statcan.gc.ca" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">Statistics Canada</a>
+              <a href="https://www.icbc.com/about-icbc/newsroom/Statistics" className="text-gray-500 hover:text-gray-900 transition-colors" target="_blank" rel="noopener noreferrer">ICBC</a>
             </p>
           </div>
         </div>

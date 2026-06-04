@@ -4,19 +4,19 @@ import { IconPlusFillDuo18 as Plus } from 'nucleo-ui-fill-duo-18'
 const faqs = [
   {
     q: 'What does this map actually show?',
-    a: 'It highlights dissemination areas (small census zones) in Metro Vancouver where people live but transit service is limited.',
+    a: 'Every dot is one of the 966 signalized intersections in the City of Vancouver, scored and colored by how many crashes (and how many injuries) it has seen over five years. Bigger, redder dots are the riskiest.',
   },
   {
     q: 'Where does the data come from?',
-    a: "Transit data comes from TransLink's GTFS feed (stop locations and trip frequencies). Population data comes from Statistics Canada's 2021 Census at the dissemination area level.",
+    a: "Two real open datasets: the City of Vancouver's traffic-signals dataset (the 966 signal locations) and ICBC's reported-crashes data for Vancouver, 2016–2020 (~27,000 geolocated records). No numbers are invented — every crash count is straight from ICBC.",
   },
   {
-    q: 'How is the gap score calculated?',
-    a: 'For each area, we count the total daily transit trips within a 600-meter walking distance of its center. We then normalize both population pressure and transit access into percentiles. The gap score is: population pressure percentile multiplied by (1 minus transit access percentile). High population + low transit = high gap.',
+    q: 'How is the risk score calculated?',
+    a: 'Each crash is snapped to its nearest signal within 50 meters. For every intersection we tally total crashes and weight injury (casualty) crashes 3× property-damage ones, then rank all 966 intersections into a 0–1 percentile. So the score is relative: a 0.9 means riskier than 90% of Vancouver signals.',
   },
   {
     q: "Wait a minute, isn't this vibe coded?",
-    a: "Busted! I built this with a mix of Figma and Claude Code. I'm definitely not a designer or a developer. This is meant to demonstrate that in just a few hours, I can whip something up that's passable. When paired with Spare's own design system, I should be able to prototype new ideas, and even push small changes to the app.",
+    a: "Busted! I built this with a mix of Figma and Claude Code. I'm definitely not a designer or a developer. This is meant to demonstrate that in just a few hours, I can whip something up that's passable. When paired with Miovision's own design system and data, I should be able to prototype new ideas, and even push small changes to the product.",
   },
   {
     q: "What's the point of vibe coding an app?",

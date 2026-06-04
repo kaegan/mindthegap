@@ -2,7 +2,7 @@ export default function Legend({ showHotspots }) {
   return (
     <div className="absolute bottom-20 left-4 z-[1000] cs-panel p-4">
       <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 font-heading">
-        Coverage Gap
+        Safety Risk
       </h3>
       <div className="flex items-center gap-1">
         <span className="text-xs text-gray-500">Low</span>
@@ -16,13 +16,14 @@ export default function Legend({ showHotspots }) {
         <span className="text-xs text-gray-500">High</span>
       </div>
       <p className="text-xs text-gray-500 mt-2 max-w-[180px]">
-        High population density + low transit access = coverage gap
+        5 years of ICBC crashes per signal, weighted by injury severity. Bigger
+        dot = more crashes.
       </p>
 
       {showHotspots && (
         <>
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-4 mb-2">
-            Hotspot Clusters
+            Risk Clusters
           </h3>
           <div className="flex items-center gap-1">
             <span className="text-xs text-gray-500">Low</span>

@@ -10,16 +10,16 @@ export const sections = [
     bg: 'bg-white',
   },
   {
-    id: 'why-spare',
-    headline: 'Transit + Product is the sweet spot',
+    id: 'why-miovision',
+    headline: 'Mobility + Product is the sweet spot',
     accentWord: 'sweet spot',
-    body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took a surprise turn to tech. After stints at Hootsuite and Baremetrics, I spent the last 7+ years building an AI-powered video creator for Enterprises at Lumen5.",
+    body: "I studied Human Geography at UBC with the goal of becoming a planner. Life took a surprise turn to tech. After stints at Hootsuite and Baremetrics, I spent the last 7+ years building an AI-powered video creator for Enterprises at Lumen5. Miovision is where the geographer and the PM finally work on the same problem.",
     timeline: [
       { label: 'UBC', sub: 'Human Geography' },
       { label: 'Hootsuite', sub: 'Social media' },
       { label: 'Baremetrics', sub: 'SaaS Analytics' },
       { label: 'Lumen5', sub: 'AI video, 7+ yrs' },
-      { label: 'Spare', sub: "What's next?", highlight: true },
+      { label: 'Miovision', sub: "What's next?", highlight: true },
     ],
     bg: 'bg-gray-50',
   },
@@ -27,7 +27,7 @@ export const sections = [
     id: 'advocate',
     headline: "I love talking about great products",
     accentWord: 'great products',
-    body: "In earlier years at Lumen5, I owned product marketing end-to-end, coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Spare, both with transit agencies and the broader product community.",
+    body: "In earlier years at Lumen5, I owned product marketing end-to-end, coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Miovision, both with the cities and DOTs you serve and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
     bg: 'bg-white',
   },
@@ -78,7 +78,7 @@ export const sections = [
   {
     id: 'contact',
     headline: "Let's talk",
-    body: "I'm open to both the Staff and Senior PM roles. Domain fit and being a strong contributor matters more to me than title.",
+    body: "I'm applying for the Senior Product Manager role on App Services (and happy to talk about the Director opening too). Domain fit and being a strong contributor matter more to me than title.",
     links: [
       { label: 'Email me', url: 'mailto:hello@mindthegap.fyi', primary: true, icon: 'email' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly', icon: 'linkedin' },
