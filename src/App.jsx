@@ -10,7 +10,7 @@ import Footer from './components/Layout/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
+    <div className="min-h-screen bg-surface text-text-primary font-sans">
       <Header />
 
       {/* ── Hero ── */}
@@ -19,10 +19,10 @@ function App() {
         <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-violet-300/[0.08] blur-[120px] pointer-events-none" />
         <div className="absolute top-32 left-1/3 w-[400px] h-[300px] rounded-full bg-amber-200/[0.06] blur-[100px] pointer-events-none" />
 
-        <h1 className="text-gray-900 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter max-w-4xl leading-[1.1] mb-6 font-heading">
+        <h1 className="text-text-primary text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tighter max-w-4xl leading-[1.1] mb-6 font-heading">
           Vancouver's most dangerous intersections, scored from 92,000 real crashes
         </h1>
-        <p className="text-lg sm:text-xl text-gray-500 max-w-2xl leading-relaxed mb-10">
+        <p className="text-lg sm:text-xl text-text-secondary max-w-2xl leading-relaxed mb-10">
           MindTheGap scores every signalized intersection in Vancouver on five years of ICBC crash data, then surfaces the risk corridors that need attention first.
         </p>
 
@@ -35,7 +35,7 @@ function App() {
             <div key={s.label} className="cs-panel px-4 py-2 sm:px-5 sm:py-2.5 flex items-center gap-2">
               <s.icon className={`w-4 h-4 sm:w-[18px] sm:h-[18px] ${s.color} opacity-70`} />
               <span className={`text-sm sm:text-base font-bold ${s.color}`}>{s.value}</span>
-              <span className="text-xs sm:text-sm text-gray-500">{s.label}</span>
+              <span className="text-xs sm:text-sm text-text-secondary">{s.label}</span>
             </div>
           ))}
         </div>
@@ -44,12 +44,12 @@ function App() {
       {/* ── Map ── */}
       <div id="map">
         <div className="text-center mb-6 px-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Intersection Safety Analysis</p>
-          <p className="text-sm text-gray-500 max-w-lg mx-auto">
-            Every dot is a signalized intersection. The redder and bigger the dot, the more crashes and injuries it has seen.
+          <p className="text-xs font-medium tracking-wide text-text-muted mb-2">Intersection Safety Analysis</p>
+          <p className="text-sm text-text-secondary max-w-lg mx-auto">
+            The top 25 most dangerous intersections are ranked and labelled by badge. Toggle the heatmap to see all 966 signalized intersections scored by crash history.
           </p>
         </div>
-        <div className="mx-4 sm:mx-8 rounded-xl border border-gray-200 max-w-7xl lg:mx-auto overflow-hidden">
+        <div className="mx-4 sm:mx-8 rounded-xl border border-border max-w-7xl lg:mx-auto overflow-hidden">
           <MapSection />
         </div>
       </div>
@@ -57,13 +57,13 @@ function App() {
       <ProductFeatures />
 
       {/* ── Transition: product → about ── */}
-      <div id="about" className="relative bg-gray-50 py-16 sm:py-20">
+      <div id="about" className="relative bg-surface-warm py-16 sm:py-20">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-3">About the builder</p>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tighter font-heading">
-            A PM who still shows up to <span className="text-violet-600">city hall</span>
+          <p className="text-xs font-medium tracking-wide text-text-muted mb-3">About the builder</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tighter font-heading">
+            A PM who still shows up to <span className="text-brand">city hall</span>
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-xl mx-auto">
+          <p className="mt-4 text-base sm:text-lg text-text-secondary max-w-xl mx-auto">
             MindTheGap is a side project by a product manager who's spent a decade shipping software, and a lifetime caring about how cities move.
           </p>
         </div>

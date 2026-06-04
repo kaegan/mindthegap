@@ -7,7 +7,7 @@ export const sections = [
     accentWord: 'Port Moody City Hall',
     body: "At 10 years old, I put on my best (only) suit and asked my mom to drive me to city hall so I could speak at a community hearing about the proposed Evergreen Line. It took two more decades, but the line was eventually built.",
     pullQuote: "I choose to believe these events are related.",
-    bg: 'bg-white',
+    bg: 'bg-surface',
   },
   {
     id: 'why-miovision',
@@ -21,7 +21,7 @@ export const sections = [
       { label: 'Lumen5', sub: 'AI video, 7+ yrs' },
       { label: 'Miovision', sub: "What's next?", highlight: true },
     ],
-    bg: 'bg-gray-50',
+    bg: 'bg-surface-warm',
   },
   {
     id: 'advocate',
@@ -29,7 +29,7 @@ export const sections = [
     accentWord: 'great products',
     body: "In earlier years at Lumen5, I owned product marketing end-to-end, coordinating and building out materials for our launches. I would happily be an enthusiastic, credible advocate for Miovision, both with the cities and DOTs you serve and the broader product community.",
     youtube: 'https://www.youtube.com/embed/d9VSYecC5YM',
-    bg: 'bg-white',
+    bg: 'bg-surface',
   },
   {
     id: 'track-record',
@@ -40,7 +40,7 @@ export const sections = [
       { value: '30%', numericValue: 30, suffix: '%', iconName: 'Clapperboard', label: 'reduction in video creation time from AI-powered script generation' },
       { value: '25%', numericValue: 25, suffix: '%', iconName: 'Rocket', label: 'lift in activation thanks to undo/redo, faster rendering, and targeted onboarding' },
     ],
-    bg: 'bg-gray-50',
+    bg: 'bg-surface-warm',
   },
   {
     id: 'enterprise',
@@ -65,7 +65,7 @@ export const sections = [
       { name: 'Mitsubishi' },
       { name: 'Baker Hughes' },
     ],
-    bg: 'bg-white',
+    bg: 'bg-surface',
   },
   {
     id: 'approach',
@@ -73,7 +73,7 @@ export const sections = [
     accentWord: 'toolkit',
     body: "I'm not an engineer, but I speak the language well enough to be useful. At Lumen5, I led roadmap planning across four product teams, managed relationships with vendors like ElevenLabs and Shutterstock, and PM'd my own product team at the same time.",
     techLogos: true,
-    bg: 'bg-gray-50',
+    bg: 'bg-surface-warm',
   },
   {
     id: 'contact',
@@ -84,6 +84,6 @@ export const sections = [
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/kaegandonnelly', icon: 'linkedin' },
       { label: 'Resume & Cover Letter', url: 'https://canva.link/9smwv33yz6e02au', icon: 'resume' },
     ],
-    bg: 'bg-white',
+    bg: 'bg-surface',
   },
 ]

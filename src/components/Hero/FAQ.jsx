@@ -4,7 +4,7 @@ import { IconPlusFillDuo18 as Plus } from 'nucleo-ui-fill-duo-18'
 const faqs = [
   {
     q: 'What does this map actually show?',
-    a: 'Every dot is one of the 966 signalized intersections in the City of Vancouver, scored and colored by how many crashes (and how many injuries) it has seen over five years. Bigger, redder dots are the riskiest.',
+    a: 'By default the map shows the 25 most dangerous signalized intersections in Vancouver, ranked by five years of crash data — click any numbered badge to see the full breakdown. Enable "All intersections" in the layer panel to reveal all 966 signals as a heat map: bigger, redder dots are riskier.',
   },
   {
     q: 'Where does the data come from?',
@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "What's the point of vibe coding an app?",
-    a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-emerald-600 underline hover:text-emerald-500 transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels: Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
+    a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-brand underline hover:text-brand-hover transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels: Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
   },
 ]
 
@@ -36,15 +36,15 @@ function FAQItem({ q, a }) {
   }, [open])
 
   return (
-    <div className="border-b border-gray-200">
+    <div className="border-b border-border">
       <button
         className="w-full flex items-center justify-between py-5 text-left group"
         onClick={() => setOpen(!open)}
       >
-        <span className="text-base sm:text-lg font-medium text-gray-900 group-hover:text-violet-600 transition-colors pr-4">
+        <span className="text-base sm:text-lg font-medium text-text-primary group-hover:text-brand transition-colors pr-4">
           {q}
         </span>
-        <span className={`text-gray-500 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
+        <span className={`text-text-secondary shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
           <Plus className="w-5 h-5" />
         </span>
       </button>
@@ -53,7 +53,7 @@ function FAQItem({ q, a }) {
         className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{ maxHeight: open ? `${height}px` : '0px', opacity: open ? 1 : 0 }}
       >
-        <div className="pb-5 text-gray-500 leading-relaxed text-sm sm:text-base max-w-2xl">
+        <div className="pb-5 text-text-secondary leading-relaxed text-sm sm:text-base max-w-2xl">
           {a}
         </div>
       </div>
@@ -65,11 +65,11 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative px-6 sm:px-12 py-20 sm:py-28 bg-gray-50"
+      className="relative px-6 sm:px-12 py-20 sm:py-28 bg-surface-warm"
     >
       <div className="max-w-3xl mx-auto">
-        <div className="w-10 h-1 bg-violet-500 rounded-full mb-6" />
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-8 tracking-tighter font-heading">
+        <div className="w-10 h-1 bg-brand rounded-full mb-6" />
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-text-primary mb-8 tracking-tighter font-heading">
           FAQ
         </h2>
         <div>
