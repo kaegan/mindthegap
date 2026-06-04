@@ -1,43 +1,66 @@
-import { createLayerComponent } from '@react-leaflet/core'
+import { useMemo } from 'react'
+import { Marker, Tooltip } from 'react-leaflet'
 import L from 'leaflet'
-import 'leaflet.heat'
-import centroid from '@turf/centroid'
+import { featureKey } from '../../utils/featureKey'
 
-function geojsonToHeatPoints(geojson) {
-  return geojson.features
-    .filter(f => f.properties.risk_score > 0.45)
-    .map(f => {
-      const c = centroid(f)
-      const [lng, lat] = c.geometry.coordinates
-      return [lat, lng, f.properties.risk_score]
-    })
+const TOP_N = 25
+
+function badgeIcon(rank) {
+  const size = Math.round(30 - (rank - 1) * (10 / (TOP_N - 1)))
+  const color = rank <= 5 ? '#dc2626' : rank <= 15 ? '#ef4444' : '#f97316'
+  const fontSize = size <= 22 ? 9 : 11
+  const html = `<div style="
+    width:${size}px;height:${size}px;
+    background:${color};
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:white;font-weight:700;font-size:${fontSize}px;
+    border:2px solid white;
+    box-shadow:0 2px 6px rgba(0,0,0,0.4);
+    cursor:pointer;
+    line-height:1;
+  ">${rank}</div>`
+  return L.divIcon({ html, className: '', iconSize: [size, size], iconAnchor: [size / 2, size / 2] })
 }
 
-function createHeatLayer(props, context) {
-  const points = geojsonToHeatPoints(props.data)
-  const instance = L.heatLayer(points, {
-    radius: 25,
-    blur: 20,
-    maxZoom: 14,
-    max: 0.85,
-    minOpacity: 0.25,
-    gradient: {
-      0.0: '#1e1b4b',
-      0.2: '#7c3aed',
-      0.4: '#f59e0b',
-      0.6: '#f97316',
-      0.8: '#ef4444',
-      1.0: '#fef08a',
-    },
-  })
-  return { instance, context }
-}
+export default function HotspotLayer({ data, onSelect }) {
+  const hotspots = useMemo(() => {
+    return [...data.features]
+      .filter(f => f.properties.risk_score > 0)
+      .sort((a, b) => b.properties.risk_score - a.properties.risk_score)
+      .slice(0, TOP_N)
+      .map((f, i) => ({ feature: f, rank: i + 1 }))
+  }, [data])
 
-function updateHeatLayer(instance, props, prevProps) {
-  if (props.data !== prevProps.data) {
-    instance.setLatLngs(geojsonToHeatPoints(props.data))
-  }
+  return (
+    <>
+      {hotspots.map(({ feature: f, rank }) => {
+        const [lng, lat] = f.geometry.coordinates
+        const p = f.properties
+        return (
+          <Marker
+            key={featureKey(f)}
+            position={[lat, lng]}
+            icon={badgeIcon(rank)}
+            eventHandlers={{
+              click: (e) => {
+                L.DomEvent.stopPropagation(e)
+                onSelect(f)
+              },
+            }}
+            zIndexOffset={1000 - rank}
+          >
+            <Tooltip className="cs-tooltip" direction="top" offset={[0, -4]}>
+              <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
+                <div style={{ fontWeight: 600, color: '#111827' }}>#{rank} · {p.name}</div>
+                <div style={{ color: '#6b7280' }}>
+                  Risk score {p.risk_score.toFixed(2)} · {p.total_crashes} crashes
+                </div>
+              </div>
+            </Tooltip>
+          </Marker>
+        )
+      })}
+    </>
+  )
 }
-
-const HotspotLayer = createLayerComponent(createHeatLayer, updateHeatLayer)
-export default HotspotLayer

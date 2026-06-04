@@ -73,7 +73,7 @@ function MapSection() {
             <ZoomControl position="bottomright" />
             <MapClickHandler onMapClick={handleMapClick} />
 
-            {showHotspots && data && <HotspotLayer data={data} />}
+            {showHotspots && data && <HotspotLayer data={data} onSelect={setSelected} />}
             {showRisk && data && (
               <IntersectionLayer
                 data={data}
