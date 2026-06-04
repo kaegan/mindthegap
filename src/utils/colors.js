@@ -1,8 +1,8 @@
 export const LOW_DENSITY_COLOR = '#d1d5db' // gray-300
 
 /**
- * Maps a gap score (0 to 1) to a color on a yellow-orange-red ramp.
- * 0 = low gap (light yellow), 1 = high gap (deep red).
+ * Maps a score (0 to 1) to a color on a yellow-orange-red ramp.
+ * 0 = low (light yellow), 1 = high (deep red).
  */
 export function getGapColor(score) {
   const stops = [
@@ -28,6 +28,9 @@ export function getGapColor(score) {
   }
   return stops[stops.length - 1][1]
 }
+
+// Safety-risk uses the same yellow→red ramp; alias for readable call sites.
+export const getRiskColor = getGapColor
 
 function interpolateColor(c1, c2, t) {
   const r1 = parseInt(c1.slice(1, 3), 16)

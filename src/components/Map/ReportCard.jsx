@@ -1,15 +1,9 @@
-import { useState } from 'react'
-import posthog from 'posthog-js'
-const X = ({ size = 18 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-)
-import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
-import { IconPeopleFillDuo18 as People } from 'nucleo-ui-fill-duo-18'
-import { IconGrid4x4FillDuo18 as Grid } from 'nucleo-ui-fill-duo-18'
-import { IconRouteFillDuo18 as Route } from 'nucleo-ui-fill-duo-18'
-import { IconCompassFillDuo18 as Compass } from 'nucleo-ui-fill-duo-18'
+import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
+import { IconCollisionFillDuo18 as Crash } from 'nucleo-ui-fill-duo-18'
+import { IconHeartPulseFillDuo18 as Pulse } from 'nucleo-ui-fill-duo-18'
+import { IconShieldFillDuo18 as Shield } from 'nucleo-ui-fill-duo-18'
+import { IconCircleSignalFillDuo18 as Signal } from 'nucleo-ui-fill-duo-18'
 import { getGrade, getPercentile, getPercentileLabel } from '../../utils/gapStats'
-import { useLocationName } from '../../hooks/useLocationName'
 
 function GradeCircle({ grade }) {
   return (
@@ -35,137 +29,87 @@ function StatBox({ label, value, sub, icon: Icon }) {
   )
 }
 
-function ComparisonBar({ gapScore, avgGapScore }) {
-  const pct = Math.min(gapScore, 1) * 100
-  const avgPct = Math.min(avgGapScore, 1) * 100
+function ComparisonBar({ riskScore, avgRiskScore }) {
+  const pct = Math.min(riskScore, 1) * 100
+  const avgPct = Math.min(avgRiskScore, 1) * 100
 
   return (
-    <div className="mt-5">
-      <div className="text-xs text-gray-400 mb-3">Gap Score vs Metro Average</div>
-
-      {/* Score marker above bar */}
-      <div className="relative h-5 mb-0.5">
+    <div className="mt-4">
+      <div className="text-xs text-gray-400 mb-2">Risk vs City Average</div>
+      <div className="relative h-3 rounded-full overflow-hidden" style={{
+        background: `linear-gradient(to right, #fef3c7, #f59e0b, #dc2626)`
+      }}>
         <div
-          className="absolute flex flex-col items-center"
-          style={{ left: `${pct}%`, bottom: 0, transform: 'translateX(-50%)' }}
-        >
-          <span className="text-[11px] font-semibold text-gray-900 leading-none whitespace-nowrap">
-            {gapScore.toFixed(2)}
-          </span>
-          <div className="mt-0.5" style={{
-            width: 0, height: 0,
-            borderLeft: '4px solid transparent',
-            borderRight: '4px solid transparent',
-            borderTop: '5px solid #374151',
-          }} />
-        </div>
-      </div>
-
-      {/* Gradient bar */}
-      <div className="relative">
-        <div className="h-2 rounded-full" style={{
-          background: 'linear-gradient(to right, #fef3c7, #fbbf24, #f59e0b, #ef4444, #dc2626)'
-        }} />
-      </div>
-
-      {/* Average marker below bar */}
-      <div className="relative h-5 mt-0.5">
+          className="absolute top-0 h-full w-0.5 bg-gray-800/80"
+          style={{ left: `${avgPct}%` }}
+        />
         <div
-          className="absolute top-0 flex flex-col items-center"
-          style={{ left: `${avgPct}%`, transform: 'translateX(-50%)' }}
-        >
-          <div className="w-px h-2 bg-gray-500" />
-          <span className="text-[10px] text-gray-500 leading-none mt-1 whitespace-nowrap">
-            avg {avgGapScore.toFixed(2)}
-          </span>
-        </div>
+          className="absolute -top-1 w-0 h-0"
+          style={{
+            left: `${pct}%`,
+            borderLeft: '5px solid transparent',
+            borderRight: '5px solid transparent',
+            borderTop: '6px solid #111827',
+            transform: 'translateX(-5px)',
+          }}
+        />
       </div>
-      {/* End labels */}
-      <div className="flex justify-between text-[10px] text-gray-400">
-        <span>Low gap</span>
-        <span>High gap</span>
+      <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+        <span>Low risk</span>
+        <span>High risk</span>
+      </div>
+      <div className="flex gap-4 mt-1.5 text-[11px]">
+        <span className="text-gray-600">▲ This intersection: {riskScore.toFixed(2)}</span>
+        <span className="text-gray-500">│ Avg: {avgRiskScore.toFixed(2)}</span>
       </div>
     </div>
   )
 }
 
-function StopItem({ stop }) {
-  return (
-    <div className="flex items-start gap-2.5 py-2 border-b border-gray-100 last:border-0">
-      <Bus size={14} className="text-blue-600 mt-0.5 shrink-0" />
-      <div className="flex-1 min-w-0">
-        <div className="text-sm text-gray-900 truncate">{stop.name}</div>
-        <div className="text-[11px] text-gray-500">{stop.distance_m}m away</div>
-      </div>
-      <div className="text-[11px] text-blue-600/80 whitespace-nowrap">{stop.trips_per_day} trips/day</div>
-    </div>
-  )
-}
-
-function MethodologySection({ tripsPerCapita, gapScore }) {
-  const [open, setOpen] = useState(false)
-
+function CrashesByYear({ byYear }) {
+  const years = Object.keys(byYear).sort()
+  if (years.length === 0) return null
+  const max = Math.max(...years.map(y => byYear[y]))
   return (
     <div className="mt-1">
-      <button
-        onClick={() => { if (!open) posthog.capture('methodology_expanded'); setOpen(!open) }}
-        className="text-[11px] text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1"
-      >
-        <span className="transition-transform inline-block" style={{ transform: open ? 'rotate(90deg)' : 'none' }}>
-          &#9656;
-        </span>
-        How is this calculated?
-      </button>
-      {open && (
-        <div className="mt-2 cs-panel p-3 text-[11px] text-gray-600 space-y-2">
-          <div>
-            The coverage gap measures how many transit trips are available per resident within walking distance (600m).
+      <div className="text-xs text-gray-400 mb-2 font-medium">Crashes by Year</div>
+      <div className="cs-panel p-3 flex items-end justify-between gap-2 h-24">
+        {years.map(y => (
+          <div key={y} className="flex flex-col items-center gap-1 flex-1">
+            <div className="text-[10px] text-gray-500">{byYear[y]}</div>
+            <div
+              className="w-full rounded-t"
+              style={{ height: `${Math.max(4, (byYear[y] / max) * 56)}px`, backgroundColor: '#f97316' }}
+            />
+            <div className="text-[10px] text-gray-400">{y.slice(2)}</div>
           </div>
-          <div className="font-mono text-[10px] bg-gray-50 rounded p-2 text-gray-700">
-            gap = (1 &minus; trips_per_capita_percentile)&sup2;
-          </div>
-          <div className="space-y-1">
-            <div className="flex justify-between">
-              <span className="text-gray-500">Trips / resident</span>
-              <span className="font-medium">{(tripsPerCapita || 0).toFixed(1)}</span>
-            </div>
-            <div className="flex justify-between border-t border-gray-100 pt-1 mt-1">
-              <span className="text-gray-500">Gap score</span>
-              <span className="font-semibold text-gray-900">{(gapScore || 0).toFixed(2)}</span>
-            </div>
-          </div>
-          <div className="text-gray-400 text-[10px]">
-            Trips per capita is percentile-ranked against all areas above 400 residents/km² in Metro Vancouver. Areas below that density are shown in gray and not graded.
-          </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   )
 }
 
-export default function ReportCard({ feature, nearestStops, metroStats, onClose }) {
+export default function ReportCard({ feature, cityStats, onClose }) {
   if (!feature) return null
 
   const p = feature.properties
-  const isLowDensity = p.low_density
-  const grade = getGrade(p.gap_score || 0, isLowDensity)
-  const gapPercentile = getPercentile(p.gap_score || 0, metroStats.gapScores)
-  const transitPercentile = getPercentile(p.transit_score || 0, metroStats.transitScores)
-  const locationName = useLocationName(feature)
+  const grade = getGrade(p.risk_score || 0)
+  const riskPercentile = getPercentile(p.risk_score || 0, cityStats.riskScores)
 
   return (
-    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[45vh] z-[901] cs-panel overflow-y-auto flex flex-col">
+    <div className="report-card absolute top-3 right-3 bottom-3 w-80 max-sm:top-auto max-sm:left-3 max-sm:right-3 max-sm:bottom-3 max-sm:w-auto max-sm:max-h-[60vh] z-[1001] cs-panel overflow-y-auto flex flex-col">
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
-        <div>
-          <h3 className="text-gray-900 font-semibold text-base">
-            {locationName || p.name || 'Area'}
-          </h3>
-          <div className="text-[11px] text-gray-400">DA {p.dauid}</div>
+        <div className="min-w-0 pr-2">
+          <h3 className="text-gray-900 font-semibold text-base leading-tight">{p.name}</h3>
+          <div className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+            <Signal size={11} className="text-gray-400 shrink-0" />
+            {p.signal_type}{p.neighbourhood ? ` · ${p.neighbourhood}` : ''}
+          </div>
         </div>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-gray-700 transition-colors p-1 -mr-1 -mt-1"
+          className="text-gray-400 hover:text-gray-700 transition-colors p-1 -mr-1 -mt-1 shrink-0"
         >
           <X size={18} />
         </button>
@@ -176,72 +120,45 @@ export default function ReportCard({ feature, nearestStops, metroStats, onClose 
         <div className="flex items-center gap-3">
           <GradeCircle grade={grade} />
           <div>
-            {isLowDensity ? (
-              <>
-                <div className="text-gray-500 font-semibold">Low density</div>
-                <div className="text-xs text-gray-400">Under 400 residents/km² — not graded</div>
-              </>
-            ) : (
-              <>
-                <div className="text-gray-900 font-semibold">{(p.gap_score || 0).toFixed(2)}</div>
-                <div className="text-xs font-medium" style={{ color: grade.textColor }}>{grade.label}</div>
-                <div className="text-[11px] text-gray-500">{getPercentileLabel(gapPercentile)} in Metro Vancouver</div>
-              </>
-            )}
+            <div className="text-gray-900 font-semibold">{(p.risk_score || 0).toFixed(2)}</div>
+            <div className="text-xs" style={{ color: grade.color }}>{grade.label}</div>
+            <div className="text-[11px] text-gray-500">{getPercentileLabel(riskPercentile)} in Vancouver</div>
           </div>
         </div>
-
-        {!isLowDensity && (
-          <MethodologySection
-            tripsPerCapita={p.trips_per_capita}
-            gapScore={p.gap_score}
-          />
-        )}
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-2">
           <StatBox
-            icon={People}
-            label="Population"
-            value={(p.population || 0).toLocaleString()}
-            sub="residents"
+            icon={Crash}
+            label="Total crashes"
+            value={(p.total_crashes || 0).toLocaleString()}
+            sub="2016–2020"
           />
           <StatBox
-            icon={Grid}
-            label="Density"
-            value={(p.pop_density || 0).toLocaleString()}
-            sub="/km²"
+            icon={Pulse}
+            label="With injuries"
+            value={(p.casualty_crashes || 0).toLocaleString()}
+            sub="casualty crashes"
           />
           <StatBox
-            icon={Bus}
-            label="Trips / Resident"
-            value={(p.trips_per_capita || 0).toFixed(1)}
-            sub={isLowDensity ? '' : getPercentileLabel(transitPercentile)}
+            icon={Shield}
+            label="Property only"
+            value={(p.pdo_crashes || 0).toLocaleString()}
+            sub="no injuries"
           />
           <StatBox
-            icon={Compass}
-            label="Land Area"
-            value={`${(p.land_area_km2 || 0).toFixed(2)}`}
-            sub="km²"
+            icon={Pulse}
+            label="Injury rate"
+            value={`${p.casualty_rate || 0}%`}
+            sub="of all crashes"
           />
         </div>
 
-        {/* Comparison bar — only for graded areas */}
-        {!isLowDensity && (
-          <ComparisonBar gapScore={p.gap_score || 0} avgGapScore={metroStats.avgGapScore} />
-        )}
+        {/* Comparison bar */}
+        <ComparisonBar riskScore={p.risk_score || 0} avgRiskScore={cityStats.avgRiskScore} />
 
-        {/* Nearest stops */}
-        {nearestStops.length > 0 && (
-          <div className="mt-1">
-            <div className="text-xs text-gray-400 mb-2 font-medium">Nearest Transit Stops</div>
-            <div className="cs-panel p-2">
-              {nearestStops.map(stop => (
-                <StopItem key={stop.stop_id} stop={stop} />
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Crashes by year */}
+        <CrashesByYear byYear={p.crashes_by_year || {}} />
       </div>
     </div>
   )

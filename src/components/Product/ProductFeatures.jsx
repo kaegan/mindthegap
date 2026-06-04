@@ -3,43 +3,46 @@ import { IconMapFillDuo18 as Map } from 'nucleo-ui-fill-duo-18'
 import { IconCursorRippleFillDuo18 as MousePointerClick } from 'nucleo-ui-fill-duo-18'
 import { IconLayersFillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
 import { IconHotspotFillDuo18 as BarChart3 } from 'nucleo-ui-fill-duo-18'
-import neighborhoodScoredImg from '../../assets/neighborhood-scored.png'
-import fullPictureImg from '../../assets/full-picture.png'
-import transitLayersImg from '../../assets/transit-layers.png'
-import heatmapImg from '../../assets/heatmap.png'
+// Screenshots live in /public/screenshots and are referenced by URL so a
+// missing capture degrades to the ScreenshotFrame placeholder instead of
+// breaking the build.
+const neighborhoodScoredImg = '/screenshots/risk-scored.png'
+const fullPictureImg = '/screenshots/report-card.png'
+const multimodalLayerImg = '/screenshots/highlight-injury.png'
+const hotspotImg = '/screenshots/hotspots.png'
 
 const features = [
   {
     icon: Map,
-    tag: 'Coverage Analysis',
-    headline: 'A score for every neighbourhood',
-    body: 'MindTheGap analyzes 3,590 dissemination areas across Metro Vancouver. It combined population density with transit accessibility to produce a gap score between 0 and 1 for each zone. The closer to 1, the worse the coverage relative to the population density.',
+    tag: 'Risk Analysis',
+    headline: 'Every intersection, scored',
+    body: 'MindTheGap scores all 966 signalized intersections in Vancouver, joining five years of ICBC crash records to each signal and weighting injury crashes more heavily to produce a single 0–1 risk score.',
     screenshot: neighborhoodScoredImg,
-    alt: 'Heatmap showing transit coverage gaps across Metro Vancouver',
+    alt: 'Map of Vancouver intersections colored by crash risk',
   },
   {
     icon: MousePointerClick,
     tag: 'Interactive Reports',
-    headline: 'Click on a zone to see the full picture',
-    body: "Select a neighbourhood to open a detailed report card. You'll get a gap score grade, population stats, nearest transit stops, and how the area compares to the metro average.",
+    headline: 'Click any intersection. Get the full crash profile.',
+    body: 'Select a signal to open a detailed report card: risk grade, total crashes, injury crashes, injury rate, a crashes-by-year trend, and how it compares to the city average.',
     screenshot: fullPictureImg,
-    alt: 'Report card showing gap score, population, and nearby transit stops',
+    alt: 'Report card showing crash counts, injury rate, and yearly trend',
   },
   {
     icon: Layers,
-    tag: 'Multi-Modal Layers',
-    headline: 'Trains and Buses, all in the same spot',
-    body: "Toggle transit layers on and off to see how different modes overlap. Quickly spot where rail coverage ends and bus routes don't pick up the slack.",
-    screenshot: transitLayersImg,
-    alt: 'Map with SkyTrain, bus, and SeaBus transit layers toggled on',
+    tag: 'Targeted Highlights',
+    headline: 'Filter to what matters',
+    body: "Highlight the intersections with the highest injury rates, or isolate pedestrian-actuated signals, to see where vulnerable road users are most exposed, not just where metal hits metal.",
+    screenshot: multimodalLayerImg,
+    alt: 'Map filtered to high-injury-rate intersections',
   },
   {
     icon: BarChart3,
     tag: 'Hotspot Detection',
-    headline: 'Find the biggest opportunity areas with hotspots',
-    body: 'The hotspot layer surfaces areas where multiple coverage gaps converge, helping planners prioritize the neighbourhoods where new service would have the greatest impact.',
-    screenshot: heatmapImg,
-    alt: 'Hotspot heatmap highlighting clusters of transit coverage gaps',
+    headline: 'Find the risk corridors that matter most',
+    body: 'The hotspot layer surfaces stretches where multiple high-risk intersections cluster, helping prioritize the corridors where a signal-timing or detection upgrade would prevent the most harm.',
+    screenshot: hotspotImg,
+    alt: 'Heatmap highlighting clusters of high-risk intersections',
   },
 ]
 
@@ -79,12 +82,12 @@ function FeatureBlock({ feature, index }) {
       <div className="flex-1 min-w-0">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-50 border border-violet-200 mb-4">
           <Icon className="w-3.5 h-3.5 text-violet-500" />
-          <span className="text-xs font-medium text-violet-600 tracking-wider">{feature.tag}</span>
+          <span className="text-xs font-medium text-violet-600 uppercase tracking-wider">{feature.tag}</span>
         </div>
-        <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 font-heading">
+        <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-3 font-heading">
           {feature.headline}
         </h3>
-        <p className="text-base sm:text-lg text-gray-500 leading-relaxed max-w-lg">
+        <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg">
           {feature.body}
         </p>
       </div>
@@ -99,21 +102,21 @@ function FeatureBlock({ feature, index }) {
 
 export default function ProductFeatures() {
   return (
-    <section className="relative bg-white py-16 sm:py-24">
+    <section className="relative bg-white py-20 sm:py-28">
       <div className="max-w-6xl mx-auto px-6 sm:px-12">
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
-          <p className="text-xs tracking-[0.2em] text-gray-500 mb-3">How it works</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight font-heading">
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-3">How it works</p>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tighter font-heading">
             Built to surface what's <span className="text-violet-600">hidden in plain sight</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-gray-500 max-w-2xl mx-auto">
-            Transit maps show where service exists. MindTheGap shows where it doesn't, and how many people are affected.
+            A map of signals shows where the lights are. MindTheGap shows where they're failing people, and by how much.
           </p>
         </div>
 
         {/* Feature blocks */}
-        <div className="space-y-16 sm:space-y-20">
+        <div className="space-y-20 sm:space-y-28">
           {features.map((feature, i) => (
             <FeatureBlock key={feature.tag} feature={feature} index={i} />
           ))}
