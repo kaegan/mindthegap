@@ -1,13 +1,19 @@
 import { useState } from 'react'
-import { IconMenuFillDuo18 as Menu } from 'nucleo-ui-fill-duo-18'
-import { IconXmarkFillDuo18 as X } from 'nucleo-ui-fill-duo-18'
+import { Link } from 'react-router-dom'
+import posthog from 'posthog-js'
+const Menu = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+)
+const X = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+)
 import logoSvg from '../../assets/mindthegap-logo.svg'
 
 const navLinks = [
-  { label: 'Map', href: '#map' },
-  { label: 'About', href: '#origin' },
-  { label: 'Experience', href: '#track-record' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Map', href: '/#map' },
+  { label: 'About', href: '/#origin' },
+  { label: 'Experience', href: '/#track-record' },
+  { label: 'FAQ', href: '/#faq' },
 ]
 
 export default function Header() {
@@ -17,13 +23,13 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/80 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
-        <a href="#" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img
             src={logoSvg}
             alt="Mind the Gap"
             className="h-10 sm:h-14"
           />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden sm:flex items-center gap-6">
@@ -31,14 +37,16 @@ export default function Header() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-black hover:text-black/70 transition-colors"
+              onClick={() => posthog.capture('nav_clicked', { label: link.label, href: link.href })}
+              className="text-sm text-gray-700 hover:text-gray-900 transition-colors"
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#contact"
-            className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
+            href="/#contact"
+            onClick={() => posthog.capture('nav_clicked', { label: 'Get in touch', href: '/#contact' })}
+            className="text-sm font-medium text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
           >
             Get in touch
           </a>
@@ -65,15 +73,15 @@ export default function Header() {
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-black hover:text-black/70 transition-colors py-1"
+              className="text-sm text-gray-700 hover:text-gray-900 transition-colors py-1"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#contact"
-            className="text-sm font-medium text-black border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
+            href="/#contact"
+            className="text-sm font-medium text-gray-700 border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
             Get in touch

@@ -1,3 +1,5 @@
+export const LOW_DENSITY_COLOR = '#d1d5db' // gray-300
+
 /**
  * Maps a score (0 to 1) to a color on a yellow-orange-red ramp.
  * 0 = low (light yellow), 1 = high (deep red).

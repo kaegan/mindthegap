@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/((?!assets|data|favicon|mindthegap).*)", "destination": "/index.html" }
+  ]
+}
