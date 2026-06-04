@@ -17,7 +17,7 @@ export default function TechLogos() {
       {tools.map((tool) => (
         <div key={tool.name} className="cs-panel px-5 py-3 flex items-center gap-3">
           {tool.icon ? <tool.icon /> : <img src={tool.src} alt={tool.name} className="h-5 w-5" />}
-          <span className="text-sm font-medium text-gray-700">{tool.name}</span>
+          <span className="text-sm font-medium text-text-secondary">{tool.name}</span>
         </div>
       ))}
     </div>

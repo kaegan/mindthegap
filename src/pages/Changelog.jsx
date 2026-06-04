@@ -61,47 +61,47 @@ const releases = [
 
 export default function Changelog() {
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans flex flex-col">
+    <div className="min-h-screen bg-surface text-text-primary font-sans flex flex-col">
       <Header />
 
       <main className="flex-1 pt-32 sm:pt-40 pb-20 px-6">
         <div className="max-w-2xl mx-auto">
           <Link
             to="/"
-            className="text-sm text-gray-400 hover:text-gray-600 transition-colors mb-8 inline-block"
+            className="text-sm text-text-muted hover:text-text-secondary transition-colors mb-8 inline-block"
           >
             &larr; Back to map
           </Link>
 
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tighter font-heading text-gray-900 mb-3">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tighter font-heading text-text-primary mb-3">
             What's New
           </h1>
-          <p className="text-gray-500 text-base sm:text-lg mb-12">
+          <p className="text-text-secondary text-base sm:text-lg mb-12">
             Feature releases for the Mind the Gap interactive transit map.
           </p>
 
           <div className="space-y-10">
             {releases.map((release) => (
               <article key={release.title}>
-                <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">{release.date}</p>
-                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 font-heading">
+                <p className="text-xs font-medium tracking-wide text-text-muted mb-1">{release.date}</p>
+                <h2 className="text-lg sm:text-xl font-bold text-text-primary mb-2 font-heading">
                   {release.title}
                 </h2>
-                <p className="text-gray-500 leading-relaxed">
+                <p className="text-text-secondary leading-relaxed">
                   {release.description}
                 </p>
               </article>
             ))}
           </div>
 
-          <hr className="my-12 border-gray-200" />
+          <hr className="my-12 border-border" />
 
           <article>
-            <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">March 31, 2026</p>
-            <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 font-heading">
+            <p className="text-xs font-medium tracking-wide text-text-muted mb-1">March 31, 2026</p>
+            <h2 className="text-lg sm:text-xl font-bold text-text-primary mb-2 font-heading">
               Launch
             </h2>
-            <p className="text-gray-500 leading-relaxed">
+            <p className="text-text-secondary leading-relaxed">
               Mind the Gap launches as an interactive choropleth map of transit coverage gaps across Metro Vancouver's 3,590 dissemination areas. The gap score algorithm combines population pressure with transit access -- measuring how many transit trips are reachable within walking distance (600 m for bus stops, 1,200 m for rail stations) -- to surface the 72 most critical gaps affecting 67,000+ residents.
             </p>
           </article>

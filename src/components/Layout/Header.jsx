@@ -20,7 +20,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <header className="fixed top-0 left-0 right-0 z-[1000] bg-surface/80 backdrop-blur-md border-b border-border">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <Link to="/" className="flex items-center">
@@ -38,7 +38,7 @@ export default function Header() {
               key={link.label}
               href={link.href}
               onClick={() => posthog.capture('nav_clicked', { label: link.label, href: link.href })}
-              className="text-sm text-gray-700 hover:text-gray-900 transition-colors"
+              className="text-sm text-text-secondary hover:text-text-primary transition-colors"
             >
               {link.label}
             </a>
@@ -46,7 +46,7 @@ export default function Header() {
           <a
             href="/#contact"
             onClick={() => posthog.capture('nav_clicked', { label: 'Get in touch', href: '/#contact' })}
-            className="text-sm font-medium text-gray-700 border border-gray-300 hover:border-gray-400 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors"
+            className="text-sm font-medium text-text-secondary border border-border-strong hover:border-border-strong hover:bg-surface-warm px-4 py-2 rounded-lg transition-colors"
           >
             Get in touch
           </a>
@@ -54,7 +54,7 @@ export default function Header() {
 
         {/* Mobile hamburger */}
         <button
-          className="sm:hidden text-black hover:text-black/70"
+          className="sm:hidden text-text-primary hover:text-text-primary/70"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -68,12 +68,12 @@ export default function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <nav className="sm:hidden bg-white/95 backdrop-blur-md border-t border-gray-200 px-6 py-4 flex flex-col gap-3">
+        <nav className="sm:hidden bg-surface/95 backdrop-blur-md border-t border-border px-6 py-4 flex flex-col gap-3">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-sm text-gray-700 hover:text-gray-900 transition-colors py-1"
+              className="text-sm text-text-secondary hover:text-text-primary transition-colors py-1"
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
@@ -81,7 +81,7 @@ export default function Header() {
           ))}
           <a
             href="/#contact"
-            className="text-sm font-medium text-gray-700 border border-gray-300 hover:border-gray-400 px-4 py-2 rounded-lg transition-colors text-center mt-2"
+            className="text-sm font-medium text-text-secondary border border-border-strong hover:border-border-strong px-4 py-2 rounded-lg transition-colors text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
             Get in touch
