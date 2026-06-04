@@ -46,7 +46,7 @@ function App() {
         <div className="text-center mb-6 px-6">
           <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">Intersection Safety Analysis</p>
           <p className="text-sm text-gray-500 max-w-lg mx-auto">
-            Every dot is a signalized intersection. The redder and bigger the dot, the more crashes and injuries it has seen.
+            The top 25 most dangerous intersections are ranked and labelled by badge. Toggle the heatmap to see all 966 signalized intersections scored by crash history.
           </p>
         </div>
         <div className="mx-4 sm:mx-8 rounded-xl border border-gray-200 max-w-7xl lg:mx-auto overflow-hidden">
