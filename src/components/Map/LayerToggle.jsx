@@ -60,7 +60,7 @@ export default function LayerToggle({
           <Toggle
             checked={showRisk} onChange={setShowRisk}
             accent="accent-orange-500" icon={MapPin} color="#f97316"
-            label="Risk by intersection"
+            label="All intersections"
           />
           <Toggle
             checked={showHotspots} onChange={setShowHotspots}
@@ -69,7 +69,7 @@ export default function LayerToggle({
           />
 
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mt-4 mb-3 font-heading">
-            Highlight
+            Filter
           </h3>
           <Toggle
             checked={filterInjury} onChange={setFilterInjury}

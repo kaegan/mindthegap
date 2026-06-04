@@ -24,8 +24,8 @@ const initialFocus = params.get('focus')
 
 function MapSection() {
   const [data, setData] = useState(null)
-  const [showRisk, setShowRisk] = useState(true)
-  const [showHotspots, setShowHotspots] = useState(params.get('hotspots') === '1')
+  const [showRisk, setShowRisk] = useState(params.get('risk') === '1')
+  const [showHotspots, setShowHotspots] = useState(params.get('hotspots') !== '0')
   const [filterInjury, setFilterInjury] = useState(params.get('injury') === '1')
   const [filterPed, setFilterPed] = useState(params.get('ped') === '1')
   const [selected, setSelected] = useState(null)
@@ -73,11 +73,12 @@ function MapSection() {
             <ZoomControl position="bottomright" />
             <MapClickHandler onMapClick={handleMapClick} />
 
-            {showHotspots && data && <HotspotLayer data={data} onSelect={setSelected} />}
+            {showHotspots && data && <HotspotLayer data={data} predicate={predicate} onSelect={setSelected} />}
             {showRisk && data && (
               <IntersectionLayer
                 data={data}
                 predicate={predicate}
+                dim={showHotspots}
                 selectedKey={selected ? featureKey(selected) : null}
                 onSelect={setSelected}
               />
@@ -86,7 +87,7 @@ function MapSection() {
         </div>
 
         {/* Floating UI panels */}
-        <Legend showHotspots={showHotspots} />
+        <Legend showHotspots={showHotspots} showRisk={showRisk} />
         <LayerToggle
           showRisk={showRisk}
           setShowRisk={setShowRisk}
