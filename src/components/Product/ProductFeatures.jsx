@@ -16,7 +16,7 @@ const features = [
     icon: Map,
     tag: 'Risk Analysis',
     headline: 'Every intersection, scored',
-    body: 'MindTheGap scores all 966 signalized intersections in Vancouver, joining five years of ICBC crash records to each signal and weighting injury crashes more heavily to produce a single 0–1 risk score.',
+    body: 'MindTheGap joins five years of ICBC crash records to all 966 signalized intersections in Vancouver, then weights injury crashes more heavily to produce a single 0-1 risk score.',
     screenshot: neighborhoodScoredImg,
     alt: 'Map of Vancouver intersections colored by crash risk',
   },
@@ -32,7 +32,7 @@ const features = [
     icon: Layers,
     tag: 'Targeted Highlights',
     headline: 'Filter to what matters',
-    body: "Highlight the intersections with the highest injury rates, or isolate pedestrian-actuated signals, to see where vulnerable road users are most exposed, not just where metal hits metal.",
+    body: "Highlight intersections with the highest injury rates, or isolate pedestrian-actuated signals, to compare vulnerable-road-user exposure against overall crash volume.",
     screenshot: multimodalLayerImg,
     alt: 'Map filtered to high-injury-rate intersections',
   },
@@ -51,7 +51,7 @@ function ScreenshotFrame({ feature }) {
   const Icon = feature.icon
 
   return (
-    <div className="relative rounded-xl overflow-hidden border border-border shadow-panel">
+    <div className="relative rounded-lg overflow-hidden border border-border shadow-panel">
       {!imgError ? (
         <img
           src={feature.screenshot}
@@ -84,7 +84,7 @@ function FeatureBlock({ feature, index }) {
           <Icon className="w-3.5 h-3.5 text-brand" />
           <span className="text-xs font-semibold text-brand tracking-wide">{feature.tag}</span>
         </div>
-        <h3 className="text-2xl sm:text-3xl font-extrabold text-text-primary tracking-tight mb-3 font-heading">
+        <h3 className="text-2xl sm:text-3xl font-bold text-text-primary mb-3 font-heading">
           {feature.headline}
         </h3>
         <p className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-lg">
@@ -107,11 +107,11 @@ export default function ProductFeatures() {
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
           <p className="text-xs font-medium tracking-wide text-text-muted mb-3">How it works</p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text-primary tracking-tighter font-heading">
-            Built to surface what's <span className="text-brand">hidden in plain sight</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary font-heading">
+            Built to rank intersection risk, not just plot crashes
           </h2>
           <p className="mt-4 text-base sm:text-lg text-text-secondary max-w-2xl mx-auto">
-            A map of signals shows where the lights are. MindTheGap shows where they're failing people, and by how much.
+            The workflow connects crash history, injury severity, signal locations, and corridor clustering so the highest-priority locations are easier to defend.
           </p>
         </div>
 

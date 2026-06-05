@@ -15,11 +15,11 @@ const faqs = [
     a: 'Each crash is snapped to its nearest signal within 50 meters. For every intersection we tally total crashes and weight injury (casualty) crashes 3× property-damage ones, then rank all 966 intersections into a 0–1 percentile. So the score is relative: a 0.9 means riskier than 90% of Vancouver signals.',
   },
   {
-    q: "Wait a minute, isn't this vibe coded?",
-    a: "Busted! I built this with a mix of Figma and Claude Code. I'm definitely not a designer or a developer. This is meant to demonstrate that in just a few hours, I can whip something up that's passable. When paired with Miovision's own design system and data, I should be able to prototype new ideas, and even push small changes to the product.",
+    q: 'How was this prototype built?',
+    a: "I built the first version with Figma, Claude Code, and a lightweight React stack, then shaped it around real data and product judgment. The point is speed with taste: quickly prototype an idea, test whether it makes sense, and bring it closer to a production system once the workflow proves useful.",
   },
   {
-    q: "What's the point of vibe coding an app?",
+    q: "What's the point of building a prototype this way?",
     a: (<>The role of the PM is changing. What you used to have to <em>tell</em> people, you can now <em>show</em> them. Mastery of AI tools is crucial. I'm fond of <a href="https://x.com/wadefoster/status/2038979630590509553" target="_blank" rel="noopener noreferrer" className="text-brand underline hover:text-brand-hover transition-colors">this AI fluency rubric from Zapier</a> which breaks down AI fluency by traditional software company roles into four levels: Unacceptable, Capable, Adoptive, and Transformative. Currently I'd say I'm working on being in the "adoptive" category, and working my way up.</>),
   },
 ]
@@ -68,8 +68,8 @@ export default function FAQ() {
       className="relative px-6 sm:px-12 py-20 sm:py-28 bg-surface-warm"
     >
       <div className="max-w-3xl mx-auto">
-        <div className="w-10 h-1 bg-brand rounded-full mb-6" />
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-text-primary mb-8 tracking-tighter font-heading">
+        <div className="w-10 h-px bg-brand mb-6" />
+        <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-8 font-heading">
           FAQ
         </h2>
         <div>
