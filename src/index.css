@@ -31,13 +31,13 @@
   --color-gap-mid: #f97316;
   --color-gap-high: #dc2626;
 
-  /* Panel (glassmorphism) */
-  --color-panel: rgba(255, 255, 255, 0.80);
-  --color-panel-border: rgba(209, 213, 219, 0.6);
+  /* Panels */
+  --color-panel: #ffffff;
+  --color-panel-border: rgba(0, 0, 0, 0.10);
 
   /* Shadows */
-  --shadow-card: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 1px 2px 0px rgba(0,0,0,0.05);
-  --shadow-panel: 0px 0px 0px 1px rgba(0,0,0,0.08), 0px 2px 6px 0px rgba(0,0,0,0.06);
+  --shadow-card: 0px 1px 2px rgba(0,0,0,0.05);
+  --shadow-panel: 0px 1px 3px rgba(0,0,0,0.06);
 }
 
 .cs-panel {
@@ -45,13 +45,6 @@
   border: 1px solid var(--color-panel-border);
   border-radius: 8px;
   box-shadow: var(--shadow-card);
-}
-
-/* backdrop-filter is GPU-intensive on Mobile Safari; only enable on desktop */
-@media (min-width: 768px) {
-  .cs-panel {
-    backdrop-filter: blur(12px);
-  }
 }
 
 /* Override Leaflet's default styles for light theme */
@@ -62,14 +55,14 @@
 }
 
 .leaflet-popup-content-wrapper {
-  background: rgba(255, 255, 255, 0.92);
+  background: #ffffff;
   color: #1f2937;
   border: 1px solid rgba(209, 213, 219, 0.5);
   border-radius: 8px;
 }
 
 .leaflet-popup-tip {
-  background: rgba(255, 255, 255, 0.92);
+  background: #ffffff;
 }
 
 .leaflet-popup-close-button {
@@ -140,18 +133,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.25);
-}
-
-/* ── Marquee ── */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-  display: flex;
-  width: max-content;
-  align-items: center;
 }
 
 /* ── Report card slide-in ── */

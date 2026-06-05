@@ -20,7 +20,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[1000] bg-surface/80 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-[1000] bg-surface border-b border-border">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-3">
         {/* Logo */}
         <Link to="/" className="flex items-center">
@@ -68,7 +68,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <nav className="sm:hidden bg-surface/95 backdrop-blur-md border-t border-border px-6 py-4 flex flex-col gap-3">
+        <nav className="sm:hidden bg-surface border-t border-border px-6 py-4 flex flex-col gap-3">
           {navLinks.map((link) => (
             <a
               key={link.label}

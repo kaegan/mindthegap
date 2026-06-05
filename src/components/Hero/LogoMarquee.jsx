@@ -1,21 +1,15 @@
 export default function LogoMarquee({ logos }) {
-  const doubled = [...logos, ...logos]
   return (
-    <div
-      className="mt-8 overflow-hidden"
-      style={{ maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)' }}
-    >
-      <div className="animate-marquee gap-14">
-        {doubled.map((logo, i) =>
-          logo.src ? (
-            <img key={i} src={logo.src} alt={logo.name} className="h-6 sm:h-7 opacity-50 hover:opacity-80 transition-opacity shrink-0" />
-          ) : (
-            <span key={i} className="text-base font-bold text-text-muted hover:text-text-secondary transition-colors shrink-0 tracking-tight">
-              {logo.name}
-            </span>
-          )
-        )}
-      </div>
+    <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-8 gap-y-4">
+      {logos.map((logo) =>
+        logo.src ? (
+          <img key={logo.name} src={logo.src} alt={logo.name} className="h-6 sm:h-7 opacity-60" />
+        ) : (
+          <span key={logo.name} className="text-base font-semibold text-text-muted">
+            {logo.name}
+          </span>
+        )
+      )}
     </div>
   )
 }

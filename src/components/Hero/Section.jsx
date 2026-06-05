@@ -45,7 +45,7 @@ export default function Section({ section, showDivider }) {
             </div>
           )}
 
-          <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-6 tracking-tight font-heading">
+          <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-6 font-heading">
             <HighlightedHeadline text={section.headline} accentWord={section.accentWord} />
           </h2>
 
@@ -67,7 +67,7 @@ export default function Section({ section, showDivider }) {
                 )}
               </div>
               <div className="flex-1 min-w-0 w-full">
-                <div className="rounded-xl overflow-hidden border border-border shadow-panel">
+                <div className="rounded-lg overflow-hidden border border-border shadow-panel">
                   <img
                     src={section.screenshot.src}
                     alt={section.screenshot.alt}
@@ -95,7 +95,7 @@ export default function Section({ section, showDivider }) {
                 <img
                   src={section.image.src}
                   alt={section.image.alt}
-                  className="rounded-lg shadow-md w-full"
+                  className="rounded-lg border border-border w-full"
                   loading="lazy"
                 />
                 {section.image.caption && (
