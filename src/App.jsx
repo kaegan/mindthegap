@@ -5,7 +5,6 @@ import Header from './components/Layout/Header'
 import MapSection from './components/Map/MapSection'
 import ProductFeatures from './components/Product/ProductFeatures'
 import HeroSections from './components/Hero/HeroSections'
-import FAQ from './components/Hero/FAQ'
 import Footer from './components/Layout/Footer'
 
 function App() {
@@ -78,7 +77,6 @@ function App() {
       </div>
 
       <HeroSections />
-      <FAQ />
       <Footer />
     </div>
   )
