@@ -2,47 +2,37 @@ import { useState } from 'react'
 import { IconMapFillDuo18 as Map } from 'nucleo-ui-fill-duo-18'
 import { IconCursorRippleFillDuo18 as MousePointerClick } from 'nucleo-ui-fill-duo-18'
 import { IconLayersFillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
-import { IconHotspotFillDuo18 as BarChart3 } from 'nucleo-ui-fill-duo-18'
 // Screenshots live in /public/screenshots and are referenced by URL so a
 // missing capture degrades to the ScreenshotFrame placeholder instead of
 // breaking the build.
-const neighborhoodScoredImg = '/screenshots/risk-scored.png'
-const fullPictureImg = '/screenshots/report-card.png'
-const multimodalLayerImg = '/screenshots/highlight-injury.png'
-const hotspotImg = '/screenshots/hotspots.png'
+const rankedOverviewImg = '/screenshots/risk-scored.png'
+const reportCardImg = '/screenshots/report-card.png'
+const injuryFilterImg = '/screenshots/highlight-injury.png'
 
 const features = [
   {
     icon: Map,
-    tag: 'Risk Analysis',
-    headline: 'Every intersection, scored',
-    body: 'MindTheGap joins five years of ICBC crash records to all 966 signalized intersections in Vancouver, then weights injury crashes more heavily to produce a single 0-1 risk score.',
-    screenshot: neighborhoodScoredImg,
-    alt: 'Map of Vancouver intersections colored by crash risk',
+    tag: 'Ranked overview',
+    headline: 'The whole city, triaged worst-first',
+    body: "Vancouver's signals arrive pre-ranked. Numbered badges flag the top 25 hotspots — 1 is the city's worst — turning 966 intersections into an ordered, defensible list of where to start.",
+    screenshot: rankedOverviewImg,
+    alt: 'Vancouver map with the 25 highest-risk intersections marked by numbered badges',
   },
   {
     icon: MousePointerClick,
-    tag: 'Interactive Reports',
-    headline: 'Click any intersection. Get the full crash profile.',
-    body: 'Select a signal to open a detailed report card: risk grade, total crashes, injury crashes, injury rate, a crashes-by-year trend, and how it compares to the city average.',
-    screenshot: fullPictureImg,
-    alt: 'Report card showing crash counts, injury rate, and yearly trend',
+    tag: 'Evidence card',
+    headline: 'The crash record behind one signal',
+    body: 'Click any intersection for its dossier: letter grade, percentile, total crashes, injury versus property-only counts, injury rate, a five-year trend, and how it ranks against the city average.',
+    screenshot: reportCardImg,
+    alt: 'Report card showing a risk grade, crash counts, injury rate, and a crashes-by-year chart',
   },
   {
     icon: Layers,
-    tag: 'Targeted Highlights',
-    headline: 'Filter to what matters',
-    body: "Highlight intersections with the highest injury rates, or isolate pedestrian-actuated signals, to compare vulnerable-road-user exposure against overall crash volume.",
-    screenshot: multimodalLayerImg,
-    alt: 'Map filtered to high-injury-rate intersections',
-  },
-  {
-    icon: BarChart3,
-    tag: 'Hotspot Detection',
-    headline: 'Find the risk corridors that matter most',
-    body: 'The hotspot layer surfaces stretches where multiple high-risk intersections cluster, helping prioritize the corridors where a signal-timing or detection upgrade would prevent the most harm.',
-    screenshot: hotspotImg,
-    alt: 'Heatmap highlighting clusters of high-risk intersections',
+    tag: 'Targeted filters',
+    headline: "Narrow to the risk you're funding",
+    body: 'Check High injury rate (≥33%) and the map rings every qualifying signal while the rest fade back. Or isolate pedestrian-actuated signals to focus on vulnerable-road-user exposure.',
+    screenshot: injuryFilterImg,
+    alt: 'Map filtered to intersections with a high injury rate, each ringed with a highlight',
   },
 ]
 
@@ -106,12 +96,12 @@ export default function ProductFeatures() {
       <div className="max-w-6xl mx-auto px-6 sm:px-12">
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
-          <p className="text-xs font-medium tracking-wide text-text-muted mb-3">How it works</p>
+          <p className="text-xs font-medium tracking-wide text-text-muted mb-3">From data to decision</p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary font-heading">
-            Built to rank intersection risk, not just plot crashes
+            Defend every fix-this-first call with evidence
           </h2>
           <p className="mt-4 text-base sm:text-lg text-text-secondary max-w-2xl mx-auto">
-            The workflow connects crash history, injury severity, signal locations, and corridor clustering so the highest-priority locations are easier to defend.
+            Triage all 966 of Vancouver's signalized intersections, open the crash record behind any one of them, then narrow to the risk profile your program is funded to address.
           </p>
         </div>
 
