@@ -9,7 +9,7 @@ function GradeCircle({ grade }) {
   return (
     <div
       className="w-14 h-14 rounded-full flex items-center justify-center text-2xl font-bold shrink-0"
-      style={{ backgroundColor: grade.color + '22', color: grade.color, border: `2px solid ${grade.color}` }}
+      style={{ backgroundColor: grade.color + '33', color: grade.color, border: `2.5px solid ${grade.color}` }}
     >
       {grade.letter}
     </div>
@@ -32,6 +32,7 @@ function StatBox({ label, value, sub, icon: Icon }) {
 function ComparisonBar({ riskScore, avgRiskScore }) {
   const pct = Math.min(riskScore, 1) * 100
   const avgPct = Math.min(avgRiskScore, 1) * 100
+  const multiple = avgRiskScore > 0 ? (riskScore / avgRiskScore).toFixed(1) : '–'
 
   return (
     <div className="mt-4">
@@ -39,18 +40,19 @@ function ComparisonBar({ riskScore, avgRiskScore }) {
       <div className="relative h-3 rounded-full overflow-hidden" style={{
         background: `linear-gradient(to right, #fef3c7, #f59e0b, #dc2626)`
       }}>
+        {/* City average line */}
         <div
           className="absolute top-0 h-full w-0.5 bg-gray-800/80"
           style={{ left: `${avgPct}%` }}
         />
+        {/* This intersection marker — clamped so it never clips at edges */}
         <div
           className="absolute -top-1 w-0 h-0"
           style={{
-            left: `${pct}%`,
+            left: `calc(${Math.min(Math.max(pct, 5), 95)}% - 5px)`,
             borderLeft: '5px solid transparent',
             borderRight: '5px solid transparent',
             borderTop: '6px solid #111827',
-            transform: 'translateX(-5px)',
           }}
         />
       </div>
@@ -58,9 +60,15 @@ function ComparisonBar({ riskScore, avgRiskScore }) {
         <span>Low risk</span>
         <span>High risk</span>
       </div>
-      <div className="flex gap-4 mt-1.5 text-[11px]">
-        <span className="text-gray-600">▲ This intersection: {riskScore.toFixed(2)}</span>
-        <span className="text-gray-500">│ Avg: {avgRiskScore.toFixed(2)}</span>
+      <div className="flex items-center justify-between mt-1.5 text-[11px]">
+        <div className="flex gap-3">
+          <span className="text-gray-600 flex items-center gap-1">
+            <span className="inline-block w-0 h-0" style={{ borderLeft: '4px solid transparent', borderRight: '4px solid transparent', borderTop: '5px solid #111827' }} />
+            This: {riskScore.toFixed(2)}
+          </span>
+          <span className="text-gray-500">│ City avg: {avgRiskScore.toFixed(2)}</span>
+        </div>
+        <span className="font-semibold text-orange-600">{multiple}× avg</span>
       </div>
     </div>
   )
@@ -70,6 +78,7 @@ function CrashesByYear({ byYear }) {
   const years = Object.keys(byYear).sort()
   if (years.length === 0) return null
   const max = Math.max(...years.map(y => byYear[y]))
+  const has2020 = years.includes('2020')
   return (
     <div className="mt-1">
       <div className="text-xs text-gray-400 mb-2 font-medium">Crashes by Year</div>
@@ -79,12 +88,15 @@ function CrashesByYear({ byYear }) {
             <div className="text-[10px] text-gray-500">{byYear[y]}</div>
             <div
               className="w-full rounded-t"
-              style={{ height: `${Math.max(4, (byYear[y] / max) * 56)}px`, backgroundColor: '#f97316' }}
+              style={{ height: `${Math.max(4, (byYear[y] / max) * 56)}px`, backgroundColor: y === '2020' ? '#fdba74' : '#f97316' }}
             />
-            <div className="text-[10px] text-gray-400">{y.slice(2)}</div>
+            <div className="text-[10px] text-gray-400">'{y.slice(2)}</div>
           </div>
         ))}
       </div>
+      {has2020 && (
+        <div className="text-[10px] text-gray-400 mt-1.5">* 2020 reflects reduced traffic during COVID-19</div>
+      )}
     </div>
   )
 }
@@ -138,7 +150,7 @@ export default function ReportCard({ feature, cityStats, onClose }) {
             icon={Pulse}
             label="With injuries"
             value={(p.casualty_crashes || 0).toLocaleString()}
-            sub="casualty crashes"
+            sub="crashes with injuries"
           />
           <StatBox
             icon={Shield}

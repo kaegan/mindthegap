@@ -5,7 +5,6 @@ import Header from './components/Layout/Header'
 import MapSection from './components/Map/MapSection'
 import ProductFeatures from './components/Product/ProductFeatures'
 import HeroSections from './components/Hero/HeroSections'
-import FAQ from './components/Hero/FAQ'
 import Footer from './components/Layout/Footer'
 
 function App() {
@@ -32,10 +31,14 @@ function App() {
             <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-4">
               Dataset summary
             </p>
+            {/* Figures derived from computeCityStats() over public/data/intersection-risk.json:
+                intersectionCount=966, totalCasualty=33,454 (≈33K injury crashes),
+                highRiskCount (risk_score>0.6, i.e. grades D+F)=383. Rerun the compute
+                script and update these if the dataset changes. */}
             <div className="grid grid-cols-1 gap-3">
               {[
                 { value: '966', label: 'signalized intersections', icon: MapPin },
-                { value: '34K', label: 'injury crashes reviewed', icon: Users },
+                { value: '33K', label: 'injury crashes reviewed', icon: Users },
                 { value: '383', label: 'high-risk signals flagged', icon: AlertTriangle },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-3 border-t border-border pt-3 first:border-t-0 first:pt-0">
@@ -78,7 +81,6 @@ function App() {
       </div>
 
       <HeroSections />
-      <FAQ />
       <Footer />
     </div>
   )

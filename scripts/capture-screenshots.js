@@ -31,7 +31,6 @@ const SHOTS = [
   { file: 'risk-scored.png', query: '' },
   { file: 'report-card.png', query: `?focus=${encodeURIComponent(focusKey)}`, hideLayers: true },
   { file: 'highlight-injury.png', query: '?injury=1' },
-  { file: 'hotspots.png', query: '?hotspots=1' },
 ]
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
