@@ -1,0 +1,61 @@
+{
+  "name": "mindthegap",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Interactive map scoring every Metro Vancouver neighbourhood by how underserved it is by transit",
+  "license": "MIT",
+  "author": "Kaegan Donnelly",
+  "homepage": "https://mindthegap.fyi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaegan/mindthegap.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "data:gtfs": "node scripts/process-gtfs.js",
+    "data:census": "node scripts/process-census.js",
+    "data:gaps": "node scripts/compute-gaps.js",
+    "data:topojson": "node scripts/build-topojson.js",
+    "data:export": "node scripts/export-scored-geojson.js",
+    "data": "npm run data:gtfs && npm run data:census && npm run data:gaps && npm run data:topojson && npm run data:export"
+  },
+  "dependencies": {
+    "@react-leaflet/core": "^3.0.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "@turf/centroid": "^7.3.4",
+    "@turf/distance": "^7.3.4",
+    "@turf/helpers": "^7.3.4",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
+    "leaflet": "^1.9.4",
+    "leaflet.heat": "^0.2.0",
+    "nucleo-ui-fill-duo-18": "^1.3.2",
+    "posthog-js": "^1.364.7",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-leaflet": "^5.0.0",
+    "tailwindcss": "^4.2.2",
+    "topojson-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@turf/simplify": "^7.3.4",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "proj4": "^2.15.0",
+    "shapefile": "^0.6.6",
+    "topojson-server": "^3.0.1",
+    "topojson-simplify": "^3.0.3",
+    "vite": "^8.0.1"
+  }
+}
