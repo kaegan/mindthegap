@@ -12,8 +12,9 @@
   --color-transit: #1857B3;   /* transit-signage blue accent */
   --color-signal: #F59E0B;    /* amber signal */
   --color-graphite: #5a5d66;  /* body copy */
-  --color-faint: #9a9c9f;     /* labels / muted */
+  --color-faint: #6b6e76;     /* labels / muted — 5.2:1 on white, legible at 11px */
   --color-rule: #dededa;      /* light divider */
+  --color-paper: #f7f7f5;     /* recessed band */
 
   /* Map data ramp (unchanged) */
   --color-gap-low: #fef3c7;
@@ -21,6 +22,12 @@
   --color-gap-high: #dc2626;
   --color-panel: #ffffff;
   --color-panel-border: var(--color-ink);
+}
+
+:root {
+  /* No dark theme: the data ramp is designed for a light ground. Declaring it
+     keeps scrollbars and form controls from half-switching on dark systems. */
+  color-scheme: light;
 }
 
 /* Visible keyboard-focus ring on the accent color */
@@ -46,14 +53,6 @@
   top: 16px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
 /* Floating signage card — crisp white, hard ink hairline, sharp corner */
 .cs-panel {
   background: var(--color-panel);
@@ -68,12 +67,18 @@
   font-feature-settings: 'tnum' 1;
 }
 
+/* Tabular figures for any number that sits in a column or gets counted up */
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
 /* Diagonal hatch fill for framed placeholders */
 .cs-hatch {
   background: repeating-linear-gradient(135deg, #f3f2ef 0, #f3f2ef 11px, #ecebe7 11px, #ecebe7 22px);
 }
 
-/* Override Leaflet's default styles for the signage system */
+/* ── Leaflet, restyled to the signage system ── */
 .leaflet-container {
   background: #f9fafb;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -92,7 +97,7 @@
 }
 
 .leaflet-popup-close-button {
-  color: #9a9c9f !important;
+  color: var(--color-faint) !important;
 }
 
 .cs-tooltip {
@@ -111,20 +116,36 @@
 
 .leaflet-control-zoom {
   z-index: 400 !important;
+  border: 1px solid #16171b !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 2px rgba(22,23,27,0.10) !important;
 }
 
 .leaflet-control-zoom a {
   background: #ffffff !important;
   color: #16171b !important;
   border-color: #16171b !important;
+  border-radius: 0 !important;
 }
 
 .leaflet-control-zoom a:hover {
   background: #f3f2ef !important;
 }
 
+/* The choropleth reveals itself once: grey first, then each area fills in
+   with a delay proportional to its gap score, so the reddest arrive last.
+   `--gap` is set per path by GapLayer. After the reveal, the delay is zeroed
+   so hover and selection restyles are immediate. */
+.gap-path {
+  transition: fill 400ms ease-out, fill-opacity 150ms ease-out, stroke 150ms ease-out;
+  transition-delay: calc(var(--gap, 0) * 700ms), 0ms, 0ms;
+}
+.gap-reveal-done .gap-path {
+  transition-delay: 0ms;
+}
+
 html {
-  scroll-padding-top: 4rem;
+  scroll-padding-top: 5rem;
 }
 
 /* Smooth scroll is expensive on Mobile Safari with heavy GPU layers */
@@ -138,66 +159,72 @@ body {
   margin: 0;
 }
 
-/* ── Marquee ── */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+/* ── Motion ── */
+
+/* One entrance for every floating map panel */
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-  display: flex;
-  width: max-content;
-  align-items: center;
+.panel-in {
+  animation: panel-in 180ms ease-out both;
 }
 
-/* ── Report card slide-in ── */
-.report-card {
-  animation: report-card-slide-in 300ms ease-out both;
+/* Timeline draws in: the rail grows, then the stations arrive in order */
+.tl-rail {
+  transform-origin: left center;
+  transform: scaleX(0);
 }
-
-@keyframes report-card-slide-in {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
+.tl-node {
+  opacity: 0;
+  transform: scale(0.6);
 }
+.tl-in .tl-rail {
+  animation: tl-rail 600ms linear forwards;
+}
+.tl-in .tl-node {
+  animation: tl-node 320ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: calc(200ms + var(--i, 0) * 90ms);
+}
+@keyframes tl-rail { to { transform: scaleX(1); } }
+@keyframes tl-node { to { opacity: 1; transform: scale(1); } }
 
+/* Vertical variant on small screens: rail grows downward */
 @media (max-width: 639px) {
-  .report-card {
-    animation-name: report-card-slide-up;
+  .tl-rail {
+    transform-origin: center top;
+    transform: scaleY(0);
   }
-  @keyframes report-card-slide-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .tl-in .tl-rail {
+    animation-name: tl-rail-v;
   }
+  @keyframes tl-rail-v { to { transform: scaleY(1); } }
 }
 
-/* ── Legend panel slide-in ── */
-@keyframes legend-panel-in {
-  from { opacity: 0; transform: scale(0.95) translateY(4px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+/* FAQ panel: grid-rows tween never clips mid-transition */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms ease-out, opacity 200ms ease-out;
+  opacity: 0;
+}
+.faq-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.faq-panel > div {
+  min-height: 0;
+  overflow: hidden;
 }
 
-/* ── Layer panel slide-in ── */
-@keyframes layer-panel-in {
-  from { opacity: 0; transform: scale(0.95) translateY(-4px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* ── Gap explorer slide-in ── */
-.gap-explorer {
-  animation: gap-explorer-slide-in 300ms ease-out both;
-}
-
-@keyframes gap-explorer-slide-in {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@media (max-width: 639px) {
-  .gap-explorer {
-    animation-name: gap-explorer-slide-up;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
-  @keyframes gap-explorer-slide-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .tl-rail { transform: none; }
+  .tl-node { opacity: 1; transform: none; }
 }

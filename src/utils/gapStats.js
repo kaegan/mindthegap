@@ -1,4 +1,13 @@
-import { getGapColor } from './colors'
+import { getGapColor } from './colors.js'
+
+// One definition of "critical", shared by the hero stats build script, the
+// explorer and the legend. Areas at or above this gap score are the ones the
+// headline counts.
+export const CRITICAL_THRESHOLD = 0.9
+
+export function isCritical(props) {
+  return !props.low_density && (props.gap_score || 0) >= CRITICAL_THRESHOLD
+}
 
 export function computeMetroStats(gapGeoJSON) {
   const features = gapGeoJSON.features
@@ -41,13 +50,21 @@ export function getPercentile(value, sortedArray) {
   return Math.round((count / sortedArray.length) * 100)
 }
 
-export function getPercentileLabel(percentile) {
-  if (percentile <= 20) return `Bottom ${percentile}%`
-  if (percentile >= 80) return `Top ${100 - percentile}%`
-  return `${percentile}th percentile`
+// A high gap percentile is bad. Say so, rather than "Top 2%", which reads as praise.
+export function gapPercentileLabel(percentile) {
+  if (percentile >= 99) return 'Among the worst in Metro Vancouver'
+  if (percentile >= 50) return `Worse than ${percentile}% of areas`
+  return `Better than ${100 - percentile}% of areas`
 }
 
-const GRADES = [
+// A high service percentile is good.
+export function servicePercentileLabel(percentile) {
+  if (percentile <= 0) return 'Lowest in Metro Vancouver'
+  if (percentile >= 50) return `More than ${percentile}% of areas`
+  return `Less than ${100 - percentile}% of areas`
+}
+
+export const GRADES = [
   { max: 0.2, letter: 'A', label: 'Well covered', textColor: '#15803d' },
   { max: 0.4, letter: 'B', label: 'Adequate coverage', textColor: '#a16207' },
   { max: 0.6, letter: 'C', label: 'Below average', textColor: '#c2410c' },
@@ -56,7 +73,7 @@ const GRADES = [
 ]
 
 export const LOW_DENSITY_GRADE = {
-  letter: '\u2013',
+  letter: '–',
   label: 'Low density',
   color: '#9ca3af',
 }

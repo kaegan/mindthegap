@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { IconMapPinFillDuo18 as MapPin } from 'nucleo-ui-fill-duo-18'
+import { IconLegend } from '../icons'
+import { GRADES, CRITICAL_THRESHOLD } from '../../utils/gapStats'
+import { getGapColor, LOW_DENSITY_COLOR } from '../../utils/colors'
+
+const Overline = ({ children, className = '' }) => (
+  <h3 className={`text-[11px] font-semibold tracking-[0.12em] uppercase text-faint ${className}`}>{children}</h3>
+)
 
 export default function Legend({ showHotspots, showPopDensity }) {
   const [open, setOpen] = useState(() => window.innerWidth >= 640)
@@ -9,82 +15,71 @@ export default function Legend({ showHotspots, showPopDensity }) {
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="cs-panel p-2 cursor-pointer hover:bg-white/90 transition-colors"
-          aria-label="Show coverage gap legend"
+          className="cs-panel p-2 cursor-pointer text-ink hover:bg-[#f3f2ef] transition-colors"
+          aria-label="Show legend"
         >
-          <MapPin size={20} style={{ color: '#f97316' }} />
+          <IconLegend size={18} />
         </button>
       )}
 
       {open && (
-        <div className="cs-panel p-4 animate-[legend-panel-in_150ms_ease-out]">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-semibold text-gray-400 tracking-wider font-heading">
-              Coverage Gap
-            </h3>
+        <div className="cs-panel p-4 panel-in w-[212px]">
+          <div className="flex items-center justify-between mb-3">
+            <Overline>Coverage gap</Overline>
             <button
               onClick={() => setOpen(false)}
-              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer -mr-1"
+              className="text-faint hover:text-ink transition-colors cursor-pointer -mr-1"
               aria-label="Collapse legend"
             >
-              <MapPin size={16} style={{ color: 'currentColor' }} />
+              <IconLegend size={14} />
             </button>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-xs text-gray-500">Low</span>
-            <div className="flex h-3 rounded overflow-hidden">
-              {['#fef3c7', '#fde68a', '#fbbf24', '#f59e0b', '#f97316', '#ef4444', '#dc2626'].map(
-                (color) => (
-                  <div key={color} className="w-5 h-full" style={{ backgroundColor: color }} />
-                )
-              )}
-            </div>
-            <span className="text-xs text-gray-500">High</span>
+
+          {/* Grade scale: five bands, each drawn in the ramp colour at its midpoint */}
+          <div className="grid grid-cols-5 gap-px">
+            {GRADES.map((g, i) => {
+              const lo = i === 0 ? 0 : GRADES[i - 1].max
+              return (
+                <div key={g.letter} className="flex flex-col items-center gap-1">
+                  <div className="w-full h-3" style={{ backgroundColor: getGapColor((lo + g.max) / 2) }} />
+                  <span className="num text-[11px] font-semibold text-ink">{g.letter}</span>
+                </div>
+              )
+            })}
           </div>
-          <p className="text-xs text-gray-500 mt-2 max-w-[180px]">
-            Fewer transit trips per resident = larger coverage gap
+          <div className="flex justify-between text-[10px] text-faint mt-0.5">
+            <span>Well covered</span>
+            <span>Underserved</span>
+          </div>
+          <p className="text-[11px] text-faint mt-2.5 leading-snug">
+            Fewer transit trips per resident, larger gap. Score ≥ {CRITICAL_THRESHOLD} counts as critical.
           </p>
-          <div className="flex items-center gap-1.5 mt-2">
-            <div className="w-4 h-3 rounded" style={{ backgroundColor: '#d1d5db' }} />
-            <span className="text-xs text-gray-500">Low density (ungraded)</span>
+          <div className="flex items-center gap-2 mt-2.5">
+            <div className="w-4 h-3" style={{ backgroundColor: LOW_DENSITY_COLOR }} />
+            <span className="text-[11px] text-faint">Low density, ungraded</span>
           </div>
 
           {showHotspots && (
             <>
-              <h3 className="text-xs font-semibold text-gray-400 tracking-wider mt-4 mb-2">
-                Hotspot Clusters
-              </h3>
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-gray-500">Low</span>
-                <div
-                  className="h-3 w-[140px] rounded"
-                  style={{
-                    background: 'linear-gradient(to right, #1e1b4b, #7c3aed, #f59e0b, #f97316, #ef4444, #fef08a)',
-                  }}
-                />
-                <span className="text-xs text-gray-500">High</span>
-              </div>
+              <Overline className="mt-4 mb-2">Hotspots</Overline>
+              <div
+                className="h-3"
+                style={{ background: 'linear-gradient(to right, #1e1b4b, #7c3aed, #f59e0b, #f97316, #ef4444, #fef08a)' }}
+              />
+              <p className="text-[11px] text-faint mt-1.5 leading-snug">
+                Where high-gap areas cluster together, weighted by residents.
+              </p>
             </>
           )}
 
           {showPopDensity && (
             <>
-              <h3 className="text-xs font-semibold text-gray-400 tracking-wider mt-4 mb-2">
-                Population Density
-              </h3>
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-gray-500">Low</span>
-                <div
-                  className="h-3 w-[140px] rounded"
-                  style={{
-                    background: 'linear-gradient(to right, #eff6ff, #93c5fd, #3b82f6, #1d4ed8, #1e3a8a, #312e81)',
-                  }}
-                />
-                <span className="text-xs text-gray-500">High</span>
-              </div>
-              <p className="text-xs text-gray-500 mt-1 max-w-[180px]">
-                Residents per km²
-              </p>
+              <Overline className="mt-4 mb-2">Population density</Overline>
+              <div
+                className="h-3"
+                style={{ background: 'linear-gradient(to right, #eff6ff, #93c5fd, #3b82f6, #1d4ed8, #1e3a8a, #312e81)' }}
+              />
+              <p className="text-[11px] text-faint mt-1.5">Residents per km²</p>
             </>
           )}
         </div>

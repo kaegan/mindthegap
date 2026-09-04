@@ -1,0 +1,9 @@
+{
+  "areasTotal": 3590,
+  "areasGraded": 3415,
+  "gradedResidents": 2536745,
+  "criticalThreshold": 0.9,
+  "criticalAreas": 177,
+  "criticalResidents": 225222,
+  "generatedAt": "2026-09-04"
+}

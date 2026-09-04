@@ -25,6 +25,7 @@ const VANCOUVER_CENTER = [49.25, -123.1]
 const DEFAULT_ZOOM = 11
 
 const DEFAULT_STYLE = (score, lowDensity) => ({
+  className: 'gap-path',
   fillColor: lowDensity ? LOW_DENSITY_COLOR : getGapColor(score),
   fillOpacity: lowDensity ? 0.35 : 0.65,
   weight: 0.5,
@@ -32,11 +33,29 @@ const DEFAULT_STYLE = (score, lowDensity) => ({
 })
 
 const HIGHLIGHT_STYLE = (score, lowDensity) => ({
+  className: 'gap-path',
   fillColor: lowDensity ? LOW_DENSITY_COLOR : getGapColor(score),
   fillOpacity: lowDensity ? 0.55 : 0.85,
   weight: 3,
-  color: '#111827',
+  color: '#16171b',
 })
+
+// Hovered from the Worst-gaps list: an ink outline, no fill change
+const HOVER_STYLE = (score, lowDensity) => ({
+  ...DEFAULT_STYLE(score, lowDensity),
+  weight: 2,
+  color: '#16171b',
+})
+
+// Before the one-time reveal, every graded area is grey; the CSS transition
+// on `.gap-path` then carries each one to its colour, reddest last.
+const UNREVEALED_STYLE = (lowDensity) => ({
+  ...DEFAULT_STYLE(0, lowDensity),
+  fillColor: LOW_DENSITY_COLOR,
+})
+
+const reduceMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+let hasRevealed = false // once per page, not once per layer mount
 
 function InvalidateSizeOnMount() {
   const map = useMap()
@@ -53,10 +72,21 @@ function MapClickHandler({ onMapClick }) {
   return null
 }
 
-function GapLayer({ data, selectedDAUID, onSelectDA }) {
+function GapLayer({ data, selectedDAUID, hoveredDAUID, onSelectDA }) {
   const map = useMap()
   const layersRef = useRef(new Map())
   const selectedLayerRef = useRef(null)
+  const hoveredLayerRef = useRef(null)
+  const [revealed, setRevealed] = useState(() => hasRevealed || reduceMotion())
+
+  useEffect(() => {
+    if (revealed) return
+    // Two frames so the grey paths are painted before the colour lands
+    let f2
+    const f1 = requestAnimationFrame(() => { f2 = requestAnimationFrame(() => { setRevealed(true); hasRevealed = true }) })
+    const done = setTimeout(() => map.getContainer().classList.add('gap-reveal-done'), 1300)
+    return () => { cancelAnimationFrame(f1); cancelAnimationFrame(f2); clearTimeout(done) }
+  }, [revealed, map])
   const tooltipRef = useRef(L.tooltip({ className: 'cs-tooltip' }))
   const draggingRef = useRef(false)
 
@@ -83,18 +113,24 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
 
     const content = p.low_density
       ? `<div style="font-size:13px; line-height:1.5">
-          <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
-          <div style="color:#6b7280">Low density (${densityStr}/km²)</div>
-          <div style="color:#9ca3af; margin-top:2px">Not graded</div>
+          <div style="font-weight:600; color:#16171b; margin-bottom:2px">${p.name || 'Area'}</div>
+          <div style="color:#5a5d66">Low density (${densityStr}/km²)</div>
+          <div style="color:#6b6e76; margin-top:2px">Not graded</div>
         </div>`
       : `<div style="font-size:13px; line-height:1.5">
-          <div style="font-weight:600; color:#111827; margin-bottom:2px">${p.name || 'Area'}</div>
-          <div style="color:#4b5563">Density: ${densityStr}/km²</div>
-          <div style="color:#4b5563">Trips/resident: ${(p.trips_per_capita || 0).toFixed(1)}</div>
-          <div style="font-weight:600; color:${getGapColor(p.gap_score || 0)}; margin-top:2px">
+          <div style="font-weight:600; color:#16171b; margin-bottom:2px">${p.name || 'Area'}</div>
+          <div style="color:#5a5d66">Density: ${densityStr}/km²</div>
+          <div style="color:#5a5d66">Trips/resident: ${(p.trips_per_capita || 0).toFixed(1)}</div>
+          <div style="display:flex; align-items:center; gap:6px; font-weight:600; color:#16171b; margin-top:2px">
+            <span style="display:inline-block; width:10px; height:10px; background:${getGapColor(p.gap_score || 0)}; border:1px solid rgba(22,23,27,0.25)"></span>
             Coverage gap: ${(p.gap_score || 0).toFixed(2)}
           </div>
         </div>`
+
+    // Per-path reveal delay, proportional to gap score
+    layer.on('add', () => {
+      layer.getElement()?.style.setProperty('--gap', String(p.low_density ? 0 : (p.gap_score || 0)))
+    })
 
     layer.on('mouseover', () => {
       if (!draggingRef.current) tooltipRef.current.setContent(content)
@@ -141,9 +177,30 @@ function GapLayer({ data, selectedDAUID, onSelectDA }) {
     }
   }, [selectedDAUID])
 
+  // Outline the area hovered in the Worst-gaps list
+  useEffect(() => {
+    const prev = hoveredLayerRef.current
+    if (prev && prev.feature.properties.dauid !== selectedDAUID) {
+      const pp = prev.feature.properties
+      prev.setStyle(DEFAULT_STYLE(pp.gap_score || 0, pp.low_density))
+    }
+    hoveredLayerRef.current = null
+    if (hoveredDAUID && hoveredDAUID !== selectedDAUID) {
+      const layer = layersRef.current.get(hoveredDAUID)
+      if (layer) {
+        const pr = layer.feature.properties
+        layer.setStyle(HOVER_STYLE(pr.gap_score || 0, pr.low_density))
+        layer.bringToFront()
+        hoveredLayerRef.current = layer
+      }
+    }
+  }, [hoveredDAUID, selectedDAUID])
+
   const style = (feature) => {
     const { gap_score, low_density, dauid } = feature.properties
+    if (!revealed) return UNREVEALED_STYLE(low_density)
     if (dauid === selectedDAUID) return HIGHLIGHT_STYLE(gap_score || 0, low_density)
+    if (dauid === hoveredDAUID) return HOVER_STYLE(gap_score || 0, low_density)
     return DEFAULT_STYLE(gap_score || 0, low_density)
   }
 
@@ -209,7 +266,7 @@ function SkyTrainStations({ stopsData }) {
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
               <div style={{ fontWeight: 600, color: '#1e3a5f' }}>{s.name}</div>
-              <div style={{ color: '#6b7280' }}>{s.trips_per_day} trips/day</div>
+              <div style={{ color: '#5a5d66' }}>{s.trips_per_day} trips/day</div>
             </div>
           </Tooltip>
         </CircleMarker>
@@ -243,8 +300,8 @@ function BusStops({ stopsData }) {
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -4]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
-              <div style={{ fontWeight: 600, color: '#111827' }}>{s.name}</div>
-              <div style={{ color: '#6b7280' }}>{s.trips_per_day} trips/day</div>
+              <div style={{ fontWeight: 600, color: '#16171b' }}>{s.name}</div>
+              <div style={{ color: '#5a5d66' }}>{s.trips_per_day} trips/day</div>
             </div>
           </Tooltip>
         </CircleMarker>
@@ -265,8 +322,21 @@ function MapSection() {
   const [showSeaBus, setShowSeaBus] = useState(false)
   const [showWCE, setShowWCE] = useState(false)
   const [selectedDA, setSelectedDA] = useState(null)
-  const [showExplorer, setShowExplorer] = useState(false)
+  const [selectedName, setSelectedName] = useState(null)
+  const [hoveredDAUID, setHoveredDAUID] = useState(null)
+  const [showExplorer, setShowExplorerState] = useState(false)
+  const [layersOpen, setLayersOpen] = useState(() => window.innerWidth >= 640)
   const [flyTarget, setFlyTarget] = useState(null)
+
+  // Below `sm` the list and the layers panel share the same screen; only one
+  // is open at a time.
+  const setShowExplorer = useCallback((next) => {
+    setShowExplorerState(prev => {
+      const value = typeof next === 'function' ? next(prev) : next
+      if (value && window.innerWidth < 640) setLayersOpen(false)
+      return value
+    })
+  }, [])
 
   const [gapStatus, setGapStatus] = useState('loading') // 'loading' | 'ready' | 'error'
   const [gapAttempt, setGapAttempt] = useState(0)
@@ -320,10 +390,17 @@ function MapSection() {
 
   const handleMapClick = useCallback(() => {
     setSelectedDA(null)
+    setSelectedName(null)
   }, [])
 
-  const handleExplorerSelect = useCallback((feature) => {
+  const handleMapSelect = useCallback((feature) => {
     setSelectedDA(feature)
+    setSelectedName(null)
+  }, [])
+
+  const handleExplorerSelect = useCallback((feature, name) => {
+    setSelectedDA(feature)
+    setSelectedName(name || null)
     setFlyTarget(feature)
   }, [])
 
@@ -353,7 +430,8 @@ function MapSection() {
               <GapLayer
                 data={gapData}
                 selectedDAUID={selectedDA?.properties.dauid}
-                onSelectDA={setSelectedDA}
+                hoveredDAUID={hoveredDAUID}
+                onSelectDA={handleMapSelect}
               />
             )}
             {showHotspots && gapData && <HotspotLayer data={gapData} />}
@@ -372,6 +450,8 @@ function MapSection() {
         {/* Floating UI panels */}
         <Legend showHotspots={showHotspots} showPopDensity={showPopDensity} />
         <LayerToggle
+          open={layersOpen}
+          setOpen={setLayersOpen}
           showGaps={showGaps}
           setShowGaps={setShowGaps}
           showHotspots={showHotspots}
@@ -396,8 +476,10 @@ function MapSection() {
             gapData={gapData}
             stopsData={stopsData}
             onSelectDA={handleExplorerSelect}
+            onHoverDA={setHoveredDAUID}
             selectedDAUID={selectedDA?.properties.dauid}
-            onClose={() => setShowExplorer(false)}
+            hoveredDAUID={hoveredDAUID}
+            onClose={() => { setShowExplorer(false); setHoveredDAUID(null) }}
           />
         )}
 
@@ -405,15 +487,16 @@ function MapSection() {
         {selectedDA && metroStats && (
           <ReportCard
             feature={selectedDA}
+            displayName={selectedName}
             nearestStops={nearestStops}
             metroStats={metroStats}
-            onClose={() => setSelectedDA(null)}
+            onClose={() => { setSelectedDA(null); setSelectedName(null) }}
           />
         )}
 
         {/* Scroll-zoom hint */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[900] cs-panel px-3 py-1.5 text-xs text-gray-400 pointer-events-none">
-          Use +/- or pinch to zoom
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[900] cs-mono text-[11px] text-faint bg-white/85 px-2.5 py-1 pointer-events-none">
+          +/− or pinch to zoom
         </div>
 
         {/* Coverage-data loading / error overlay */}

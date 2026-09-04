@@ -1,11 +1,9 @@
-// Two-tone station plate: red dot segment joined to a dark label segment.
+// The one overline style used everywhere: a small ink square and tracked caps.
 export default function StationTag({ label, className = '' }) {
   return (
-    <div className={`inline-flex items-stretch w-max rounded-[3px] overflow-hidden ${className}`}>
-      <span className="flex items-center bg-transit px-2.5">
-        <span className="w-[7px] h-[7px] rounded-full bg-white" />
-      </span>
-      <span className="flex items-center bg-ink text-white text-[11px] font-semibold tracking-[0.12em] uppercase px-3 py-1.5">
+    <div className={`inline-flex items-center gap-2.5 ${className}`}>
+      <span className="w-1.5 h-1.5 bg-ink shrink-0" aria-hidden="true" />
+      <span className="text-[11px] font-semibold tracking-[0.14em] uppercase text-faint">
         {label}
       </span>
     </div>

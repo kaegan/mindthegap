@@ -1,18 +1,13 @@
 import { useState } from 'react'
 import { capture } from '../../lib/analytics'
 import logoSvg from '../../assets/mindthegap-logo.svg'
-const Menu = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-)
-const X = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-)
+import { IconMenu, IconX } from '../icons'
 
 const navLinks = [
   { label: 'Map', href: '/#map' },
   { label: "How it's built", href: '/#how-its-built' },
-  { label: 'About', href: '/#about' },
   { label: 'FAQ', href: '/#faq' },
+  { label: 'About', href: '/#about' },
 ]
 
 const SOURCE_URL = 'https://github.com/kaegan/mindthegap'
@@ -23,7 +18,6 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-[1000] bg-white/95 backdrop-blur-md border-b-2 border-ink">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 sm:px-8 py-3.5">
-        {/* Name-plate logo */}
         <a href="/" className="flex items-center" aria-label="Mind the Gap">
           <img src={logoSvg} alt="MindTheGap" className="h-[30px] w-auto block" />
         </a>
@@ -56,12 +50,9 @@ export default function Header() {
           className="sm:hidden text-ink hover:text-transit transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
-          {menuOpen ? (
-            <X className="w-6 h-6" />
-          ) : (
-            <Menu className="w-6 h-6" />
-          )}
+          {menuOpen ? <IconX size={24} /> : <IconMenu size={24} />}
         </button>
       </div>
 

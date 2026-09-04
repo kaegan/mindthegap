@@ -1,44 +1,28 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { capture } from '../../lib/analytics'
-import { IconPlusFillDuo18 as Plus } from 'nucleo-ui-fill-duo-18'
+import { IconPlus } from '../icons'
 
 const faqs = [
   {
-    q: 'Where does the data come from?',
-    a: "Transit data comes from TransLink's GTFS feed (stop locations and trip frequencies). Population data comes from Statistics Canada's 2021 Census at the dissemination area level.",
-  },
-  {
     q: 'How is the gap score calculated?',
-    a: "For each area, I count the total daily transit trips within a 600-meter walking distance of its centre and divide by the resident population to get trips per capita. That per-capita figure is percentile-ranked against all areas above a density floor (400 people/km\u00B2), and the gap score is the squared inverse of that percentile. Fewer trips per resident = higher gap. Areas below the density floor are shown in gray and left ungraded. One caveat worth naming: because the score is a percentile rank, it's relative by construction \u2014 it flags the worst-served areas in this region, not an absolute standard of adequate service. A city with excellent coverage everywhere would still show a spread.",
+    a: "For each area, I count the daily transit trips within a 600-metre walk of its centre and divide by resident population to get trips per capita. That figure is percentile-ranked against every area above a density floor (400 people/km²), and the gap score is the squared inverse of that percentile. Fewer trips per resident means a higher gap. Areas below the density floor are grey and ungraded. The score is a percentile rank, so it's relative. It finds the worst-served areas in this region, not areas below an absolute standard. A city with great coverage everywhere would still show a spread.",
   },
   {
     q: 'Is the data accurate?',
-    a: "It's directional, not definitive. The GTFS feed captures scheduled service, not real-time reliability, and the census data is from 2021 so new developments won't show up. Some edges are rough (e.g. a zone near a SkyTrain station might still score high if bus feeder routes are sparse). This is a starting point for conversation, not a planning tool.",
+    a: "Treat it as directional. GTFS shows scheduled service, not what actually runs, and 2021 census data misses newer developments. Edges are rough: an area beside a SkyTrain station can still score badly if feeder buses are sparse.",
   },
   {
     q: 'Can I download the scored data?',
-    a: (<>Yes &mdash; grab the scored dissemination areas as <a href="/data/vancouver-transit-gaps.geojson" download className="text-transit underline hover:opacity-80">GeoJSON</a> (geometry plus gap score, population, and trips per capita). Offered under CC&nbsp;BY&nbsp;4.0; source data from TransLink's GTFS feed and Statistics Canada's 2021 Census.</>),
+    a: (<>Yes. The scored dissemination areas are available as <a href="/data/vancouver-transit-gaps.geojson" download className="text-transit underline hover:opacity-80">GeoJSON</a> (geometry plus gap score, population, and trips per capita), under CC&nbsp;BY&nbsp;4.0. Source data is TransLink's GTFS feed and Statistics Canada's 2021 Census.</>),
   },
   {
-    q: 'Why build something like this?',
-    a: (<>I wanted to try out how the PM role is changing. What PMs used to <em>tell</em>, through lengthy PRDs, hacky wireframes, and lots and lots of meetings, they can now often <em>show</em>, using prototypes, examples, and sometimes by actually shipping. This is one small example of that — a real product, built solo, in a few days.</>),
-  },
-  {
-    q: 'What parts did you do vs Claude?',
-    a: "I did all the product thinking: came up with the concept, chose the data sources, defined how the gap score should work, made the design decisions, and wrote most of the copy (I let Claude do some of the more marketing-y stuff to describe the app). Claude Code handled the implementation, with me creating and reviewing each PR. A bit like being a PM on a one person team.",
+    q: 'Why build this, and what did Claude do?',
+    a: (<>PMs used to <em>tell</em>: PRDs, wireframes, meetings. Now they can <em>show</em>. I picked the problem, chose the data, defined the score, and made the design calls. Claude Code did the implementation and I reviewed every PR. Built solo in a few days.</>),
   },
 ]
 
 function FAQItem({ q, a, panelId }) {
   const [open, setOpen] = useState(false)
-  const contentRef = useRef(null)
-  const [height, setHeight] = useState(0)
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(contentRef.current.scrollHeight)
-    }
-  }, [open])
 
   return (
     <div className="border-b border-rule">
@@ -51,19 +35,15 @@ function FAQItem({ q, a, panelId }) {
         <span className="text-base sm:text-lg font-semibold text-ink group-hover:text-transit transition-colors pr-4">
           {q}
         </span>
-        <span className={`text-faint group-hover:text-transit shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>
-          <Plus className="w-5 h-5" />
+        <span className={`text-faint group-hover:text-transit shrink-0 transition-transform duration-200 ${open ? 'rotate-45' : ''}`}>
+          <IconPlus size={20} />
         </span>
       </button>
-      <div
-        ref={contentRef}
-        id={panelId}
-        inert={!open}
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ maxHeight: open ? `${height}px` : '0px', opacity: open ? 1 : 0 }}
-      >
-        <div className="pb-5 text-graphite leading-relaxed text-sm sm:text-base max-w-2xl">
-          {a}
+      <div id={panelId} className="faq-panel" data-open={open} inert={!open}>
+        <div>
+          <div className="pb-5 text-graphite leading-relaxed text-sm sm:text-base max-w-2xl">
+            {a}
+          </div>
         </div>
       </div>
     </div>
@@ -72,15 +52,12 @@ function FAQItem({ q, a, panelId }) {
 
 export default function FAQ() {
   return (
-    <section
-      id="faq"
-      className="relative px-6 sm:px-12 py-16 sm:py-24 bg-gray-50 border-t border-rule"
-    >
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl font-bold text-ink mb-8 tracking-tight font-heading">
-          FAQ
-        </h2>
-        <div>
+    <section id="faq" className="relative bg-paper border-t border-rule">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16 sm:py-20">
+        <div className="max-w-2xl">
+          <h2 className="text-3xl sm:text-4xl font-bold text-ink mb-6 tracking-tight font-heading">
+            FAQ
+          </h2>
           {faqs.map((faq, i) => (
             <FAQItem key={faq.q} {...faq} panelId={`faq-panel-${i}`} />
           ))}
