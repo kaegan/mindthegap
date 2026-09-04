@@ -170,37 +170,6 @@ body {
   animation: panel-in 180ms ease-out both;
 }
 
-/* Timeline draws in: the rail grows, then the stations arrive in order */
-.tl-rail {
-  transform-origin: left center;
-  transform: scaleX(0);
-}
-.tl-node {
-  opacity: 0;
-  transform: scale(0.6);
-}
-.tl-in .tl-rail {
-  animation: tl-rail 600ms linear forwards;
-}
-.tl-in .tl-node {
-  animation: tl-node 320ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  animation-delay: calc(200ms + var(--i, 0) * 90ms);
-}
-@keyframes tl-rail { to { transform: scaleX(1); } }
-@keyframes tl-node { to { opacity: 1; transform: scale(1); } }
-
-/* Vertical variant on small screens: rail grows downward */
-@media (max-width: 639px) {
-  .tl-rail {
-    transform-origin: center top;
-    transform: scaleY(0);
-  }
-  .tl-in .tl-rail {
-    animation-name: tl-rail-v;
-  }
-  @keyframes tl-rail-v { to { transform: scaleY(1); } }
-}
-
 /* FAQ panel: grid-rows tween never clips mid-transition */
 .faq-panel {
   display: grid;
@@ -225,6 +194,4 @@ body {
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
   }
-  .tl-rail { transform: none; }
-  .tl-node { opacity: 1; transform: none; }
 }

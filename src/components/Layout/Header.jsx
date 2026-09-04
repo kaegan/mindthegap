@@ -5,7 +5,6 @@ import { IconMenu, IconX } from '../icons'
 
 const navLinks = [
   { label: 'Map', href: '/#map' },
-  { label: "How it's built", href: '/#how-its-built' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'About', href: '/#about' },
 ]

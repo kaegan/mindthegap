@@ -1,5 +1,4 @@
 import { capture } from '../../lib/analytics'
-import Timeline from './Timeline'
 import StationTag from './StationTag'
 
 export default function Section({ section, showDivider }) {
@@ -47,14 +46,6 @@ export default function Section({ section, showDivider }) {
               </div>
             )}
           </div>
-
-          {section.timeline && <Timeline steps={section.timeline} />}
-
-          {section.stack && (
-            <p className="cs-mono text-[12px] sm:text-[13px] text-faint mt-10 pt-4 border-t border-rule">
-              {section.stack.join(' · ')}
-            </p>
-          )}
         </div>
       </section>
     </div>

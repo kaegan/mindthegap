@@ -1,22 +1,4 @@
-export const sections = [
-  {
-    id: 'how-its-built',
-    tag: 'Behind the build',
-    headline: 'Real data, scored and mapped',
-    body: [
-      'I chose the data, defined the score, and decided what the map had to show. Claude Code wrote the code; I reviewed every PR.',
-    ],
-    timeline: [
-      { label: 'GTFS feed', sub: 'TransLink stops & trips' },
-      { label: 'Census join', sub: 'StatsCan 2021, by area' },
-      { label: 'Gap scoring', sub: 'trips per capita, ranked' },
-      { label: 'TopoJSON', sub: 'packaged for the browser' },
-      { label: 'The map', sub: '3,590 areas, coloured', highlight: true },
-    ],
-    stack: ['React', 'Vite', 'Leaflet', 'Turf', 'Tailwind', 'Claude Code', 'Vercel'],
-    bg: 'bg-white',
-  },
-]
+export const sections = []
 
 // About-the-maker — rendered after the FAQ, just above the footer.
 export const aboutSection = {

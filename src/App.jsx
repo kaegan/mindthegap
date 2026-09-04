@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import Header from './components/Layout/Header'
-import HeroSections from './components/Hero/HeroSections'
 import Section from './components/Hero/Section'
 import StationTag from './components/Hero/StationTag'
 import AnimatedNumber from './components/Hero/AnimatedNumber'
@@ -103,7 +102,6 @@ function App() {
         </div>
       </section>
 
-      <HeroSections />
       <FAQ />
       <Section section={aboutSection} />
       </main>
