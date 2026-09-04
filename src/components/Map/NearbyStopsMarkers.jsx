@@ -19,8 +19,8 @@ export default function NearbyStopsMarkers({ stops }) {
         >
           <Tooltip className="cs-tooltip" direction="top" offset={[0, -6]}>
             <div style={{ fontSize: '12px', lineHeight: 1.4 }}>
-              <div style={{ fontWeight: 600, color: '#111827' }}>{stop.name}</div>
-              <div style={{ color: '#6b7280' }}>{stop.trips_per_day} trips/day · {stop.distance_m}m away</div>
+              <div style={{ fontWeight: 600, color: '#16171b' }}>{stop.name}</div>
+              <div style={{ color: '#5a5d66' }}>{stop.trips_per_day} trips/day · {stop.distance_m}m away</div>
             </div>
           </Tooltip>
         </CircleMarker>

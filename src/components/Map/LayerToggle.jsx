@@ -1,15 +1,27 @@
-import { useState } from 'react'
 import { capture } from '../../lib/analytics'
-import { IconMapPinFillDuo18 as MapPin } from 'nucleo-ui-fill-duo-18'
-import { IconHotspotFillDuo18 as Hotspot } from 'nucleo-ui-fill-duo-18'
-import { IconTrainFillDuo18 as Train } from 'nucleo-ui-fill-duo-18'
-import { IconShipFillDuo18 as Ship } from 'nucleo-ui-fill-duo-18'
-import { IconBusFillDuo18 as Bus } from 'nucleo-ui-fill-duo-18'
-import { IconLayers3FillDuo18 as Layers } from 'nucleo-ui-fill-duo-18'
-import { IconFireFlameFillDuo18 as Flame } from 'nucleo-ui-fill-duo-18'
-import { IconPeopleFillDuo18 as People } from 'nucleo-ui-fill-duo-18'
+import { IconLayers, IconList } from '../icons'
+
+const Overline = ({ children, className = '' }) => (
+  <h3 className={`text-[11px] font-semibold tracking-[0.12em] uppercase text-faint ${className}`}>{children}</h3>
+)
+
+function Toggle({ checked, onChange, label, swatch }) {
+  return (
+    <label className="flex items-center gap-2.5 cursor-pointer py-1">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="accent-transit"
+      />
+      {swatch && <span className="w-3.5 h-1 shrink-0" style={{ backgroundColor: swatch }} aria-hidden="true" />}
+      <span className="text-sm text-ink">{label}</span>
+    </label>
+  )
+}
 
 export default function LayerToggle({
+  open, setOpen,
   showGaps, setShowGaps,
   showHotspots, setShowHotspots,
   showPopDensity, setShowPopDensity,
@@ -19,138 +31,56 @@ export default function LayerToggle({
   showWCE, setShowWCE,
   showExplorer, setShowExplorer,
 }) {
-  const [open, setOpen] = useState(true)
-
-  const trackToggle = (layer, enabled) => {
-    capture('layer_toggled', { layer, enabled })
-  }
+  const track = (layer, enabled) => capture('layer_toggled', { layer, enabled })
+  const bind = (setter, name) => (v) => { setter(v); track(name, v) }
 
   return (
     <div className="absolute top-4 right-4 z-[900]">
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="cs-panel p-2 cursor-pointer hover:bg-white/90 transition-colors"
+          className="cs-panel p-2 cursor-pointer text-ink hover:bg-[#f3f2ef] transition-colors"
           aria-label="Show layers"
         >
-          <Layers size={20} style={{ color: '#6b7280' }} />
+          <IconLayers size={18} />
         </button>
       )}
 
       {open && (
-        <div className="cs-panel p-4 animate-[layer-panel-in_150ms_ease-out]">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-semibold text-gray-400 tracking-wider font-heading">
-              Layers
-            </h3>
+        <div className="cs-panel p-4 panel-in w-[212px]">
+          <div className="flex items-center justify-between mb-2">
+            <Overline>Layers</Overline>
             <button
               onClick={() => setOpen(false)}
-              className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer -mr-1"
+              className="text-faint hover:text-ink transition-colors cursor-pointer -mr-1"
               aria-label="Collapse layers"
             >
-              <Layers size={16} style={{ color: 'currentColor' }} />
+              <IconLayers size={14} />
             </button>
           </div>
-          <label className="flex items-center gap-2 cursor-pointer mb-2">
-            <input
-              type="checkbox"
-              checked={showGaps}
-              onChange={(e) => { setShowGaps(e.target.checked); trackToggle('coverage_gaps', e.target.checked) }}
-              className="rounded accent-orange-500"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <MapPin size={14} style={{ color: '#f97316' }} />
-              Coverage Gaps
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer mb-2">
-            <input
-              type="checkbox"
-              checked={showHotspots}
-              onChange={(e) => { setShowHotspots(e.target.checked); trackToggle('hotspots', e.target.checked) }}
-              className="rounded accent-violet-500"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Hotspot size={14} style={{ color: '#8b5cf6' }} />
-              Hotspots
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer mb-3">
-            <input
-              type="checkbox"
-              checked={showPopDensity}
-              onChange={(e) => { setShowPopDensity(e.target.checked); trackToggle('pop_density', e.target.checked) }}
-              className="rounded accent-blue-700"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <People size={14} style={{ color: '#1d4ed8' }} />
-              Population Density
-            </span>
-          </label>
+
+          <Toggle checked={showGaps} onChange={bind(setShowGaps, 'coverage_gaps')} label="Coverage gaps" />
+          <Toggle checked={showHotspots} onChange={bind(setShowHotspots, 'hotspots')} label="Hotspots" />
+          <Toggle checked={showPopDensity} onChange={bind(setShowPopDensity, 'pop_density')} label="Population density" />
 
           <button
             onClick={() => setShowExplorer(v => !v)}
-            className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-md text-sm font-medium transition-all cursor-pointer mb-3 ${
+            aria-pressed={showExplorer}
+            className={`w-full flex items-center gap-2 px-3 py-2 mt-3 mb-4 rounded-[3px] text-sm font-semibold transition-colors cursor-pointer border ${
               showExplorer
-                ? 'bg-orange-50 text-orange-700 border border-orange-200'
-                : 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100'
+                ? 'bg-ink text-white border-ink'
+                : 'bg-white text-ink border-ink hover:bg-[#f3f2ef]'
             }`}
           >
-            <Flame size={14} style={{ color: showExplorer ? '#ea580c' : '#9ca3af' }} />
-            Explore Worst Gaps
+            <IconList size={14} />
+            Worst gaps
           </button>
 
-          <h3 className="text-xs font-semibold text-gray-400 tracking-wider mb-3 font-heading">
-            Transit
-          </h3>
-          <label className="flex items-center gap-2 cursor-pointer mb-2">
-            <input
-              type="checkbox"
-              checked={showSkyTrain}
-              onChange={(e) => { setShowSkyTrain(e.target.checked); trackToggle('skytrain', e.target.checked) }}
-              className="rounded accent-sky-900"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Train size={14} style={{ color: '#1e3a5f' }} />
-              SkyTrain
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer mb-2">
-            <input
-              type="checkbox"
-              checked={showSeaBus}
-              onChange={(e) => { setShowSeaBus(e.target.checked); trackToggle('seabus', e.target.checked) }}
-              className="rounded accent-blue-600"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Ship size={14} style={{ color: '#2563eb' }} />
-              SeaBus
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer mb-2">
-            <input
-              type="checkbox"
-              checked={showWCE}
-              onChange={(e) => { setShowWCE(e.target.checked); trackToggle('west_coast_express', e.target.checked) }}
-              className="rounded accent-blue-600"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Train size={14} style={{ color: '#2563eb' }} />
-              West Coast Express
-            </span>
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={showBus}
-              onChange={(e) => { setShowBus(e.target.checked); trackToggle('bus_routes', e.target.checked) }}
-              className="rounded accent-blue-300"
-            />
-            <span className="flex items-center gap-1.5 text-sm text-gray-700">
-              <Bus size={14} style={{ color: '#93c5fd' }} />
-              Bus Routes
-            </span>
-          </label>
+          <Overline className="mb-1">Transit</Overline>
+          <Toggle checked={showSkyTrain} onChange={bind(setShowSkyTrain, 'skytrain')} label="SkyTrain" swatch="#1e3a5f" />
+          <Toggle checked={showSeaBus} onChange={bind(setShowSeaBus, 'seabus')} label="SeaBus" swatch="#2563eb" />
+          <Toggle checked={showWCE} onChange={bind(setShowWCE, 'west_coast_express')} label="West Coast Express" swatch="#2563eb" />
+          <Toggle checked={showBus} onChange={bind(setShowBus, 'bus_routes')} label="Bus routes" swatch="#93c5fd" />
         </div>
       )}
     </div>

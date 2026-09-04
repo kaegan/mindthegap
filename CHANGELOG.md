@@ -4,6 +4,12 @@ What's new in the Mind the Gap interactive transit coverage map.
 
 ---
 
+## Design Refresh
+
+The headline numbers are now generated from the scored data at build time, so the hero, the "Worst gaps" list and the legend all use one definition of critical (gap score 0.9 or higher). The legend introduces the A–F grade scale, list and report-card names agree, and percentile labels say "worse than" rather than "top". The map's panels have been restyled to match the rest of the site with a single monochrome icon set, and on phones the layers panel and the worst-gaps list no longer overlap. Three small pieces of motion arrive with this release: the choropleth fills in from best to worst on first load, the hero figure counts up once, and hovering a row in the worst-gaps list outlines that area on the map. All of it respects reduced-motion settings. Copy across the page has been tightened, the tech-stack pills and duplicate explanations are gone, and contrast on small labels now meets WCAG AA.
+
+---
+
 ## Standalone Portfolio Site
 
 Mind the Gap now stands on its own as a product, no longer framed around a specific job application. The résumé content, career timeline, and hiring pitch are gone, replaced with a "Behind the build" section covering the data pipeline and tooling, and a short about-the-maker note. Navigation, footer, and accent color have been updated to match, and the repo has a real README documenting the app and its data pipeline for anyone who wants to read the source.
